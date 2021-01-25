@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>【折腾】脱胎换骨的 断桨</title>
+    <link href="/2021/01/25/%E6%8D%A3%E9%BC%93%EF%BC%81/"/>
+    <url>/2021/01/25/%E6%8D%A3%E9%BC%93%EF%BC%81/</url>
+    
+    <content type="html"><![CDATA[<h3 id="为什么使用hexo建站"><a href="#为什么使用hexo建站" class="headerlink" title="为什么使用hexo建站"></a>为什么使用hexo建站</h3><p>之前使用namesilo购买过一个域名，使用aliyun配合Wordpress建立了一个小站：</p><p><img src="https://cdn.jsdelivr.net/gh/Mellorsssss/PictureBed/img/20210125224831.png" alt="Wordpress建站"></p><p>emmm……看起来有一点朴素。使用Wordpress的过程中，我主要感受到了以下的几个问题：</p><ol><li>配置不自由。自带的主题过少，一些高质量的主题需要氪金（不过也没有什么特别喜欢的风格）；</li><li>服务器配置过低。这是我自身的原因，我在aliyun上租的是一个一核的服务器，实在是不太行，每一次访问站点的时候都卡的不行，服务器还崩过几次（明明没有人访问啊！）；</li><li>写作必须要在线环境。似乎没有找到什么本地写作，然后远程自动更新的方式（可能还是我太菜了），每一次想要写作的时候，都要在Wordpress 的后台上写，实在是不方便啊！</li><li>要备案。我是一条懒狗，到现在还没有备案（苦笑）。</li></ol><p>相比之下，我通过hexo + GithubPages配置的过程就十分轻松了：</p><ol><li>hexo 本身只需要一些简单的配置（node.js之类，也就是命令行随便敲一敲）；</li><li>GithubPages更是一步解决了服务器以及备案的问题（国外的服务器，不需要备案了）；</li><li>hexo 支持本地编辑。hexo 目前使用下来就是本地写作,然后<code>hexo g&amp;hexo d</code>素质三连，十分符合我的写作习惯；</li><li>定制化空间高。比如我现在使用的主体就来自一个开源的项目，颜值在线。</li></ol><h3 id="新的断桨，将会包含哪些内容？"><a href="#新的断桨，将会包含哪些内容？" class="headerlink" title="新的断桨，将会包含哪些内容？"></a>新的断桨，将会包含哪些内容？</h3><blockquote><p> 博客只是一个载体，重要的是内部承载的内容。</p></blockquote><p>目前的想法是，连载自己的<strong>课程笔记、读书笔记、项目介绍</strong>等专业性比较强的内容的同时，也加入一些诸如<strong>漫评、影评</strong>的娱乐性内容。</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>折腾</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Lexier</title>
     <link href="/2021/01/25/Lexer/"/>
     <url>/2021/01/25/Lexer/</url>
