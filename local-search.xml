@@ -4,6 +4,19 @@
   
   
   <entry>
+    <title>测试</title>
+    <link href="/2021/01/25/NewBegin/"/>
+    <url>/2021/01/25/NewBegin/</url>
+    
+    <content type="html"><![CDATA[<p>以前一直想用github pages来配置一个自己的网站，但是一直<del>没有时间</del>懒，所以一直拖到了现在。</p><h3 id="渲染方程"><a href="#渲染方程" class="headerlink" title="渲染方程"></a>渲染方程</h3><p>$L_o(p,w_o) = L_e(p, w_o) + \int_{\Omega^+}L_i(p,w_i)f_r(p, w_i,w_o)cos\theta\ d\omega$</p><h3 id="Path-Tracing伪代码"><a href="#Path-Tracing伪代码" class="headerlink" title="Path Tracing伪代码"></a><code>Path Tracing</code>伪代码</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c">shade (p, w_o):<br>blabla<br>......<br>    <span class="hljs-keyword">return</span> L_dir + L_indir<br></code></pre></td></tr></table></figure><h4 id="寒假计划"><a href="#寒假计划" class="headerlink" title="寒假计划"></a>寒假计划</h4><ol><li>吃</li><li>喝</li><li>睡</li></ol>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Hello World</title>
     <link href="/2021/01/09/hello-world/"/>
     <url>/2021/01/09/hello-world/</url>
