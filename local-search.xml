@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>COOL语言入门（正在更新中）</title>
+    <link href="/2021/01/26/cool-01/"/>
+    <url>/2021/01/26/cool-01/</url>
+    
+    <content type="html"><![CDATA[<blockquote><p><strong>说明</strong></p><p>本文为笔者学习CS 143过程中，阅读Cool Manual所做笔记（基本上是内容的翻译以及简化）。</p></blockquote><h3 id="什么是cool"><a href="#什么是cool" class="headerlink" title="什么是cool"></a>什么是<code>cool</code></h3><p><code>cool</code>的全称是Classroom Object-Oriented Language，是Standford为了教学而创造的一种编程语言。CS 143 课程的Programming Assignment 就是完成<code>cool</code>语言的编译器。</p><h3 id="cool的主要特性"><a href="#cool的主要特性" class="headerlink" title="cool的主要特性"></a><code>cool</code>的主要特性</h3><h4 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h4><p><code>cool</code>使用<code>coolc</code>进行编译，编译指令如下：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ [cool root]/bin/coolc [ -o fileout ] file1.cl file2.cl ... filen.cl<br></code></pre></td></tr></table></figure><p>和<code>gcc</code>语法类似，<code>-o</code>之后为输出的文件名（该项可选，默认为之后跟着的第一个文件名+<code>.s</code>）；<code>file1.cl, file2.cl</code>为需要编译的源程序文件名（<code>cool</code>的文件后缀为<code>.cl</code>）。</p><h4 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h4><p><code>coolc</code>输出的是MIPS汇编指令，可以通过<code>spim</code>运行（<code>spim</code>实际上就是MIPS倒过来）：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ [cool root]/bin/spim<br>(spim) load <span class="hljs-string">&quot;file.s&quot;</span><br>(spim) run<br></code></pre></td></tr></table></figure><p>一般使用如下语句直接进行编译：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ [cool root]/bin/spim -file file.s<br></code></pre></td></tr></table></figure><h4 id="语法特性"><a href="#语法特性" class="headerlink" title="语法特性"></a>语法特性</h4><h5 id="Class"><a href="#Class" class="headerlink" title="Class"></a>Class</h5><p><code>cool</code>中的所有代码都组织成类。每一个类的所有内容必须被包括在一个源文件中，一个源文件可以包括多个类。</p><p>类定义如下：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java">class &lt;type&gt; [ inherits &lt;type&gt; ] &#123;<br>&lt;feature_list&gt;<br>&#125;;<br></code></pre></td></tr></table></figure><p>所有的类名（type）都是全局可见的，需要以大写字母开头；类名不可以重复。</p><h6 id="Features"><a href="#Features" class="headerlink" title="Features"></a>Features</h6><p>在<code>cool</code>中，属性（成员变量）以及方法（method）被称作feature。</p><h6 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h6><p><code>cool</code>支持继承机制，并且只支持单继承。与<code>Java</code>类似，如果一个类没有显式声明的一个类，那么其默认继承<code>Object</code>。</p><h5 id="Types"><a href="#Types" class="headerlink" title="Types"></a>Types</h5><p><code>cool</code>语言中提供了类型机制，支持在编译时进行类型检查。</p><h6 id="self-type"><a href="#self-type" class="headerlink" title="self type"></a>self type</h6><p>self type 用于class，其类型不固定。根据上下文决定。</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>compilers</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>【折腾】脱胎换骨的 断桨</title>
     <link href="/2021/01/25/%E6%8D%A3%E9%BC%93%EF%BC%81/"/>
     <url>/2021/01/25/%E6%8D%A3%E9%BC%93%EF%BC%81/</url>

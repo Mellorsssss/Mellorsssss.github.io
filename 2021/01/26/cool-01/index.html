@@ -17,7 +17,7 @@
   <meta name="description" content="握着生活的断桨，奋力前行">
   <meta name="author" content="Melos">
   <meta name="keywords" content="">
-  <title>【折腾】脱胎换骨的 断桨 - 断桨</title>
+  <title>COOL语言入门（正在更新中） - 断桨</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
@@ -162,7 +162,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="【折腾】脱胎换骨的 断桨">
+            <span class="h2" id="subtitle" title="COOL语言入门（正在更新中）">
               
             </span>
 
@@ -177,8 +177,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-01-25 22:43" pubdate>
-        2021年1月25日 晚上
+      <time datetime="2021-01-26 22:00" pubdate>
+        2021年1月26日 晚上
       </time>
     </span>
   
@@ -189,7 +189,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      484 字
+      434 字
     </span>
   
 
@@ -229,29 +229,29 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">【折腾】脱胎换骨的 断桨</h1>
+            <h1 style="display: none">COOL语言入门（正在更新中）</h1>
             
             <div class="markdown-body">
-              <h3 id="为什么使用hexo建站"><a href="#为什么使用hexo建站" class="headerlink" title="为什么使用hexo建站"></a>为什么使用hexo建站</h3><p>之前使用namesilo购买过一个域名，使用aliyun配合Wordpress建立了一个小站：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/Mellorsssss/PictureBed/img/20210125224831.png" srcset="/img/loading.gif" alt="Wordpress建站"></p>
-<p>emmm……看起来有一点朴素。使用Wordpress的过程中，我主要感受到了以下的几个问题：</p>
-<ol>
-<li>配置不自由。自带的主题过少，一些高质量的主题需要氪金（不过也没有什么特别喜欢的风格）；</li>
-<li>服务器配置过低。这是我自身的原因，我在aliyun上租的是一个一核的服务器，实在是不太行，每一次访问站点的时候都卡的不行，服务器还崩过几次（明明没有人访问啊！）；</li>
-<li>写作必须要在线环境。似乎没有找到什么本地写作，然后远程自动更新的方式（可能还是我太菜了），每一次想要写作的时候，都要在Wordpress 的后台上写，实在是不方便啊！</li>
-<li>要备案。我是一条懒狗，到现在还没有备案（苦笑）。</li>
-</ol>
-<p>相比之下，我通过hexo + GithubPages配置的过程就十分轻松了：</p>
-<ol>
-<li>hexo 本身只需要一些简单的配置（node.js之类，也就是命令行随便敲一敲）；</li>
-<li>GithubPages更是一步解决了服务器以及备案的问题（国外的服务器，不需要备案了）；</li>
-<li>hexo 支持本地编辑。hexo 目前使用下来就是本地写作,然后<code>hexo g&amp;hexo d</code>素质三连，十分符合我的写作习惯；</li>
-<li>定制化空间高。比如我现在使用的主体就来自一个开源的项目，颜值在线。</li>
-</ol>
-<h3 id="新的断桨，将会包含哪些内容？"><a href="#新的断桨，将会包含哪些内容？" class="headerlink" title="新的断桨，将会包含哪些内容？"></a>新的断桨，将会包含哪些内容？</h3><blockquote>
-<p> 博客只是一个载体，重要的是内部承载的内容。</p>
+              <blockquote>
+<p><strong>说明</strong></p>
+<p>本文为笔者学习CS 143过程中，阅读Cool Manual所做笔记（基本上是内容的翻译以及简化）。</p>
 </blockquote>
-<p>目前的想法是，连载自己的<strong>课程笔记、读书笔记、项目介绍</strong>等专业性比较强的内容的同时，也加入一些诸如<strong>漫评、影评</strong>的娱乐性内容。</p>
+<h3 id="什么是cool"><a href="#什么是cool" class="headerlink" title="什么是cool"></a>什么是<code>cool</code></h3><p><code>cool</code>的全称是Classroom Object-Oriented Language，是Standford为了教学而创造的一种编程语言。CS 143 课程的Programming Assignment 就是完成<code>cool</code>语言的编译器。</p>
+<h3 id="cool的主要特性"><a href="#cool的主要特性" class="headerlink" title="cool的主要特性"></a><code>cool</code>的主要特性</h3><h4 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h4><p><code>cool</code>使用<code>coolc</code>进行编译，编译指令如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ [cool root]/bin/coolc [ -o fileout ] file1.cl file2.cl ... filen.cl<br></code></pre></td></tr></table></figure>
+<p>和<code>gcc</code>语法类似，<code>-o</code>之后为输出的文件名（该项可选，默认为之后跟着的第一个文件名+<code>.s</code>）；<code>file1.cl, file2.cl</code>为需要编译的源程序文件名（<code>cool</code>的文件后缀为<code>.cl</code>）。</p>
+<h4 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h4><p><code>coolc</code>输出的是MIPS汇编指令，可以通过<code>spim</code>运行（<code>spim</code>实际上就是MIPS倒过来）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ [cool root]/bin/spim<br>(spim) load <span class="hljs-string">&quot;file.s&quot;</span><br>(spim) run<br></code></pre></td></tr></table></figure>
+<p>一般使用如下语句直接进行编译：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ [cool root]/bin/spim -file file.s<br></code></pre></td></tr></table></figure>
+<h4 id="语法特性"><a href="#语法特性" class="headerlink" title="语法特性"></a>语法特性</h4><h5 id="Class"><a href="#Class" class="headerlink" title="Class"></a>Class</h5><p><code>cool</code>中的所有代码都组织成类。每一个类的所有内容必须被包括在一个源文件中，一个源文件可以包括多个类。</p>
+<p>类定义如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java">class &lt;type&gt; [ inherits &lt;type&gt; ] &#123;<br>	&lt;feature_list&gt;<br>&#125;;<br></code></pre></td></tr></table></figure>
+<p>所有的类名（type）都是全局可见的，需要以大写字母开头；类名不可以重复。</p>
+<h6 id="Features"><a href="#Features" class="headerlink" title="Features"></a>Features</h6><p>在<code>cool</code>中，属性（成员变量）以及方法（method）被称作feature。</p>
+<h6 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h6><p><code>cool</code>支持继承机制，并且只支持单继承。与<code>Java</code>类似，如果一个类没有显式声明的一个类，那么其默认继承<code>Object</code>。</p>
+<h5 id="Types"><a href="#Types" class="headerlink" title="Types"></a>Types</h5><p><code>cool</code>语言中提供了类型机制，支持在编译时进行类型检查。</p>
+<h6 id="self-type"><a href="#self-type" class="headerlink" title="self type"></a>self type</h6><p>self type 用于class，其类型不固定。根据上下文决定。</p>
 
             </div>
             <hr>
@@ -262,7 +262,7 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/%E6%8A%98%E8%85%BE/">折腾</a>
+                      <a class="hover-with-bg" href="/tags/compilers/">compilers</a>
                     
                   </div>
                 
@@ -275,18 +275,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/01/26/cool-01/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">COOL语言入门（正在更新中）</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/01/25/Lexer/">
-                        <span class="hidden-mobile">Lexier</span>
+                      <a href="/2021/01/25/%E6%8D%A3%E9%BC%93%EF%BC%81/">
+                        <span class="hidden-mobile">【折腾】脱胎换骨的 断桨</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
