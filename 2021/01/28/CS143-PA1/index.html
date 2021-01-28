@@ -17,7 +17,7 @@
   <meta name="description" content="握着生活的断桨，奋力前行">
   <meta name="author" content="Melos">
   <meta name="keywords" content="">
-  <title>COOL语言入门（正在更新中） - 断桨</title>
+  <title>CS143 PA1 实验过程 - 断桨</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
@@ -162,7 +162,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="COOL语言入门（正在更新中）">
+            <span class="h2" id="subtitle" title="CS143 PA1 实验过程">
               
             </span>
 
@@ -177,8 +177,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-01-26 22:00" pubdate>
-        2021年1月26日 晚上
+      <time datetime="2021-01-28 11:58" pubdate>
+        2021年1月28日 中午
       </time>
     </span>
   
@@ -189,7 +189,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      434 字
+      511 字
     </span>
   
 
@@ -199,7 +199,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      5
+      8
        分钟
     </span>
   
@@ -229,29 +229,21 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">COOL语言入门（正在更新中）</h1>
+            <h1 style="display: none">CS143 PA1 实验过程</h1>
             
             <div class="markdown-body">
-              <blockquote>
-<p><strong>说明</strong></p>
-<p>本文为笔者学习CS 143过程中，阅读Cool Manual所做笔记（基本上是内容的翻译以及简化）。</p>
-</blockquote>
-<h3 id="什么是cool"><a href="#什么是cool" class="headerlink" title="什么是cool"></a>什么是<code>cool</code></h3><p><code>cool</code>的全称是Classroom Object-Oriented Language，是Standford为了教学而创造的一种编程语言。CS 143 课程的Programming Assignment 就是完成<code>cool</code>语言的编译器。</p>
-<h3 id="cool的主要特性"><a href="#cool的主要特性" class="headerlink" title="cool的主要特性"></a><code>cool</code>的主要特性</h3><h4 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h4><p><code>cool</code>使用<code>coolc</code>进行编译，编译指令如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ [cool root]/bin/coolc [ -o fileout ] file1.cl file2.cl ... filen.cl<br></code></pre></td></tr></table></figure>
-<p>和<code>gcc</code>语法类似，<code>-o</code>之后为输出的文件名（该项可选，默认为之后跟着的第一个文件名+<code>.s</code>）；<code>file1.cl, file2.cl</code>为需要编译的源程序文件名（<code>cool</code>的文件后缀为<code>.cl</code>）。</p>
-<h4 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h4><p><code>coolc</code>输出的是MIPS汇编指令，可以通过<code>spim</code>运行（<code>spim</code>实际上就是MIPS倒过来）：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ [cool root]/bin/spim<br>(spim) load <span class="hljs-string">&quot;file.s&quot;</span><br>(spim) run<br></code></pre></td></tr></table></figure>
-<p>一般使用如下语句直接进行编译：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ [cool root]/bin/spim -file file.s<br></code></pre></td></tr></table></figure>
-<h4 id="语法特性"><a href="#语法特性" class="headerlink" title="语法特性"></a>语法特性</h4><h5 id="Class"><a href="#Class" class="headerlink" title="Class"></a>Class</h5><p><code>cool</code>中的所有代码都组织成类。每一个类的所有内容必须被包括在一个源文件中，一个源文件可以包括多个类。</p>
-<p>类定义如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java">class &lt;type&gt; [ inherits &lt;type&gt; ] &#123;<br>	&lt;feature_list&gt;<br>&#125;;<br></code></pre></td></tr></table></figure>
-<p>所有的类名（type）都是全局可见的，需要以大写字母开头；类名不可以重复。</p>
-<h6 id="Features"><a href="#Features" class="headerlink" title="Features"></a>Features</h6><p>在<code>cool</code>中，属性（成员变量）以及方法（method）被称作feature。</p>
-<h6 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h6><p><code>cool</code>支持继承机制，并且只支持单继承。与<code>Java</code>类似，如果一个类没有显式声明的一个类，那么其默认继承<code>Object</code>。</p>
-<h5 id="Types"><a href="#Types" class="headerlink" title="Types"></a>Types</h5><p><code>cool</code>语言中提供了类型机制，支持在编译时进行类型检查。</p>
-<h6 id="self-type"><a href="#self-type" class="headerlink" title="self type"></a>self type</h6><p>self type 用于class，其类型不固定。根据上下文决定。</p>
+              <p>cs143在线课程的第一次PA十分简单，熟悉<code>cool</code>语言，并实现一个简单的Stack Machine。</p>
+<h3 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h3><p>官方提供了一个unbuntu 10.05版本的上古虚拟机（真的是上古，<code>sudo apt-get update</code>都已经404了），虚拟机内提供了实验所需的环境；另一种方式是直接使用32位（如果使用64位的机器，需要自己折腾一下spim的安装）的linux虚拟机进行实验。</p>
+<p>我采取了第二种配置方式，因为自己的32bit虚拟机上有vscode，比起vim更加人性化，阅读源码也比较方便。</p>
+<h3 id="实验过程"><a href="#实验过程" class="headerlink" title="实验过程"></a>实验过程</h3><p>PA1非常简单，实现以下语言的解释器：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Mellorsssss/PictureBed/img/20210128203630.png" srcset="/img/loading.gif" alt="stackmachine"></p>
+<p><code>cool</code>语言没有高级数据结构，所以首先需要实现一个栈（使用<code>list</code>实现即可）。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Stack</span></span>&#123;<br>   mystack : List&lt;-<span class="hljs-keyword">new</span> List;<br><br>   push(s: String): Object&#123;<br>      mystack &lt;- mystack.cons(s)<br>   &#125;;<br><br>   pop(): Object &#123;<br>      mystack &lt;- mystack.tail()<br>   &#125;;<br><br>   top(): String &#123;<br>      <span class="hljs-keyword">if</span> mystack.isNil() then<br>         <span class="hljs-string">&quot;&quot;</span><br>      <span class="hljs-keyword">else</span><br>         mystack.head()<br>      fi&#125;;<br><br>   list():List&#123;mystack&#125;;<br><br>&#125;;<br></code></pre></td></tr></table></figure>
+<p>接着使用<code>StackMachine</code>类完成解析。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StackMachine</span> <span class="hljs-title">inherits</span> <span class="hljs-title">IO</span></span>&#123;<br>   mystack: Stack&lt;-<span class="hljs-keyword">new</span> Stack;<br>   mya2i: A2I&lt;-<span class="hljs-keyword">new</span> A2I;<br>   print_list(l : List) : Object &#123;<br>      <span class="hljs-keyword">if</span> l.isNil() then <span class="hljs-number">0</span><br>                   <span class="hljs-keyword">else</span> &#123;<br>			   out_string(l.head());<br>			   out_string(<span class="hljs-string">&quot;\n&quot;</span>);<br>			   print_list(l.tail());<br>		      &#125;<br>      fi<br>   &#125;;<br><br>   readCommand(ch: String):Bool&#123;<br>      &#123;<br>         out_string(<span class="hljs-string">&quot;&gt;&quot;</span>);<br>         out_string(ch);<br>         out_string(<span class="hljs-string">&quot;\n&quot;</span>);<br>         <span class="hljs-keyword">if</span> ch = <span class="hljs-string">&quot;e&quot;</span> then &#123;<br>            let stacktop:String &lt;- mystack.top() in &#123;<br>               <span class="hljs-keyword">if</span> stacktop = <span class="hljs-string">&quot;+&quot;</span> then&#123;<br>                  mystack.pop();<br>                  let v1:String, v2:String in &#123;<br>                     v1&lt;-mystack.top();mystack.pop();<br>                     v2&lt;-mystack.top();mystack.pop();<br>                     mystack.push(mya2i.i2a(mya2i.a2i(v1)+mya2i.a2i(v2)));<br>                  &#125;;<br>               &#125;<span class="hljs-keyword">else</span>&#123;<br>                  <span class="hljs-keyword">if</span> stacktop = <span class="hljs-string">&quot;s&quot;</span> then&#123;<br>                     mystack.pop();<br>                     let v1:String, v2:String in &#123;<br>                     v1&lt;-mystack.top();mystack.pop();<br>                     v2&lt;-mystack.top();mystack.pop();<br>                     mystack.push(v1);<br>                     mystack.push(v2);<br>                  &#125;;<br>                  &#125;<br>                  <span class="hljs-keyword">else</span>&#123;<br>                     <span class="hljs-number">0</span>;<br>                  &#125;<br>                  fi;<br>               &#125;<br>               fi;<br>            &#125;;<br>            <span class="hljs-keyword">true</span>;<br>         &#125;<span class="hljs-keyword">else</span>&#123;<br>            <span class="hljs-keyword">if</span> ch = <span class="hljs-string">&quot;d&quot;</span> then&#123;<br>               print_list(mystack.list());<br>               <span class="hljs-keyword">true</span>;<br>            &#125;<span class="hljs-keyword">else</span>&#123;<br>               <span class="hljs-keyword">if</span> ch = <span class="hljs-string">&quot;x&quot;</span>then&#123;<br>                  <span class="hljs-keyword">false</span>;<br>               &#125;<span class="hljs-keyword">else</span>&#123;<br>                  mystack.push(ch);<br>                  <span class="hljs-keyword">true</span>;<br>               &#125;<br>               fi;<br>            &#125;<br>            fi;<br>         &#125;<br>         fi;<br>      &#125;<br>   &#125;;<br><br>   <br>&#125;;<br></code></pre></td></tr></table></figure>
+<p>不是特别熟悉<code>cool</code>，所以代码写的挺烂的。</p>
+<p>最后在主函数调用：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Main</span> <span class="hljs-title">inherits</span> <span class="hljs-title">IO</span> </span>&#123;<br><br>   main() : Object &#123;<br>      let mystackmachine:StackMachine&lt;-<span class="hljs-keyword">new</span> StackMachine in &#123;<br>         <span class="hljs-keyword">while</span> mystackmachine.readCommand(in_string())loop<br>            <span class="hljs-number">0</span><br>         pool;<br>      &#125;<br>   &#125;;<br><br>&#125;;<br></code></pre></td></tr></table></figure>
 
             </div>
             <hr>
@@ -275,18 +267,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/01/28/CS143-PA1/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">CS143 PA1 实验过程</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/01/25/%E6%8D%A3%E9%BC%93%EF%BC%81/">
-                        <span class="hidden-mobile">【折腾】脱胎换骨的 断桨</span>
+                      <a href="/2021/01/26/cool-01/">
+                        <span class="hidden-mobile">COOL语言入门（正在更新中）</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
