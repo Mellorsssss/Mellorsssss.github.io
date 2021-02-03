@@ -17,7 +17,7 @@
   <meta name="description" content="握着生活的断桨，奋力前行">
   <meta name="author" content="Melos">
   <meta name="keywords" content="">
-  <title>【前缀和/TRIE】牛异或 - 断桨</title>
+  <title>【前缀和】糖果均摊 - 断桨</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
@@ -162,7 +162,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="【前缀和/TRIE】牛异或">
+            <span class="h2" id="subtitle" title="【前缀和】糖果均摊">
               
             </span>
 
@@ -177,8 +177,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-02-02 22:35" pubdate>
-        2021年2月2日 晚上
+      <time datetime="2021-02-03 12:40" pubdate>
+        2021年2月3日 下午
       </time>
     </span>
   
@@ -189,7 +189,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      529 字
+      458 字
     </span>
   
 
@@ -199,7 +199,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      7
+      6
        分钟
     </span>
   
@@ -229,17 +229,19 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">【前缀和/TRIE】牛异或</h1>
+            <h1 style="display: none">【前缀和】糖果均摊</h1>
             
             <div class="markdown-body">
-              <h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>最朴素的思路是，使用异或前缀和（异或前缀也具有普通前缀和的性质）枚举所有可能的区间，找出异或值最大的一个区间。显然，在1e5的数据量下，朴素算法会超时。</p>
-<p>如果能够联想到<strong>最大异或对</strong>这道题目，不难发现本题实际上可以转化为该题。</p>
-<p>经过前缀和预处理之后，显然本题就是求出一对最大异或对，不过有以下的一些corner case:</p>
-<ol>
-<li>应该在线处理。如果读取所有的输出再处理，那么需要额外的数据结构来处理<strong>最短区间</strong>这样一个限制；如果在线处理，那么始终保持当前trie中的索引（end标记）是最新的，必然可以保证最短区间这一性质；</li>
-<li>如何判断区间。与普通的前缀和类似，应该从1开始保存（下标0保存0）。这样一来，只有一个元素与有多个元素不需要额外判断（相当于加了一个固定的边界）。</li>
-</ol>
-<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;<br><br><span class="hljs-comment">/* Trie */</span><br><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> SIZE = <span class="hljs-number">1e5</span>*<span class="hljs-number">22</span>;<br><span class="hljs-keyword">int</span> trie[SIZE][<span class="hljs-number">2</span>];<br><span class="hljs-keyword">int</span> en[SIZE];<br><span class="hljs-keyword">int</span> tot;<br><span class="hljs-keyword">int</span> STRLEN = <span class="hljs-number">21</span>;<br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">init</span><span class="hljs-params">()</span></span>&#123;<br>    tot = <span class="hljs-number">1</span>;<br>    <span class="hljs-built_in">memset</span>(trie,<span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(trie));<br>    <span class="hljs-built_in">memset</span>(en, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span>(en));<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">trie_insert</span><span class="hljs-params">(<span class="hljs-keyword">int</span> val, <span class="hljs-keyword">int</span> index)</span></span>&#123;<br>    <span class="hljs-keyword">int</span> p=<span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;STRLEN;i++)&#123;<br>        <span class="hljs-keyword">int</span> cur_val = (val&gt;&gt;(STRLEN<span class="hljs-number">-1</span>-i))%<span class="hljs-number">2</span>;<br>        <span class="hljs-keyword">if</span>(trie[p][cur_val]==<span class="hljs-number">0</span>)trie[p][cur_val]=++tot;<br>        p = trie[p][cur_val];<br>    &#125;<br>    <br>    en[p]=index;<br>&#125;<br><br><br><span class="hljs-comment">/*ds*/</span><br><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> N = <span class="hljs-number">1e5</span>+<span class="hljs-number">10</span>;<br><span class="hljs-keyword">int</span> sum[N];<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">get_max_xor_index</span><span class="hljs-params">(<span class="hljs-keyword">int</span> num)</span></span>&#123;<br>    <span class="hljs-keyword">int</span> p=<span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;STRLEN;i++)&#123;<br>        <span class="hljs-keyword">int</span> cur_val = (num&gt;&gt;(<span class="hljs-number">20</span>-i))%<span class="hljs-number">2</span>;<br>        <span class="hljs-keyword">if</span>(trie[p][cur_val^<span class="hljs-number">1</span>])&#123;<br>            p=trie[p][cur_val^<span class="hljs-number">1</span>];<br>        &#125;<span class="hljs-keyword">else</span>&#123;<br>            p=trie[p][cur_val];<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">return</span> en[p];<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-keyword">int</span> n;<br>    <span class="hljs-built_in">cin</span>&gt;&gt;n;<br>    <span class="hljs-built_in">memset</span>(sum,<span class="hljs-number">0</span>,<span class="hljs-keyword">sizeof</span>(sum));<br>    init();<br>    <br>    trie_insert(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>);<br>    <br>    <span class="hljs-keyword">int</span> maxv = <span class="hljs-number">-1</span>;<br>    <span class="hljs-keyword">int</span> l=<span class="hljs-number">-1</span>;<br>    <span class="hljs-keyword">int</span> r=<span class="hljs-number">-1</span>;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)&#123;<br>        <span class="hljs-built_in">cin</span>&gt;&gt;sum[i];<br>        sum[i]^=sum[i<span class="hljs-number">-1</span>];<br>        <span class="hljs-keyword">int</span> tem_index = get_max_xor_index(sum[i]);<br>        <span class="hljs-keyword">if</span>((sum[i]^sum[tem_index])&gt;maxv)&#123;<br>            maxv = sum[i]^sum[tem_index];<br>            l = tem_index+<span class="hljs-number">1</span>;<br>            r = i;<br>        &#125;<br>        trie_insert(sum[i], i);<br>    &#125;<br>    <span class="hljs-built_in">cout</span>&lt;&lt;maxv&lt;&lt;<span class="hljs-string">&quot; &quot;</span>&lt;&lt;l&lt;&lt;<span class="hljs-string">&quot; &quot;</span>&lt;&lt;r&lt;&lt;<span class="hljs-built_in">endl</span>;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+              <h3 id="原题"><a href="#原题" class="headerlink" title="原题"></a>原题</h3><p><a target="_blank" rel="noopener" href="https://www.acwing.com/problem/content/124/">题目链接</a></p>
+<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>有两种思考方式：</p>
+<h5 id="通过均分纸牌问题迁移"><a href="#通过均分纸牌问题迁移" class="headerlink" title="通过均分纸牌问题迁移"></a>通过均分纸牌问题迁移</h5><p><a target="_blank" rel="noopener" href="https://www.acwing.com/problem/content/1538/">均分纸牌问题</a>是本题的一个简化版，非环情况。对于非环情况，容易发现，最值就是$\sum<em>{i=1}^{M}|i<em>avg-G[i]|$，其中$avg$是所有数的均值（下同），$G[i]$是前缀和。为了简化问题，我们将原先的前缀和$G[i]$预处理为$S[i]=G[i]-i</em>avg$（也就是每一个数字减去均值），那么最小值就是$\sum</em>{i=1}^{M}|S[i]|$。</p>
+<p>对于环形情况，一个自然的想法是通过断开环来构造一个最值情况。问题变成是否存在两个点，他们之间没有发生纸牌的传递，<strong>这里的证明我没有想清楚，但是可以猜测，必然存在一组最优解满足该约束</strong>。那么，我们便可以将环从这样的两个点之间断开，从而原问题变成了一个均分纸牌问题。</p>
+<p>当我们从$k$处断开环时，断开之后的环如下（其中$A[i]$是原先的数字减去$avg$之后的值）：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Mellorsssss/PictureBed/img/20210203205600.JPG" srcset="/img/loading.gif" alt="IMG_0214"></p>
+<p>显然，$S[M]=0$，故而所求的最值就是$\sum_{i=1}^{M}|S[i]-S[k]|$，显然最值当$S[k]$为中位数时取得。</p>
+<h5 id="解方程组"><a href="#解方程组" class="headerlink" title="解方程组"></a>解方程组</h5><p>该题解来自于<a target="_blank" rel="noopener" href="https://blog.csdn.net/clover_hxy/article/details/71078183">csdn</a>:</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Mellorsssss/PictureBed/img/20210203205950.png" srcset="/img/loading.gif" alt="image-20210203205950654"></p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;<br><br><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> N = <span class="hljs-number">1e6</span>+<span class="hljs-number">10</span>;<br><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> ll;<br>ll sum[N];<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-built_in">memset</span>(sum,<span class="hljs-number">0</span>,<span class="hljs-keyword">sizeof</span>(sum));<br>    <span class="hljs-keyword">int</span> n;<br>    <span class="hljs-built_in">cin</span>&gt;&gt;n;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)&#123;<br>        <span class="hljs-built_in">cin</span>&gt;&gt;sum[i];<br>        sum[i]+=sum[i<span class="hljs-number">-1</span>];<br>    &#125;<br>    <br>    ll ave = sum[n]/n;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>;i&lt;=n;i++)&#123;<br>        sum[i]-=i*ave;<br>    &#125;<br>    <br>    nth_element(sum+<span class="hljs-number">1</span>, sum+<span class="hljs-number">1</span>+n/<span class="hljs-number">2</span>, sum+n+<span class="hljs-number">1</span>);<br>    ll res =<span class="hljs-number">0</span>;<br>    ll mid = sum[<span class="hljs-number">1</span>+n/<span class="hljs-number">2</span>];<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)&#123;<br>        res += <span class="hljs-built_in">abs</span>(mid-sum[i]);<br>    &#125;<br>    <span class="hljs-built_in">cout</span>&lt;&lt;res&lt;&lt;<span class="hljs-built_in">endl</span>;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 
             </div>
             <hr>
@@ -252,7 +254,9 @@
                     
                       <a class="hover-with-bg" href="/tags/%E9%A2%98%E8%A7%A3/">题解</a>
                     
-                      <a class="hover-with-bg" href="/tags/Trie/">Trie</a>
+                      <a class="hover-with-bg" href="/tags/%E5%89%8D%E7%BC%80%E5%92%8C/">前缀和</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%95%B0%E5%AD%A6/">数学</a>
                     
                   </div>
                 
@@ -265,18 +269,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/02/03/model-jfvp/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">【前缀和】糖果均摊</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/02/02/tj-210202/">
-                        <span class="hidden-mobile">【前缀和】k倍区间</span>
+                      <a href="/2021/02/02/tj-210202-2/">
+                        <span class="hidden-mobile">【前缀和/TRIE】牛异或</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

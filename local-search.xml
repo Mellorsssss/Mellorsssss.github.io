@@ -4,6 +4,29 @@
   
   
   <entry>
+    <title>【前缀和】糖果均摊</title>
+    <link href="/2021/02/03/model-jfvp/"/>
+    <url>/2021/02/03/model-jfvp/</url>
+    
+    <content type="html"><![CDATA[<h3 id="原题"><a href="#原题" class="headerlink" title="原题"></a>原题</h3><p><a href="https://www.acwing.com/problem/content/124/">题目链接</a></p><h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>有两种思考方式：</p><h5 id="通过均分纸牌问题迁移"><a href="#通过均分纸牌问题迁移" class="headerlink" title="通过均分纸牌问题迁移"></a>通过均分纸牌问题迁移</h5><p><a href="https://www.acwing.com/problem/content/1538/">均分纸牌问题</a>是本题的一个简化版，非环情况。对于非环情况，容易发现，最值就是$\sum<em>{i=1}^{M}|i<em>avg-G[i]|$，其中$avg$是所有数的均值（下同），$G[i]$是前缀和。为了简化问题，我们将原先的前缀和$G[i]$预处理为$S[i]=G[i]-i</em>avg$（也就是每一个数字减去均值），那么最小值就是$\sum</em>{i=1}^{M}|S[i]|$。</p><p>对于环形情况，一个自然的想法是通过断开环来构造一个最值情况。问题变成是否存在两个点，他们之间没有发生纸牌的传递，<strong>这里的证明我没有想清楚，但是可以猜测，必然存在一组最优解满足该约束</strong>。那么，我们便可以将环从这样的两个点之间断开，从而原问题变成了一个均分纸牌问题。</p><p>当我们从$k$处断开环时，断开之后的环如下（其中$A[i]$是原先的数字减去$avg$之后的值）：</p><p><img src="https://cdn.jsdelivr.net/gh/Mellorsssss/PictureBed/img/20210203205600.JPG" alt="IMG_0214"></p><p>显然，$S[M]=0$，故而所求的最值就是$\sum_{i=1}^{M}|S[i]-S[k]|$，显然最值当$S[k]$为中位数时取得。</p><h5 id="解方程组"><a href="#解方程组" class="headerlink" title="解方程组"></a>解方程组</h5><p>该题解来自于<a href="https://blog.csdn.net/clover_hxy/article/details/71078183">csdn</a>:</p><p><img src="https://cdn.jsdelivr.net/gh/Mellorsssss/PictureBed/img/20210203205950.png" alt="image-20210203205950654"></p><h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;<br><br><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> N = <span class="hljs-number">1e6</span>+<span class="hljs-number">10</span>;<br><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> ll;<br>ll sum[N];<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-built_in">memset</span>(sum,<span class="hljs-number">0</span>,<span class="hljs-keyword">sizeof</span>(sum));<br>    <span class="hljs-keyword">int</span> n;<br>    <span class="hljs-built_in">cin</span>&gt;&gt;n;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)&#123;<br>        <span class="hljs-built_in">cin</span>&gt;&gt;sum[i];<br>        sum[i]+=sum[i<span class="hljs-number">-1</span>];<br>    &#125;<br>    <br>    ll ave = sum[n]/n;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>;i&lt;=n;i++)&#123;<br>        sum[i]-=i*ave;<br>    &#125;<br>    <br>    nth_element(sum+<span class="hljs-number">1</span>, sum+<span class="hljs-number">1</span>+n/<span class="hljs-number">2</span>, sum+n+<span class="hljs-number">1</span>);<br>    ll res =<span class="hljs-number">0</span>;<br>    ll mid = sum[<span class="hljs-number">1</span>+n/<span class="hljs-number">2</span>];<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)&#123;<br>        res += <span class="hljs-built_in">abs</span>(mid-sum[i]);<br>    &#125;<br>    <span class="hljs-built_in">cout</span>&lt;&lt;res&lt;&lt;<span class="hljs-built_in">endl</span>;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>题解</tag>
+      
+      <tag>前缀和</tag>
+      
+      <tag>数学</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>【前缀和/TRIE】牛异或</title>
     <link href="/2021/02/02/tj-210202-2/"/>
     <url>/2021/02/02/tj-210202-2/</url>
