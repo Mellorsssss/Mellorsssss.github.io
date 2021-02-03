@@ -189,7 +189,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      458 字
+      462 字
     </span>
   
 
@@ -234,7 +234,7 @@
             <div class="markdown-body">
               <h3 id="原题"><a href="#原题" class="headerlink" title="原题"></a>原题</h3><p><a target="_blank" rel="noopener" href="https://www.acwing.com/problem/content/124/">题目链接</a></p>
 <h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>有两种思考方式：</p>
-<h5 id="通过均分纸牌问题迁移"><a href="#通过均分纸牌问题迁移" class="headerlink" title="通过均分纸牌问题迁移"></a>通过均分纸牌问题迁移</h5><p><a target="_blank" rel="noopener" href="https://www.acwing.com/problem/content/1538/">均分纸牌问题</a>是本题的一个简化版，非环情况。对于非环情况，容易发现，最值就是$\sum<em>{i=1}^{M}|i<em>avg-G[i]|$，其中$avg$是所有数的均值（下同），$G[i]$是前缀和。为了简化问题，我们将原先的前缀和$G[i]$预处理为$S[i]=G[i]-i</em>avg$（也就是每一个数字减去均值），那么最小值就是$\sum</em>{i=1}^{M}|S[i]|$。</p>
+<h5 id="通过均分纸牌问题迁移"><a href="#通过均分纸牌问题迁移" class="headerlink" title="通过均分纸牌问题迁移"></a>通过均分纸牌问题迁移</h5><p><a target="_blank" rel="noopener" href="https://www.acwing.com/problem/content/1538/">均分纸牌问题</a>是本题的一个简化版，非环情况。对于非环情况，容易发现，最值就是$\sum<em>{i=1}^{M}|i\times avg-G[i]|$，其中$avg$是所有数的均值（下同），$G[i]$是前缀和。为了简化问题，我们将原先的前缀和$G[i]$预处理为$S[i]=G[i]-i\times avg$（也就是每一个数字减去均值），那么最小值就是$\sum</em>{i=1}^{M}|S[i]|$。</p>
 <p>对于环形情况，一个自然的想法是通过断开环来构造一个最值情况。问题变成是否存在两个点，他们之间没有发生纸牌的传递，<strong>这里的证明我没有想清楚，但是可以猜测，必然存在一组最优解满足该约束</strong>。那么，我们便可以将环从这样的两个点之间断开，从而原问题变成了一个均分纸牌问题。</p>
 <p>当我们从$k$处断开环时，断开之后的环如下（其中$A[i]$是原先的数字减去$avg$之后的值）：</p>
 <p><img src="https://cdn.jsdelivr.net/gh/Mellorsssss/PictureBed/img/20210203205600.JPG" srcset="/img/loading.gif" alt="IMG_0214"></p>
