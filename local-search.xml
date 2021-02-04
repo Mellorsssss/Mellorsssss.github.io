@@ -4,6 +4,29 @@
   
   
   <entry>
+    <title>【贪心】耍杂技的牛</title>
+    <link href="/2021/02/04/tj210204/"/>
+    <url>/2021/02/04/tj210204/</url>
+    
+    <content type="html"><![CDATA[<h3 id="原题链接"><a href="#原题链接" class="headerlink" title="原题链接"></a>原题链接</h3><p><a href="https://www.acwing.com/problem/content/127/">题目链接</a></p><h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>邻项交换模板题。</p><p>考虑两个相邻项，不妨记为$w<em>i$以及$w</em>{i+1}$，证明如果$w<em>i+s_i&gt;w</em>{i+1}+s_{i+1}$，那么交换这两项可以使得危险度最大值更小。</p><blockquote><p>证明：</p><p>不妨记$presum = \sum<em>{i=1}^{i-1}w_i$。交换之前，第$i$项对应的危险度为$presum-s_i$，第$i+1$项的危险度为$presum+w_i-s</em>{i+1}$，局部的最大危险度为$presum+max(-s<em>i, w_i-s</em>{i+1})$；交换 之后，第$i$项对应的危险度为$presum+w<em>{i+1}-s_i$，第$i+1$项对应的危险度为$presum-s</em>{i+1}$，局部的最大值为$presum+max(-s<em>{i+1},w</em>{i+1}-s<em>i)$。由于$w_i&gt;0$，可知$-s_i&lt;w</em>{i+1}-s<em>i,-s</em>{i+1}<w_i-s_{i+1}$，故而当$w_i+s_i>w<em>{i+1}+s</em>{i+1}$时，  有交换之前的最大危险度大于交换之后的最大危险度。</p></blockquote><p>由此，以$w+s$进行排序，排序之后序列中的最大危险度最小。</p><h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;<br><br><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> ll;<br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">node</span> &#123;</span><br>    ll w;<br>    ll s;<br>&#125;;<br><br><span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">cmp</span><span class="hljs-params">(<span class="hljs-keyword">const</span> node &amp; n1, <span class="hljs-keyword">const</span> node &amp;n2)</span></span>&#123;<br>    <span class="hljs-keyword">return</span> (n1.w+n1.s)&gt;(n2.w+n2.s);<br>&#125;<br><br><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> N = <span class="hljs-number">50000</span> + <span class="hljs-number">10</span>;<br>node a[N];<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-keyword">int</span> n ;<br>    <span class="hljs-built_in">cin</span> &gt;&gt; n;<br>    ll sum =<span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;n;i++)&#123;<br>        <span class="hljs-built_in">cin</span>&gt;&gt;a[i].w&gt;&gt;a[i].s;<br>        sum += a[i].w;<br>    &#125;<br>    <br>    sort(a, a+n, cmp);<br>    ll ans = <span class="hljs-number">-999999999</span>;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;n;i++)&#123;<br>        ans = max(sum-a[i].w-a[i].s, ans);<br>        sum -= a[i].w;<br>    &#125;<br>    <span class="hljs-built_in">cout</span>&lt;&lt;ans&lt;&lt;<span class="hljs-built_in">endl</span>;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;c<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>题解</tag>
+      
+      <tag>贪心</tag>
+      
+      <tag>邻项交换</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>【前缀和】糖果均摊</title>
     <link href="/2021/02/03/model-jfvp/"/>
     <url>/2021/02/03/model-jfvp/</url>
