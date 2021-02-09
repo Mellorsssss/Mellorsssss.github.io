@@ -4,6 +4,27 @@
   
   
   <entry>
+    <title>OnComponentBeginOverlap签名参数问题</title>
+    <link href="/2021/02/10/UE4-210210/"/>
+    <url>/2021/02/10/UE4-210210/</url>
+    
+    <content type="html"><![CDATA[<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>UE4.25版本中，为事件<code>OnComponentBeginOverlap</code>添加委托，对应签名为：</p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c++">DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE_SixParams( FComponentBeginOverlapSignature, UPrimitiveComponent, OnComponentBeginOverlap, UPrimitiveComponent*, OverlappedComponent, AActor*, OtherActor, UPrimitiveComponent*, OtherComp, int32, OtherBodyIndex, <span class="hljs-keyword">bool</span>, bFromSweep, <span class="hljs-keyword">const</span> FHitResult &amp;, SweepResult);<br></code></pre></td></tr></table></figure><p>如果此处直接复制签名中的参数，无法通过编译。</p><h3 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h3><p>去掉第一个参数（OnComponentBeginOverlap）即可。</p><h3 id="More"><a href="#More" class="headerlink" title="More"></a>More</h3><p>UE4中为事件添加委托的一般流程：确定委托签名 -&gt; 编写回调函数 。</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>技术细节</tag>
+      
+      <tag>UE4</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>【思维】池塘钓鱼</title>
     <link href="/2021/02/09/tj210209/"/>
     <url>/2021/02/09/tj210209/</url>
