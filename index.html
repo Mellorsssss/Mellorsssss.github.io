@@ -181,6 +181,144 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2021/02/09/tj210209/">【思维】池塘钓鱼</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/02/09/tj210209/">
+          
+          
+            
+          
+          原题链接ACwing
+思路显然，一个最优的方案一定是依次在若干个鱼塘钓鱼，没有往返路途（否则，返回时所钓的鱼可以在第一次位于该鱼塘时钓出）。问题在与，如何求出最优的一个鱼塘序列？确定了一个鱼塘序列之后，应该在每一个鱼塘钓多少鱼？
+确定在哪些鱼塘钓鱼是困难的，但是我们可以O(N)枚举可能的鱼塘。确定了鱼塘序列之后，类比多路归并的思路，显然我们可以在O(log N)复杂度内确定在哪一个池塘钓鱼（求解的
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-02-09 17:16" pubdate>
+              2021-02-09
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E9%A2%98%E8%A7%A3/">题解</a>
+            
+              <a href="/tags/%E6%9E%9A%E4%B8%BE/">枚举</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/02/06/tj210206/">【二分】借教室</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/02/06/tj210206/">
+          
+          
+            
+          
+          原题链接Acwing
+思路一开始没有读清题目，以为遇到了一个不满足的人之后会忽略他，继续处理，所以想的复杂了一点。
+我们假设实际可以满足的人数为n，处理的人数为x。显然，如果x&gt;n，那么一定不满足；换而言之，可以通过二分来查找最小的一个满足条件的解（也就是n）。
+二分本身为对数复杂度，考虑到本题的数据量，二分中判断的复杂度应该是线性的。问题的判定是对一个数组进行x次的区间减法，之后的区间中是
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-02-06 17:01" pubdate>
+              2021-02-06
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E9%A2%98%E8%A7%A3/">题解</a>
+            
+              <a href="/tags/%E5%89%8D%E7%BC%80%E5%92%8C/">前缀和</a>
+            
+              <a href="/tags/%E4%BA%8C%E5%88%86/">二分</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/02/06/Bison-Tutorial/">Bison 简单上手</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/02/06/Bison-Tutorial/">
+          
+          
+            
+          
+           Bison的文档十分详细，也可以说是冗长，故而此处对其中的一些核心机制做一个简单的总结。
+Actions可以像flex中一样为rules添加Action，在规则之后的一个block中定义语法。
+bison中提供了机制实现semantic value的计算。使用$$$$可以访问起始符的值（规则左边的non terminal），$n可以访问第n个non terminal的值，此处n从1开始。如果n小
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-02-06 14:49" pubdate>
+              2021-02-06
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/">工具使用</a>
+            
+              <a href="/tags/compilers/">compilers</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2021/02/05/tj210205/">【二分/前缀和】聪明的质检员</a>
       </h1>
 
@@ -494,141 +632,6 @@ flex is a tool for generating scanners. A scanner is a progra
               <a href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
             
               <a href="/tags/%E5%8C%BA%E9%97%B4DP/">区间DP</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/01/28/CS143-PA1/">CS143 PA1 实验过程</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/01/28/CS143-PA1/">
-          
-          
-            
-          
-          cs143在线课程的第一次PA十分简单，熟悉cool语言，并实现一个简单的Stack Machine。
-环境搭建官方提供了一个unbuntu 10.05版本的上古虚拟机（真的是上古，sudo apt-get update都已经404了），虚拟机内提供了实验所需的环境；另一种方式是直接使用32位（如果使用64位的机器，需要自己折腾一下spim的安装）的linux虚拟机进行实验。
-我采取了第二种配置方
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-01-28 11:58" pubdate>
-              2021-01-28
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/compilers/">compilers</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/01/26/cool-01/">COOL语言入门（正在更新中）</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/01/26/cool-01/">
-          
-          
-            
-          
-          
-说明
-本文为笔者学习CS 143过程中，阅读Cool Manual所做笔记（基本上是内容的翻译以及简化）。
-
-什么是coolcool的全称是Classroom Object-Oriented Language，是Standford为了教学而创造的一种编程语言。CS 143 课程的Programming Assignment 就是完成cool语言的编译器。
-cool的主要特性编译cool使用coo
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-01-26 22:00" pubdate>
-              2021-01-26
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/compilers/">compilers</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/01/25/%E6%8D%A3%E9%BC%93%EF%BC%81/">【折腾】脱胎换骨的 断桨</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/01/25/%E6%8D%A3%E9%BC%93%EF%BC%81/">
-          
-          
-            
-          
-          为什么使用hexo建站之前使用namesilo购买过一个域名，使用aliyun配合Wordpress建立了一个小站：
-
-emmm……看起来有一点朴素。使用Wordpress的过程中，我主要感受到了以下的几个问题：
-
-配置不自由。自带的主题过少，一些高质量的主题需要氪金（不过也没有什么特别喜欢的风格）；
-服务器配置过低。这是我自身的原因，我在aliyun上租的是一个一核的服务器，实在是不太行，每一次
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-01-25 22:43" pubdate>
-              2021-01-25
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E6%8A%98%E8%85%BE/">折腾</a>
             
           </div>
         
