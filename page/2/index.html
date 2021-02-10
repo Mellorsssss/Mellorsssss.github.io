@@ -181,6 +181,53 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2021/02/02/tj-210202-2/">【前缀和/TRIE】牛异或</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/02/02/tj-210202-2/">
+          
+          
+            
+          
+          思路最朴素的思路是，使用异或前缀和（异或前缀也具有普通前缀和的性质）枚举所有可能的区间，找出异或值最大的一个区间。显然，在1e5的数据量下，朴素算法会超时。
+如果能够联想到最大异或对这道题目，不难发现本题实际上可以转化为该题。
+经过前缀和预处理之后，显然本题就是求出一对最大异或对，不过有以下的一些corner case:
+
+应该在线处理。如果读取所有的输出再处理，那么需要额外的数据结构来处理最短区
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-02-02 22:35" pubdate>
+              2021-02-02
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E9%A2%98%E8%A7%A3/">题解</a>
+            
+              <a href="/tags/Trie/">Trie</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2021/02/02/tj-210202/">【前缀和】k倍区间</a>
       </h1>
 
