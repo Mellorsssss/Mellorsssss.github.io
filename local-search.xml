@@ -4,6 +4,29 @@
   
   
   <entry>
+    <title>【线性DP】机器人跳跃问题</title>
+    <link href="/2021/02/15/tj210215/"/>
+    <url>/2021/02/15/tj210215/</url>
+    
+    <content type="html"><![CDATA[<h3 id="原题链接"><a href="#原题链接" class="headerlink" title="原题链接"></a>原题链接</h3><p><a href="https://www.acwing.com/problem/content/732/">ACwing</a></p><h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>首先，原问题的解显然具有单调性——如果一个解比最优解大，那么其一定也是可行的，因为其在每一个点<strong>减少的更少，增加的更多</strong>。显然，本题可以使用二分判定一个解，不过该做法因为数据大小限制，不可行（在check解的过程中会溢出）。</p><p>那么，我们可以直接推出最优解吗？简单倒推，在最后一个站点，为了通过的最小能量值实际上就是该站点能量的一半（向上取整）；那么倒数第二个站点，为了通过的最小能量值就是通过当前站点并且可以通过下一个站点：<script type="math/tex">E+(E-cur_e)\ge E_{pass_next}</script>。根据该式子倒推即可。</p><h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;<br><br><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> N = <span class="hljs-number">100000</span> +<span class="hljs-number">10</span>;<br><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> ll;<br><span class="hljs-keyword">int</span> H[N];<br><span class="hljs-keyword">int</span> dp[N];<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-keyword">int</span> n;<br>    <span class="hljs-built_in">cin</span>&gt;&gt;n;<br>    <span class="hljs-keyword">int</span> ans = <span class="hljs-number">0</span>;<br>    <span class="hljs-built_in">memset</span>(dp, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span> dp);<br>    <span class="hljs-built_in">memset</span>(H, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span> H);<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)&#123;<br>        <span class="hljs-built_in">cin</span>&gt;&gt;H[i];<br>    &#125;<br>    <br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=n;i&gt;=<span class="hljs-number">1</span>;i--)&#123;<br>        dp[i] = (H[i]+dp[i+<span class="hljs-number">1</span>]+<span class="hljs-number">1</span>)/<span class="hljs-number">2</span>;<br>    &#125;<br>    <span class="hljs-built_in">cout</span>&lt;&lt;dp[<span class="hljs-number">1</span>]&lt;&lt;<span class="hljs-built_in">endl</span>;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>题解</tag>
+      
+      <tag>思维</tag>
+      
+      <tag>线性DP</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>【差分】积木大赛</title>
     <link href="/2021/02/14/tj210214/"/>
     <url>/2021/02/14/tj210214/</url>
