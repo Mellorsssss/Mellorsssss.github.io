@@ -17,7 +17,7 @@
   <meta name="description" content="握着生活的断桨，奋力前行">
   <meta name="author" content="Melos">
   <meta name="keywords" content="">
-  <title>【线性DP】机器人跳跃问题 - 断桨</title>
+  <title>【计数DP】有趣的数 - 断桨</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
@@ -162,7 +162,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="【线性DP】机器人跳跃问题">
+            <span class="h2" id="subtitle" title="【计数DP】有趣的数">
               
             </span>
 
@@ -177,8 +177,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-02-15 10:32" pubdate>
-        2021年2月15日 上午
+      <time datetime="2021-02-16 12:37" pubdate>
+        2021年2月16日 下午
       </time>
     </span>
   
@@ -189,7 +189,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      299 字
+      621 字
     </span>
   
 
@@ -199,7 +199,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      3
+      7
        分钟
     </span>
   
@@ -229,13 +229,29 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">【线性DP】机器人跳跃问题</h1>
+            <h1 style="display: none">【计数DP】有趣的数</h1>
             
             <div class="markdown-body">
-              <h3 id="原题链接"><a href="#原题链接" class="headerlink" title="原题链接"></a>原题链接</h3><p><a target="_blank" rel="noopener" href="https://www.acwing.com/problem/content/732/">ACwing</a></p>
-<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>首先，原问题的解显然具有单调性——如果一个解比最优解大，那么其一定也是可行的，因为其在每一个点<strong>减少的更少，增加的更多</strong>。显然，本题可以使用二分判定一个解，不过该做法因为数据大小限制，不可行（在check解的过程中会溢出）。</p>
-<p>那么，我们可以直接推出最优解吗？简单倒推，在最后一个站点，为了通过的最小能量值实际上就是该站点能量的一半（向上取整）；那么倒数第二个站点，为了通过的最小能量值就是通过当前站点并且可以通过下一个站点：<script type="math/tex">E+(E-cur_e)\ge E_{pass_next}</script>。根据该式子倒推即可。</p>
-<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;<br><br><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> N = <span class="hljs-number">100000</span> +<span class="hljs-number">10</span>;<br><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> ll;<br><span class="hljs-keyword">int</span> H[N];<br><span class="hljs-keyword">int</span> dp[N];<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-keyword">int</span> n;<br>    <span class="hljs-built_in">cin</span>&gt;&gt;n;<br>    <span class="hljs-keyword">int</span> ans = <span class="hljs-number">0</span>;<br>    <span class="hljs-built_in">memset</span>(dp, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span> dp);<br>    <span class="hljs-built_in">memset</span>(H, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span> H);<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)&#123;<br>        <span class="hljs-built_in">cin</span>&gt;&gt;H[i];<br>    &#125;<br>    <br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=n;i&gt;=<span class="hljs-number">1</span>;i--)&#123;<br>        dp[i] = (H[i]+dp[i+<span class="hljs-number">1</span>]+<span class="hljs-number">1</span>)/<span class="hljs-number">2</span>;<br>    &#125;<br>    <span class="hljs-built_in">cout</span>&lt;&lt;dp[<span class="hljs-number">1</span>]&lt;&lt;<span class="hljs-built_in">endl</span>;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+              <h3 id="原题链接"><a href="#原题链接" class="headerlink" title="原题链接"></a>原题链接</h3><p><a target="_blank" rel="noopener" href="https://www.acwing.com/problem/content/3198/">ACwing</a></p>
+<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>一个直观的想法是，如果我们知道长度为<script type="math/tex">l</script>的有趣的数的个数，是否可以知道长度为<script type="math/tex">l+1</script>的有趣的数个数？简单思考，容易发现，如果只知道<strong>有趣的数个数</strong>，是不足以完成递推的，例如题目中给出的4位有趣的数，并不是所有5位有趣的数的<strong>前缀</strong>。然而，如果我们可以枚举所有<strong>可行前缀的个数 </strong>，就可以完成递推，并且由于前缀是唯一的，故而递推结果不会重复。</p>
+<p>哪些前缀是可行的？题目中的约束简单说来，就是第一个数字必须是2，0必须在1之前，2必须在3之后。故而：</p>
+<ol>
+<li>对于任意前缀，2必然存在其中；</li>
+<li>只可能缺少1/3/1,3/0,1/0,1,3这些数字组合。</li>
+</ol>
+<p>故而，我们可以将前缀分为6种，除了上述的5种缺少数字的组合之外，还应该有全部数字都存在的情况。简单思考，这样的状态是合理的，满足最优子结构。为了讨论的方便起见，我们不妨将6种状态记为：</p>
+<figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs basic"><span class="hljs-symbol">0 </span>全有<br><span class="hljs-symbol">1 </span>缺<span class="hljs-number">3</span><br><span class="hljs-symbol">2 </span>缺<span class="hljs-number">1</span><br><span class="hljs-symbol">3 </span>缺<span class="hljs-number">13</span><br><span class="hljs-symbol">4 </span>缺<span class="hljs-number">01</span><br><span class="hljs-symbol">5 </span>缺<span class="hljs-number">013</span><br></code></pre></td></tr></table></figure>
+<p>接下来思考状态如何转移。</p>
+<ol>
+<li>状态0可以通过自身（后缀为1,3）以及1、2两个状态转移（后缀为缺少的数字）；</li>
+<li>状态1可以通过自身（后缀为2,1）以及状态3转移；</li>
+<li>状态2可以通过自身（后缀为0，3）以及状态3,4转移；</li>
+<li>状态3可以通过自身（后缀为0,2）以及状态5转移；</li>
+<li>状态4可以通过自身（后缀为3）以及状态5转移；</li>
+<li>状态5只可以通过自身转移。</li>
+</ol>
+<p>容易发现，上述每一个状态只依赖编号大于等于它的状态，故而可以只使用一个大小为6的数组完成状态转移。</p>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;<br><br><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> ll;<br><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> MOD = <span class="hljs-number">1000000000</span> + <span class="hljs-number">7</span>;<br>ll dp[<span class="hljs-number">6</span>];<br><br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-keyword">int</span> n;<br>    <span class="hljs-built_in">cin</span>&gt;&gt;n;<br>    <span class="hljs-built_in">memset</span>(dp, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span> dp);<br>    <br>    dp[<span class="hljs-number">5</span>] = <span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">2</span>;i&lt;=n;i++)&#123;<br>        dp[<span class="hljs-number">0</span>] = (<span class="hljs-number">2</span>*dp[<span class="hljs-number">0</span>] + dp[<span class="hljs-number">1</span>] + dp[<span class="hljs-number">2</span>])%MOD;<br>        dp[<span class="hljs-number">1</span>] = (dp[<span class="hljs-number">3</span>] + <span class="hljs-number">2</span>*dp[<span class="hljs-number">1</span>])%MOD;<br>        dp[<span class="hljs-number">2</span>] = (<span class="hljs-number">2</span>*dp[<span class="hljs-number">2</span>] + dp[<span class="hljs-number">3</span>] +dp[<span class="hljs-number">4</span>])%MOD;<br>        dp[<span class="hljs-number">3</span>] = (<span class="hljs-number">2</span>*dp[<span class="hljs-number">3</span>] + dp[<span class="hljs-number">5</span>])%MOD;<br>        dp[<span class="hljs-number">4</span>] = (dp[<span class="hljs-number">4</span>] + dp[<span class="hljs-number">5</span>])%MOD;<br>        dp[<span class="hljs-number">5</span>] = (dp[<span class="hljs-number">5</span>])%MOD;<br>        <br>    &#125;<br>    <br>    <span class="hljs-built_in">cout</span>&lt;&lt;dp[<span class="hljs-number">0</span>]&lt;&lt;<span class="hljs-built_in">endl</span>;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 
             </div>
             <hr>
@@ -248,9 +264,7 @@
                     
                       <a class="hover-with-bg" href="/tags/%E9%A2%98%E8%A7%A3/">题解</a>
                     
-                      <a class="hover-with-bg" href="/tags/%E6%80%9D%E7%BB%B4/">思维</a>
-                    
-                      <a class="hover-with-bg" href="/tags/%E7%BA%BF%E6%80%A7DP/">线性DP</a>
+                      <a class="hover-with-bg" href="/tags/%E8%AE%A1%E6%95%B0DP/">计数DP</a>
                     
                   </div>
                 
@@ -263,18 +277,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/02/16/tj210216/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">【计数DP】有趣的数</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/02/14/tj210214/">
-                        <span class="hidden-mobile">【差分】积木大赛</span>
+                      <a href="/2021/02/15/tj210215/">
+                        <span class="hidden-mobile">【线性DP】机器人跳跃问题</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
