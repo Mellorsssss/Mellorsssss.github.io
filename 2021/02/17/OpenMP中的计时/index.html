@@ -17,9 +17,25 @@
   <meta name="description" content="握着生活的断桨，奋力前行">
   <meta name="author" content="Melos">
   <meta name="keywords" content="">
-  <title>归档 - 断桨</title>
+  <title>OpenMP中的计时 - 断桨</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
 
 
 
@@ -47,7 +63,7 @@
 
 
 <body>
-  <header style="height: 60vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -146,9 +162,51 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="归档">
+            <span class="h2" id="subtitle" title="OpenMP中的计时">
               
             </span>
+
+            
+              <div class="mt-3">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-author" aria-hidden="true"></i>
+      Melos
+    </span>
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-02-17 23:18" pubdate>
+        2021年2月17日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      238 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      2
+       分钟
+    </span>
+  
+
+  
+  
+</div>
 
             
           </div>
@@ -161,94 +219,83 @@
 
   <main>
     
-      <div class="container nopadding-x-md">
-        <div class="py-5" id="board"
-          >
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
-
-<div class="list-group">
-  <p class="h4">共计 24 篇文章</p>
-  <hr>
-  
-  
-    
       
-      <p class="h5">2021</p>
-    
-    <a href="/2021/02/06/tj210206/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">【二分】借教室</span>
-      <time style="float: right;">02-06</time>
-    </a>
-  
-    
-    <a href="/2021/02/06/Bison-Tutorial/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Bison 简单上手</span>
-      <time style="float: right;">02-06</time>
-    </a>
-  
-    
-    <a href="/2021/02/05/tj210205/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">【二分/前缀和】聪明的质检员</span>
-      <time style="float: right;">02-05</time>
-    </a>
-  
-    
-    <a href="/2021/02/04/tj210204/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">【贪心】耍杂技的牛</span>
-      <time style="float: right;">02-04</time>
-    </a>
-  
-    
-    <a href="/2021/02/03/model-jfvp/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">【前缀和】糖果均摊</span>
-      <time style="float: right;">02-03</time>
-    </a>
-  
-    
-    <a href="/2021/02/02/tj-210202-2/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">【前缀和/TRIE】牛异或</span>
-      <time style="float: right;">02-02</time>
-    </a>
-  
-    
-    <a href="/2021/02/02/tj-210202/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">【前缀和】k倍区间</span>
-      <time style="float: right;">02-02</time>
-    </a>
-  
-    
-    <a href="/2021/02/01/CS143PA2/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">CS143 PA2 实验指北</span>
-      <time style="float: right;">02-01</time>
-    </a>
-  
-</div>
 
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">OpenMP中的计时</h1>
+            
+            <div class="markdown-body">
+              <h3 id="问题背景"><a href="#问题背景" class="headerlink" title="问题背景"></a>问题背景</h3><p>在写软渲染的过程中，为了加速渲染的效率，我使用<code>OpenMP</code>完成简单的多线程并行渲染。为了查看实际渲染的效果如何，使用<code>clock()</code>（头文件<code>time.h</code>）进行运行时间计时，输出实际渲染fps。</p>
+<p>诡异的是，对比使用多线程前后，反而是不使用多线程的串行程序fps高！</p>
+<h3 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h3><p>你可能已经想到，问题的关键在于<code>clock()</code>的实现——它实际上计数的是所有cpu的tick数！换而言之，一定程度上，物理线程越多（参与运算的核），程序“用时”越长。显然，这是很不合理的，我们实际想要计量的时间应是现实中的绝对时间。</p>
+<p>实际上， <code>OpenMP</code>提供了<code>omp_get_wtime()</code>接口，其返回一个<code>double</code>类型的变量，单位是秒。该函数可以完全替代<code>clock()</code>，并且在多线程下效果如旧。</p>
 
-  <nav aria-label="navigation">
-    <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/archives/2021/02/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/archives/2021/02/">1</a><span class="page-number current">2</span>
-    </span>
-  </nav>
-  
-  <script>
-    for (ele of document.getElementById("pagination").getElementsByTagName("a")) {
-      ele.href += '#board';
-    }
-  </script>
-
-
-
-
-              </div>
             </div>
-          </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%8A%80%E6%9C%AF/">技术</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%B9%B6%E8%A1%8C/">并行</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/02/17/tj210217/">
+                        <span class="hidden-mobile">【BFS】最优配餐</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
         </div>
       </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
     
 
     
@@ -328,9 +375,15 @@
 
 
 
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
 
 
 
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
 
 
 
@@ -369,6 +422,45 @@
 
 
 
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-svg.js" ></script>
+
+  
 
 
 

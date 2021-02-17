@@ -4,6 +4,27 @@
   
   
   <entry>
+    <title>OpenMP中的计时</title>
+    <link href="/2021/02/17/OpenMP%E4%B8%AD%E7%9A%84%E8%AE%A1%E6%97%B6/"/>
+    <url>/2021/02/17/OpenMP%E4%B8%AD%E7%9A%84%E8%AE%A1%E6%97%B6/</url>
+    
+    <content type="html"><![CDATA[<h3 id="问题背景"><a href="#问题背景" class="headerlink" title="问题背景"></a>问题背景</h3><p>在写软渲染的过程中，为了加速渲染的效率，我使用<code>OpenMP</code>完成简单的多线程并行渲染。为了查看实际渲染的效果如何，使用<code>clock()</code>（头文件<code>time.h</code>）进行运行时间计时，输出实际渲染fps。</p><p>诡异的是，对比使用多线程前后，反而是不使用多线程的串行程序fps高！</p><h3 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h3><p>你可能已经想到，问题的关键在于<code>clock()</code>的实现——它实际上计数的是所有cpu的tick数！换而言之，一定程度上，物理线程越多（参与运算的核），程序“用时”越长。显然，这是很不合理的，我们实际想要计量的时间应是现实中的绝对时间。</p><p>实际上， <code>OpenMP</code>提供了<code>omp_get_wtime()</code>接口，其返回一个<code>double</code>类型的变量，单位是秒。该函数可以完全替代<code>clock()</code>，并且在多线程下效果如旧。</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>技术</tag>
+      
+      <tag>并行</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>【BFS】最优配餐</title>
     <link href="/2021/02/17/tj210217/"/>
     <url>/2021/02/17/tj210217/</url>
@@ -58,9 +79,9 @@
       
       <tag>题解</tag>
       
-      <tag>思维</tag>
-      
       <tag>线性DP</tag>
+      
+      <tag>思维</tag>
       
     </tags>
     
@@ -81,9 +102,9 @@
       
       <tag>题解</tag>
       
-      <tag>差分</tag>
-      
       <tag>思维</tag>
+      
+      <tag>差分</tag>
       
     </tags>
     
@@ -230,9 +251,9 @@
     
     <tags>
       
-      <tag>工具使用</tag>
-      
       <tag>compilers</tag>
+      
+      <tag>工具使用</tag>
       
     </tags>
     
