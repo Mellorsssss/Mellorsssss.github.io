@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>【树的直径】网络延时</title>
+    <link href="/2021/02/19/tj210219/"/>
+    <url>/2021/02/19/tj210219/</url>
+    
+    <content type="html"><![CDATA[<h3 id="原题链接"><a href="#原题链接" class="headerlink" title="原题链接"></a>原题链接</h3><p><a href="https://www.acwing.com/problem/content/description/3218/">ACwing</a></p><h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>显然，所求就是树的直径。求树的直径一般有两种方法，大家熟知的是通过两次bfs（或者dfs）求解的方法，此处给出使用树形DP的解法。</p><p>所谓的树直径，实际上就是求树中通过任意一个节点的最长链。为了求解过任意一个点的最长链大小，我们首先求解任意一个节点到其任意一个子树中叶节点的最长路径大小；显然，通过一个简单的DFS即可完成求解，我们不妨记<script type="math/tex">DP[x]</script>为节点<script type="math/tex">x</script>到其子树中叶节点的最大距离。</p><p>在此基础上，对于任何一个节点，过它的最长链实际上就是<script type="math/tex">max_{1\le j< i\le t\{DP[i]+edge(x,y_i)+DP[j]+edge (x, y_j)\}}</script>。</p><p>问题到这里，似乎已经解决了——首先通过一个DFS, 求解<script type="math/tex">DP[x]</script>，然后在通过一个DFS，内嵌一个双层循环，求解每一个节点的最长链，然而，这样的时间复杂度并不是一开始提到方法的线性。</p><p>实际上，在求解<script type="math/tex">DP[x]</script>时，遍历到第i的节点时，此时的<script type="math/tex">DP[x]=max_{1<j<i}\{DP[j]+edge(x,y_j)\}</script>。故而，整个求解过程只需要一次遍历，复杂度是线性的。</p><h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;<br><br><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> N = <span class="hljs-number">100000</span> +<span class="hljs-number">10</span>;<br><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> M = <span class="hljs-number">100000</span> +<span class="hljs-number">10</span>;<br><span class="hljs-keyword">int</span> tot;<br><span class="hljs-keyword">int</span> head[N], ver[M], edge[M], Next[M];<br><span class="hljs-keyword">int</span> dp[N];<br><span class="hljs-keyword">bool</span> vis[N];<br><span class="hljs-keyword">int</span> ans = <span class="hljs-number">0</span>;<br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Init</span><span class="hljs-params">()</span></span>&#123;<br>    tot = <span class="hljs-number">0</span>;<br>    <span class="hljs-built_in">memset</span>(head, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span> head);<br>    <span class="hljs-built_in">memset</span>(ver, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span> ver);<br>    <span class="hljs-built_in">memset</span>(edge, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span> edge);<br>    <span class="hljs-built_in">memset</span>(Next, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span> Next);<br>    <span class="hljs-built_in">memset</span>(dp, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span> dp);<br>    <span class="hljs-built_in">memset</span>(vis, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span> vis);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Add</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x, <span class="hljs-keyword">int</span> y, <span class="hljs-keyword">int</span> edge_val)</span></span>&#123;<br>    ver[++tot] = y, edge[tot] = edge_val , Next[tot] = head[x];<br>    head[x] = tot;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Dfs</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span></span>&#123;<br>    vis[x] = <span class="hljs-literal">true</span>;<br>    <br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = head[x];i;i = Next[i])&#123;<br>        <span class="hljs-keyword">int</span> cur_ver = ver[i];<br>        <span class="hljs-keyword">int</span> edge_val = edge[i];<br>        <span class="hljs-keyword">if</span> (vis[cur_ver])<span class="hljs-keyword">continue</span>;<br>        Dfs(cur_ver);<br>        ans = max(ans, dp[x] + dp[cur_ver] + edge_val);<br>        dp[x] = max(dp[x], dp[cur_ver] + edge_val);<br>    &#125;<br>&#125;<br><br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-keyword">int</span> m,n;<br>    <span class="hljs-built_in">cin</span>&gt;&gt;m&gt;&gt;n;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;m<span class="hljs-number">-1</span>;i++)&#123;<br>        <span class="hljs-keyword">int</span> node;<br>        <span class="hljs-built_in">cin</span>&gt;&gt;node;<br>        Add(i+<span class="hljs-number">2</span>, node,<span class="hljs-number">1</span>);<br>        Add(node, i+<span class="hljs-number">2</span>,<span class="hljs-number">1</span>);<br>    &#125;<br>    <br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;n;i++)&#123;<br>        <span class="hljs-keyword">int</span> node;<br>        <span class="hljs-built_in">cin</span>&gt;&gt;node;<br>        Add(m+<span class="hljs-number">1</span>+i, node, <span class="hljs-number">1</span>);<br>        Add(node, m+<span class="hljs-number">1</span>+i,<span class="hljs-number">1</span>);<br>    &#125;<br>    <br>    Dfs(<span class="hljs-number">1</span>);<br>    <span class="hljs-built_in">cout</span>&lt;&lt;ans&lt;&lt;<span class="hljs-built_in">endl</span>;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>题解</tag>
+      
+      <tag>树</tag>
+      
+      <tag>树直径</tag>
+      
+      <tag>树形DP</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>三角函数习题</title>
     <link href="/2021/02/18/tt/"/>
     <url>/2021/02/18/tt/</url>
@@ -92,9 +117,9 @@
       
       <tag>题解</tag>
       
-      <tag>线性DP</tag>
-      
       <tag>思维</tag>
+      
+      <tag>线性DP</tag>
       
     </tags>
     
@@ -115,9 +140,9 @@
       
       <tag>题解</tag>
       
-      <tag>思维</tag>
-      
       <tag>差分</tag>
+      
+      <tag>思维</tag>
       
     </tags>
     
