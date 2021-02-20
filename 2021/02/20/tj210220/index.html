@@ -17,7 +17,7 @@
   <meta name="description" content="握着生活的断桨，奋力前行">
   <meta name="author" content="Melos">
   <meta name="keywords" content="">
-  <title>Bison 简单上手 - 断桨</title>
+  <title>【BFS】通信网络 - 断桨</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
@@ -162,7 +162,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="Bison 简单上手">
+            <span class="h2" id="subtitle" title="【BFS】通信网络">
               
             </span>
 
@@ -177,8 +177,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-02-06 14:49" pubdate>
-        2021年2月6日 下午
+      <time datetime="2021-02-20 15:30" pubdate>
+        2021年2月20日 下午
       </time>
     </span>
   
@@ -189,7 +189,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      164 字
+      358 字
     </span>
   
 
@@ -199,7 +199,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1
+      6
        分钟
     </span>
   
@@ -229,16 +229,13 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Bison 简单上手</h1>
+            <h1 style="display: none">【BFS】通信网络</h1>
             
             <div class="markdown-body">
-              <p> Bison的文档十分详细，也可以说是冗长，故而此处对其中的一些核心机制做一个简单的总结。</p>
-<h3 id="Actions"><a href="#Actions" class="headerlink" title="Actions"></a>Actions</h3><p>可以像flex中一样为rules添加Action，在规则之后的一个block中定义语法。</p>
-<p>bison中提供了机制实现semantic value的计算。使用$$$$可以访问起始符的值（规则左边的non terminal），<code>$n</code>可以访问第n个non terminal的值，此处n从1开始。如果n小于等于0，则使用当前parse stack上的非终结符值（risky）。</p>
-<h3 id="Bison-Decalrations"><a href="#Bison-Decalrations" class="headerlink" title="Bison Decalrations"></a>Bison Decalrations</h3><h4 id="Token-Kind-Names"><a href="#Token-Kind-Names" class="headerlink" title="Token Kind Names"></a>Token Kind Names</h4><p>对于terminal的声明。</p>
-<h4 id="Operator-Precedence"><a href="#Operator-Precedence" class="headerlink" title="Operator Precedence"></a>Operator Precedence</h4><p>对于优先级的声明。</p>
-<p>使用%left 表示优先左结合，%right同理。</p>
-<h4 id="Nonterminal-Symbols"><a href="#Nonterminal-Symbols" class="headerlink" title="Nonterminal Symbols"></a>Nonterminal Symbols</h4>
+              <h3 id="原题链接"><a href="#原题链接" class="headerlink" title="原题链接"></a>原题链接</h3><p><a target="_blank" rel="noopener" href="https://www.acwing.com/problem/content/3253/">这里是原题嗷</a></p>
+<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>求有向图中，可达以及可被达点集合是全集的点个数。判断可达性的方法有很多，例如bfs, dfs，也可以通过拓扑排序（无环图中），乃至缩点等方式。此处实现使用bfs。</p>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;<br><br><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> N= <span class="hljs-number">1000</span> +<span class="hljs-number">10</span>;<br><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> M = <span class="hljs-number">10000</span> +<span class="hljs-number">10</span>;<br><span class="hljs-keyword">int</span> tot;<br><span class="hljs-keyword">int</span> head[N], ver[M], Next[M];<br><span class="hljs-built_in">bitset</span>&lt;N&gt; vis[N];<br><span class="hljs-keyword">bool</span> bvis[N];<br><br><span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">pair</span>&lt;<span class="hljs-keyword">int</span>,<span class="hljs-keyword">int</span>&gt;&gt; edges;<br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Init</span><span class="hljs-params">()</span></span>&#123;<br>    tot = <span class="hljs-number">0</span>;<br>    <span class="hljs-built_in">memset</span>(head, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span> head);<br>    <span class="hljs-built_in">memset</span>(ver, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span> ver);<br>    <span class="hljs-built_in">memset</span>(Next, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span> Next);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Add</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x, <span class="hljs-keyword">int</span> y)</span></span>&#123;<br>    ver[++tot] = y, Next[tot] = head[x];<br>    head[x] = tot;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">bfs</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span></span>&#123;<br>    <span class="hljs-built_in">memset</span>(bvis, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span> bvis);<br>    <span class="hljs-built_in">queue</span>&lt;<span class="hljs-keyword">int</span>&gt; q;<br>    q.push(x);<br>    vis[x][x] = <span class="hljs-number">1</span>;<br>    bvis[x] = <span class="hljs-literal">true</span>;<br>    <span class="hljs-keyword">while</span>(q.size())&#123;<br>        <span class="hljs-keyword">int</span> cur = q.front();q.pop();<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = head[cur];i;i = Next[i])&#123;<br>            <span class="hljs-keyword">if</span>(bvis[ver[i]])<span class="hljs-keyword">continue</span>;<br>            vis[x][ver[i]] = <span class="hljs-number">1</span>;<br>            bvis[ver[i]] = <span class="hljs-literal">true</span>;<br>            q.push(ver[i]);<br>        &#125;<br>    &#125;<br>&#125;<br><br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-keyword">int</span> n,m;<br>    <span class="hljs-built_in">cin</span>&gt;&gt;n&gt;&gt;m;<br>    <br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;m;i++)&#123;<br>        <span class="hljs-keyword">int</span> x,y;<br>        <span class="hljs-built_in">cin</span>&gt;&gt;x&gt;&gt;y;<br>        edges.push_back(<span class="hljs-built_in">pair</span>(x, y));<br>    &#125;<br>    <br>    Init();<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;N;i++)vis[i].reset();<br>    <br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;m;i++)&#123;<br>        Add(edges[i].first, edges[i].second);<br>    &#125;<br>    <br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)&#123;<br>        bfs(i);<br>    &#125;<br>    <br>    Init();<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;m;i++)&#123;<br>        Add(edges[i].second, edges[i].first);<br>    &#125;<br>    <br>    <span class="hljs-keyword">int</span> ans=<span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)&#123;<br>        bfs(i);<br>        <span class="hljs-keyword">if</span>(vis[i].count()==n)ans++;<br>    &#125;<br>    <br>    <span class="hljs-built_in">cout</span>&lt;&lt;ans&lt;&lt;<span class="hljs-built_in">endl</span>;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
             </div>
             <hr>
             <div>
@@ -248,9 +245,11 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/compilers/">compilers</a>
+                      <a class="hover-with-bg" href="/tags/%E9%A2%98%E8%A7%A3/">题解</a>
                     
-                      <a class="hover-with-bg" href="/tags/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/">工具使用</a>
+                      <a class="hover-with-bg" href="/tags/%E5%8F%8D%E5%9B%BE/">反图</a>
+                    
+                      <a class="hover-with-bg" href="/tags/BFS/">BFS</a>
                     
                   </div>
                 
@@ -263,18 +262,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/02/06/tj210206/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">【二分】借教室</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/02/05/tj210205/">
-                        <span class="hidden-mobile">【二分/前缀和】聪明的质检员</span>
+                      <a href="/2021/02/19/tj210219/">
+                        <span class="hidden-mobile">【树的直径】网络延时</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
