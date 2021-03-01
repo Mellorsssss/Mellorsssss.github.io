@@ -4,6 +4,29 @@
   
   
   <entry>
+    <title>【单调队列】滑动窗口最大值</title>
+    <link href="/2021/03/01/tj210301/"/>
+    <url>/2021/03/01/tj210301/</url>
+    
+    <content type="html"><![CDATA[<blockquote><p>这是开学以来的第一篇题解，为了保持一定的手感，除了周末，每天保证更新一篇题解。</p></blockquote><h3 id="原题链接"><a href="#原题链接" class="headerlink" title="原题链接"></a>原题链接</h3><p><a href="https://www.acwing.com/problem/content/75/">ACwing</a></p><h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>题意十分简单，为数组的每一个固定长度的区间维护一个最大值。最为朴素的做法就是直接求解最大值，不过这样没有用上“滑动”的性质，是否可以边扫描数组，边维护数组的每一个最大值？</p><p>仔细思考，对于每一个区间中的数字，如果其右边的数字比其来的大，那么当前数字实际上一定不会在之后的大小比较中出现（当前数字一定先离开窗口），这启发我们维护一个值、ind的二元组队列，并且按照值单调减排列，这也就是传说中的<strong>单调队列</strong>。</p><p>维护单调队列的方法十分简单：</p><ol><li>在每一个区间中，丢弃所有不在当前窗口的元素；</li><li>对于每一个区间中新加入的元素，如果当前队列非空，比较其与队尾元素的大小，如果其比队尾元素大，那么丢弃队尾元素，执行2；否则执行3；</li><li>将当前的元素加入队列中。</li></ol><h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-built_in">deque</span>&lt;<span class="hljs-built_in">pair</span>&lt;<span class="hljs-keyword">int</span>,<span class="hljs-keyword">int</span>&gt; &gt; mono_q;<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x, <span class="hljs-keyword">int</span> ind)</span></span>&#123;<br>        <span class="hljs-keyword">while</span>(mono_q.size()&amp;&amp;x&gt;mono_q.back().first)&#123;<br>            mono_q.pop_back();<br>        &#125;<br>        mono_q.push_back(<span class="hljs-built_in">pair</span>(x,ind));<br>    &#125;<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">pop</span><span class="hljs-params">(<span class="hljs-keyword">int</span> lhs)</span></span>&#123;<br>        <span class="hljs-keyword">while</span>(mono_q.size()&amp;&amp;mono_q.front().second&lt;lhs)mono_q.pop_front();<br>    &#125;<br>    <br>    <span class="hljs-function"><span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">maxInWindows</span><span class="hljs-params">(<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums, <span class="hljs-keyword">int</span> k)</span> </span>&#123;<br>        <span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; ans;<br>        <span class="hljs-comment">// init the queue </span><br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;k<span class="hljs-number">-1</span>;i++)&#123;<br>            add(nums[i],i);<br>        &#125;<br>        <br>        <span class="hljs-comment">// traverse all intervals</span><br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> lhs = <span class="hljs-number">0</span>;lhs+k<span class="hljs-number">-1</span>&lt;nums.size();lhs++)&#123;<br>            pop(lhs);<span class="hljs-comment">// pop all the elements which are out of window</span><br>            add(nums[lhs+k<span class="hljs-number">-1</span>], lhs+k<span class="hljs-number">-1</span>);<br>            ans.push_back(mono_q.front().first);<br>        &#125;<br>        <br>        <span class="hljs-keyword">return</span> ans;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>题解</tag>
+      
+      <tag>数据结构</tag>
+      
+      <tag>单调队列</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>【BFS】通信网络</title>
     <link href="/2021/02/20/tj210220/"/>
     <url>/2021/02/20/tj210220/</url>
@@ -16,9 +39,9 @@
       
       <tag>题解</tag>
       
-      <tag>反图</tag>
-      
       <tag>BFS</tag>
+      
+      <tag>反图</tag>
       
     </tags>
     

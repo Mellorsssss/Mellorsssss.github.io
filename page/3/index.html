@@ -181,6 +181,48 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2021/02/02/tj-210202/">【前缀和】k倍区间</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/02/02/tj-210202/">
+          
+          
+            
+          
+          思路首先观察数据范围，1e5，枚举区间显然会tle。观察性质，如果一个区间满足k倍区间性质，那么该有前缀和sum[l-1]%k=sum[r]%k。显然，只需要使用一哈希函数记录每一个键值出现的次数，便可以计算（例如%k=3一共有三个端点，那么一共有2+1=3种可能的区间），遍历一遍前缀和即可。需要注意的是，sum[0]本身也应该参与这个计数。
+123456789101112131415161718
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-02-02 19:13" pubdate>
+              2021-02-02
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E9%A2%98%E8%A7%A3/">题解</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2021/02/01/CS143PA2/">CS143 PA2 实验指北</a>
       </h1>
 
