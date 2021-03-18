@@ -17,7 +17,7 @@
   <meta name="description" content="握着生活的断桨，奋力前行">
   <meta name="author" content="Melos">
   <meta name="keywords" content="">
-  <title>【单调队列】滑动窗口最大值 - 断桨</title>
+  <title>【树状数组】楼兰图腾 - 断桨</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
@@ -162,7 +162,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="【单调队列】滑动窗口最大值">
+            <span class="h2" id="subtitle" title="【树状数组】楼兰图腾">
               
             </span>
 
@@ -177,8 +177,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-03-01 21:30" pubdate>
-        2021年3月1日 晚上
+      <time datetime="2021-03-08 10:45" pubdate>
+        2021年3月8日 上午
       </time>
     </span>
   
@@ -189,7 +189,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      464 字
+      448 字
     </span>
   
 
@@ -229,22 +229,14 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">【单调队列】滑动窗口最大值</h1>
+            <h1 style="display: none">【树状数组】楼兰图腾</h1>
             
             <div class="markdown-body">
-              <blockquote>
-<p>这是开学以来的第一篇题解，为了保持一定的手感，除了周末，每天保证更新一篇题解。</p>
-</blockquote>
-<h3 id="原题链接"><a href="#原题链接" class="headerlink" title="原题链接"></a>原题链接</h3><p><a target="_blank" rel="noopener" href="https://www.acwing.com/problem/content/75/">ACwing</a></p>
-<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>题意十分简单，为数组的每一个固定长度的区间维护一个最大值。最为朴素的做法就是直接求解最大值，不过这样没有用上“滑动”的性质，是否可以边扫描数组，边维护数组的每一个最大值？</p>
-<p>仔细思考，对于每一个区间中的数字，如果其右边的数字比其来的大，那么当前数字实际上一定不会在之后的大小比较中出现（当前数字一定先离开窗口），这启发我们维护一个值、ind的二元组队列，并且按照值单调减排列，这也就是传说中的<strong>单调队列</strong>。</p>
-<p>维护单调队列的方法十分简单：</p>
-<ol>
-<li>在每一个区间中，丢弃所有不在当前窗口的元素；</li>
-<li>对于每一个区间中新加入的元素，如果当前队列非空，比较其与队尾元素的大小，如果其比队尾元素大，那么丢弃队尾元素，执行2；否则执行3；</li>
-<li>将当前的元素加入队列中。</li>
-</ol>
-<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-built_in">deque</span>&lt;<span class="hljs-built_in">pair</span>&lt;<span class="hljs-keyword">int</span>,<span class="hljs-keyword">int</span>&gt; &gt; mono_q;<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x, <span class="hljs-keyword">int</span> ind)</span></span>&#123;<br>        <span class="hljs-keyword">while</span>(mono_q.size()&amp;&amp;x&gt;mono_q.back().first)&#123;<br>            mono_q.pop_back();<br>        &#125;<br>        mono_q.push_back(<span class="hljs-built_in">pair</span>(x,ind));<br>    &#125;<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">pop</span><span class="hljs-params">(<span class="hljs-keyword">int</span> lhs)</span></span>&#123;<br>        <span class="hljs-keyword">while</span>(mono_q.size()&amp;&amp;mono_q.front().second&lt;lhs)mono_q.pop_front();<br>    &#125;<br>    <br>    <span class="hljs-function"><span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">maxInWindows</span><span class="hljs-params">(<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums, <span class="hljs-keyword">int</span> k)</span> </span>&#123;<br>        <span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; ans;<br>        <span class="hljs-comment">// init the queue </span><br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;k<span class="hljs-number">-1</span>;i++)&#123;<br>            add(nums[i],i);<br>        &#125;<br>        <br>        <span class="hljs-comment">// traverse all intervals</span><br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> lhs = <span class="hljs-number">0</span>;lhs+k<span class="hljs-number">-1</span>&lt;nums.size();lhs++)&#123;<br>            pop(lhs);<span class="hljs-comment">// pop all the elements which are out of window</span><br>            add(nums[lhs+k<span class="hljs-number">-1</span>], lhs+k<span class="hljs-number">-1</span>);<br>            ans.push_back(mono_q.front().first);<br>        &#125;<br>        <br>        <span class="hljs-keyword">return</span> ans;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+              <h3 id="原题链接"><a href="#原题链接" class="headerlink" title="原题链接"></a>原题链接</h3><p><a target="_blank" rel="noopener" href="https://www.acwing.com/problem/content/description/243/">ACwing</a></p>
+<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>本题实际上可以看做是对数组中的每一个数，求出其左侧与右侧数字中大于或者小于其的元素个数。换而言之，需要维护为每一个元素维护好一个前缀和，但是如果使用朴素的前缀和实现，每一次更新需要线性的时间，故而不可取。</p>
+<p>这时候，我们就要祭出<strong>树状数组</strong>这一高级的数据结构了。</p>
+<p>简单说来，树状数组的核心点在于，将一个区间通过二进制分解，从而我们需要求解的任意区间可以变成<script type="math/tex">O(logN)</script>次查询。你可能要说，使用朴素前缀和，我们只需要常数时间就可以完成一次查询！的确，不过朴素的实现方式，需要线性的时间完成前缀和的维护，而树状数组只需要<script type="math/tex">O(logN)</script>时间即可。</p>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;<br><br><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span>  ll;<br><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> N = <span class="hljs-number">200000</span>+<span class="hljs-number">10</span>;<br>ll c[N];<br><br>ll a[N]; <br>ll lles[N];<br>ll lmore[N];<br>ll rles[N];<br>ll rmore[N];<br><br><span class="hljs-function">ll <span class="hljs-title">ask</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span></span>&#123;<br>    ll ans =<span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">for</span>(;x;x-=x&amp;-x)&#123;<br>        ans += c[x];<br>    &#125;<br>    <span class="hljs-keyword">return</span> ans;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x, <span class="hljs-keyword">int</span> val)</span></span>&#123;<br>    <span class="hljs-keyword">for</span>(;x&lt;=N;x+=x&amp;-x)&#123;<br>        c[x] += val;<br>    &#125;    <br>&#125;<br><br><br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-keyword">int</span> n;<br>    <span class="hljs-built_in">cin</span>&gt;&gt;n;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)&#123;<br>        <span class="hljs-built_in">cin</span>&gt;&gt;a[i];<br>    &#125;<br>    <br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)&#123;<br>        <br>        lles[i] = ask(a[i]<span class="hljs-number">-1</span>);<br>        lmore[i] = ask(n)-ask(a[i]);<br>        add(a[i],<span class="hljs-number">1</span>);<br>    &#125;<br>    <br>    <span class="hljs-built_in">memset</span>(c,<span class="hljs-number">0</span>,<span class="hljs-keyword">sizeof</span>(c));<br>    <br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=n;i&gt;=<span class="hljs-number">1</span>;i--)&#123;<br>        rles[i] = ask(a[i]<span class="hljs-number">-1</span>);<br>        rmore[i] =ask(n)- ask(a[i]);<br>        add(a[i],<span class="hljs-number">1</span>);<br>    &#125;<br>    <br>    ll v_ans = <span class="hljs-number">0</span>;<br>    ll cup_ans = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">2</span>;i&lt;n;i++)&#123;<br>        v_ans +=  lmore[i]*rmore[i];<br>        cup_ans += lles[i]*rles[i];<br>    &#125;<br>    <span class="hljs-built_in">cout</span>&lt;&lt;v_ans&lt;&lt;<span class="hljs-string">&quot; &quot;</span>&lt;&lt;cup_ans;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 
             </div>
             <hr>
@@ -259,8 +251,6 @@
                     
                       <a class="hover-with-bg" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
                     
-                      <a class="hover-with-bg" href="/tags/%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97/">单调队列</a>
-                    
                   </div>
                 
               </div>
@@ -272,9 +262,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/03/08/tj210308/">
+                      <a href="/2021/03/18/daily-210318/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">【树状数组】楼兰图腾</span>
+                        <span class="hidden-mobile">git出现empty object时的恢复方法</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -282,8 +272,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/02/20/tj210220/">
-                        <span class="hidden-mobile">【BFS】通信网络</span>
+                      <a href="/2021/03/01/tj210301/">
+                        <span class="hidden-mobile">【单调队列】滑动窗口最大值</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

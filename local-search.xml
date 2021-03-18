@@ -4,6 +4,48 @@
   
   
   <entry>
+    <title>git出现empty object时的恢复方法</title>
+    <link href="/2021/03/18/daily-210318/"/>
+    <url>/2021/03/18/daily-210318/</url>
+    
+    <content type="html"><![CDATA[<p>在<code>git commit</code>时，终端出现报错：</p><blockquote><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">error</span>: object file .git/objects/<span class="hljs-number">31</span>/<span class="hljs-number">65329</span>bb<span class="hljs-number">680</span>e<span class="hljs-number">30595</span>f<span class="hljs-number">242</span>b<span class="hljs-number">7</span>c<span class="hljs-number">4</span>d<span class="hljs-number">8406</span>ca<span class="hljs-number">63</span>eeab<span class="hljs-number">0</span> is empty<br><span class="hljs-attribute">fatal</span>: loose object <span class="hljs-number">3165329</span>bb<span class="hljs-number">680</span>e<span class="hljs-number">30595</span>f<span class="hljs-number">242</span>b<span class="hljs-number">7</span>c<span class="hljs-number">4</span>d<span class="hljs-number">8406</span>ca<span class="hljs-number">63</span>eeab<span class="hljs-number">0</span> (stored in .git/objects/<span class="hljs-number">31</span>/<span class="hljs-number">65329</span>bb<span class="hljs-number">680</span>e<span class="hljs-number">30595</span>f<span class="hljs-number">242</span>b<span class="hljs-number">7</span>c<span class="hljs-number">4</span>d<span class="hljs-number">8406</span>ca<span class="hljs-number">63</span>eeab<span class="hljs-number">0</span>) is corrupt<br></code></pre></td></tr></table></figure><p>查询，定位原因是虚拟机崩溃导致的<code>.git</code>目录下文件的损坏。</p></blockquote><p>解决方法如下：</p><p><a href="https://stackoverflow.com/questions/11706215/how-to-fix-git-error-object-file-is-empty">https://stackoverflow.com/questions/11706215/how-to-fix-git-error-object-file-is-empty</a></p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>技术</tag>
+      
+      <tag>日常</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>【树状数组】楼兰图腾</title>
+    <link href="/2021/03/08/tj210308/"/>
+    <url>/2021/03/08/tj210308/</url>
+    
+    <content type="html"><![CDATA[<h3 id="原题链接"><a href="#原题链接" class="headerlink" title="原题链接"></a>原题链接</h3><p><a href="https://www.acwing.com/problem/content/description/243/">ACwing</a></p><h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>本题实际上可以看做是对数组中的每一个数，求出其左侧与右侧数字中大于或者小于其的元素个数。换而言之，需要维护为每一个元素维护好一个前缀和，但是如果使用朴素的前缀和实现，每一次更新需要线性的时间，故而不可取。</p><p>这时候，我们就要祭出<strong>树状数组</strong>这一高级的数据结构了。</p><p>简单说来，树状数组的核心点在于，将一个区间通过二进制分解，从而我们需要求解的任意区间可以变成<script type="math/tex">O(logN)</script>次查询。你可能要说，使用朴素前缀和，我们只需要常数时间就可以完成一次查询！的确，不过朴素的实现方式，需要线性的时间完成前缀和的维护，而树状数组只需要<script type="math/tex">O(logN)</script>时间即可。</p><h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;<br><br><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span>  ll;<br><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> N = <span class="hljs-number">200000</span>+<span class="hljs-number">10</span>;<br>ll c[N];<br><br>ll a[N]; <br>ll lles[N];<br>ll lmore[N];<br>ll rles[N];<br>ll rmore[N];<br><br><span class="hljs-function">ll <span class="hljs-title">ask</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span></span>&#123;<br>    ll ans =<span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">for</span>(;x;x-=x&amp;-x)&#123;<br>        ans += c[x];<br>    &#125;<br>    <span class="hljs-keyword">return</span> ans;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x, <span class="hljs-keyword">int</span> val)</span></span>&#123;<br>    <span class="hljs-keyword">for</span>(;x&lt;=N;x+=x&amp;-x)&#123;<br>        c[x] += val;<br>    &#125;    <br>&#125;<br><br><br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-keyword">int</span> n;<br>    <span class="hljs-built_in">cin</span>&gt;&gt;n;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)&#123;<br>        <span class="hljs-built_in">cin</span>&gt;&gt;a[i];<br>    &#125;<br>    <br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)&#123;<br>        <br>        lles[i] = ask(a[i]<span class="hljs-number">-1</span>);<br>        lmore[i] = ask(n)-ask(a[i]);<br>        add(a[i],<span class="hljs-number">1</span>);<br>    &#125;<br>    <br>    <span class="hljs-built_in">memset</span>(c,<span class="hljs-number">0</span>,<span class="hljs-keyword">sizeof</span>(c));<br>    <br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=n;i&gt;=<span class="hljs-number">1</span>;i--)&#123;<br>        rles[i] = ask(a[i]<span class="hljs-number">-1</span>);<br>        rmore[i] =ask(n)- ask(a[i]);<br>        add(a[i],<span class="hljs-number">1</span>);<br>    &#125;<br>    <br>    ll v_ans = <span class="hljs-number">0</span>;<br>    ll cup_ans = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">2</span>;i&lt;n;i++)&#123;<br>        v_ans +=  lmore[i]*rmore[i];<br>        cup_ans += lles[i]*rles[i];<br>    &#125;<br>    <span class="hljs-built_in">cout</span>&lt;&lt;v_ans&lt;&lt;<span class="hljs-string">&quot; &quot;</span>&lt;&lt;cup_ans;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>题解</tag>
+      
+      <tag>数据结构</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>【单调队列】滑动窗口最大值</title>
     <link href="/2021/03/01/tj210301/"/>
     <url>/2021/03/01/tj210301/</url>
