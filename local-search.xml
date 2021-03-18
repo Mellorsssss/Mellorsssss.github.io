@@ -4,6 +4,27 @@
   
   
   <entry>
+    <title>契约式设计</title>
+    <link href="/2021/03/18/oop-03/"/>
+    <url>/2021/03/18/oop-03/</url>
+    
+    <content type="html"><![CDATA[<h3 id="什么是契约式设计"><a href="#什么是契约式设计" class="headerlink" title="什么是契约式设计"></a>什么是契约式设计</h3><p>在编写一个方法时，我们常常会在方法的入口处增加许多判断，从某种意义上来说，这就是一种最朴素的契约式设计。契约式设计（DbC）核心就是“规范与检查”。其主要由以下三个方面构成：</p><ul><li>前置条件：调用方法之前需要满足的条件</li><li>后置条件：方法顺利执行完成之后需要满足的条件</li><li>invariant：该类的实例调用任何方法时都必须为真的条件</li></ul><p>简单的逻辑关系是：用户在调用方法之前，<strong>确保其参数满足一定的条件</strong>，类负责<strong>确保用户获得其想要的结果</strong>。此处参数需要满足的条件分两种情况：</p><ol><li>创建一个类的实例。在此过程中，只需要确保前置条件满足；</li><li>调用一个已经存在的实例的方法。需要确保前置条件以及invariant同时满足。</li></ol><h3 id="DbC与继承的关系"><a href="#DbC与继承的关系" class="headerlink" title="DbC与继承的关系"></a>DbC与继承的关系</h3><blockquote><p>DbC与断言的不同？</p><p>个人认为可以通过断言实现DbC，但是两者绝对不是等同的概念。DbC是可以继承的，而断言无法继承。</p></blockquote><p>如果一个基类拥有前置条件<code>p0</code>，后置条件<code>q0</code>，那么其子类的前置条件以及后置条件应该满足什么样的性质？</p><ol><li>继承之后的前置条件只能保持不变或者弱化；</li><li>继承之后的后置条件只能不变或者增强。</li></ol>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>笔记</tag>
+      
+      <tag>面向对象设计方法</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>git出现empty object时的恢复方法</title>
     <link href="/2021/03/18/daily-210318/"/>
     <url>/2021/03/18/daily-210318/</url>
