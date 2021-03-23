@@ -181,6 +181,144 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2021/03/23/network-udp/">【计算机网络复习】UDP</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/03/23/network-udp/">
+          
+          
+            
+          
+          UDP的优点
+不需要建立连接；
+无状态；
+分组首部开销较小（只有8B）；
+应用层可以更好控制发包时间。
+
+UDP的一些误区
+UDP虽然是best-effort，但也是可以在应用层实现可靠传输的；
+UDP的报文是不可分割的
+
+UDP细节首部格式：1234567891011 0      7 8     15 16    23 24    31+--------+--------+--------+-
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-03-23 16:45" pubdate>
+              2021-03-23
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">基础知识</a>
+            
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/03/23/network-tcp/">【计算机网络复习】TCP简单入门</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/03/23/network-tcp/">
+          
+          
+            
+          
+          TCP 的优点与UDP相比，TCP可靠、面向连接。她有如下的一些特点：
+
+面向连接；
+是点到点的；
+提供可靠的交付服务，并且传送的数据无差错、不丢失、不重复并且有序；
+全双工（双方都需要维护发送以及接受缓存）；
+面向字节流的（seq,ack都是针对字节流的）
+
+TCP报文123456789101112131415161718192021222324TCP Header Format    0   
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-03-23 16:44" pubdate>
+              2021-03-23
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">基础知识</a>
+            
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/03/23/tj210323/">tj210323</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/03/23/tj210323/">
+          
+          
+            
+          
+          
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-03-23 13:09" pubdate>
+              2021-03-23
+            </time>
+          </div>
+        
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2021/03/18/oop-03/">契约式设计</a>
       </h1>
 
@@ -507,148 +645,6 @@ invariant：该类的实例调用任何方法时都必须为真的条件
           </div>
         
         
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/02/17/OpenMP%E4%B8%AD%E7%9A%84%E8%AE%A1%E6%97%B6/">OpenMP中的计时</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/02/17/OpenMP%E4%B8%AD%E7%9A%84%E8%AE%A1%E6%97%B6/">
-          
-          
-            
-          
-          问题背景在写软渲染的过程中，为了加速渲染的效率，我使用OpenMP完成简单的多线程并行渲染。为了查看实际渲染的效果如何，使用clock()（头文件time.h）进行运行时间计时，输出实际渲染fps。
-诡异的是，对比使用多线程前后，反而是不使用多线程的串行程序fps高！
-解决你可能已经想到，问题的关键在于clock()的实现——它实际上计数的是所有cpu的tick数！换而言之，一定程度上，物理线程越
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-02-17 23:18" pubdate>
-              2021-02-17
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/tags/%E5%B9%B6%E8%A1%8C/">并行</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/02/17/tj210217/">【BFS】最优配餐</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/02/17/tj210217/">
-          
-          
-            
-          
-          原题链接ACwing
-思路本题是多源BFS的模板题。通过BFS来寻找最短路是非常基本的操作，实际上，存在多个起点时，也可以求出从某一个起点出发，到地图上某一个点的最短距离——把所有的起点入队即可。
-
-实现BFS的一些坑:
-
-去重；
-生成状态；
-
-
-实现12345678910111213141516171819202122232425262728293031323334353637383940414
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-02-17 20:21" pubdate>
-              2021-02-17
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E9%A2%98%E8%A7%A3/">题解</a>
-            
-              <a href="/tags/BFS/">BFS</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/02/16/tj210216/">【计数DP】有趣的数</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/02/16/tj210216/">
-          
-          
-            
-          
-          原题链接ACwing
-思路一个直观的想法是，如果我们知道长度为l的有趣的数的个数，是否可以知道长度为l+1的有趣的数个数？简单思考，容易发现，如果只知道有趣的数个数，是不足以完成递推的，例如题目中给出的4位有趣的数，并不是所有5位有趣的数的前缀。然而，如果我们可以枚举所有可行前缀的个数 ，就可以完成递推，并且由于前缀是唯一的，故而递推结果不会重复。
-哪些前缀是可行的？题目中的约束简单说来，就是第一
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-02-16 12:37" pubdate>
-              2021-02-16
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E9%A2%98%E8%A7%A3/">题解</a>
-            
-              <a href="/tags/%E8%AE%A1%E6%95%B0DP/">计数DP</a>
-            
-          </div>
         
       </div>
     </article>

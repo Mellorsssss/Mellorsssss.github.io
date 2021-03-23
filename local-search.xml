@@ -4,6 +4,61 @@
   
   
   <entry>
+    <title>【计算机网络复习】UDP</title>
+    <link href="/2021/03/23/network-udp/"/>
+    <url>/2021/03/23/network-udp/</url>
+    
+    <content type="html"><![CDATA[<h3 id="UDP的优点"><a href="#UDP的优点" class="headerlink" title="UDP的优点"></a>UDP的优点</h3><ol><li>不需要建立连接；</li><li>无状态；</li><li>分组首部开销较小（只有8B）；</li><li>应用层可以更好控制发包时间。</li></ol><h3 id="UDP的一些误区"><a href="#UDP的一些误区" class="headerlink" title="UDP的一些误区"></a>UDP的一些误区</h3><ol><li>UDP虽然是best-effort，但也是可以在应用层实现可靠传输的；</li><li>UDP的报文是不可分割的</li></ol><h3 id="UDP细节"><a href="#UDP细节" class="headerlink" title="UDP细节"></a>UDP细节</h3><h6 id="首部格式："><a href="#首部格式：" class="headerlink" title="首部格式："></a>首部格式：</h6><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc"><span class="hljs-code"> 0      7 8     15 16    23 24    31</span><br><span class="hljs-code">+--------+</span>--------<span class="hljs-code">+--------+</span>--------+<br>|     Source      |   Destination   |<br>|      Port       |      Port       |<br><span class="hljs-code">+--------+</span>--------<span class="hljs-code">+--------+</span>--------+<br>|                 |                 |<br>|     Length      |    Checksum     |<br><span class="hljs-code">+--------+</span>--------<span class="hljs-code">+--------+</span>--------+<br>|<br>|          data octets ...<br>+---------------- ...<br></code></pre></td></tr></table></figure><h6 id="checksum计算："><a href="#checksum计算：" class="headerlink" title="checksum计算："></a>checksum计算：</h6><ol><li>根据IPV4或IPV6添加伪首部（对IP数据报的源地址以及目的地址也进行校验）；</li><li>补全报文为B偶数倍；</li><li>以2B为单位计算反码和并取反</li></ol>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>基础知识</tag>
+      
+      <tag>计算机网络</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>【计算机网络复习】TCP简单入门</title>
+    <link href="/2021/03/23/network-tcp/"/>
+    <url>/2021/03/23/network-tcp/</url>
+    
+    <content type="html"><![CDATA[<h3 id="TCP-的优点"><a href="#TCP-的优点" class="headerlink" title="TCP 的优点"></a>TCP 的优点</h3><p>与UDP相比，TCP可靠、面向连接。她有如下的一些特点：</p><ol><li>面向连接；</li><li>是点到点的；</li><li>提供可靠的交付服务，并且传送的数据无差错、不丢失、不重复并且有序；</li><li>全双工（双方都需要维护发送以及接受缓存）；</li><li>面向字节流的（seq,ack都是针对字节流的）</li></ol><h3 id="TCP报文"><a href="#TCP报文" class="headerlink" title="TCP报文"></a>TCP报文</h3><figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs gherkin">TCP Header Format<br><br><br>    0                   1                   2                   3<br>    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1<br>   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+<br>   |<span class="hljs-string">          Source Port          </span>|<span class="hljs-string">       Destination Port        </span>|<br>   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+<br>   |<span class="hljs-string">                        Sequence Number                        </span>|<br>   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+<br>   |<span class="hljs-string">                    Acknowledgment Number                      </span>|<br>   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+<br>   |<span class="hljs-string">  Data </span>|<span class="hljs-string">           </span>|<span class="hljs-string">U</span>|<span class="hljs-string">A</span>|<span class="hljs-string">P</span>|<span class="hljs-string">R</span>|<span class="hljs-string">S</span>|<span class="hljs-string">F</span>|<span class="hljs-string">                               </span>|<br>   |<span class="hljs-string"> Offset</span>|<span class="hljs-string"> Reserved  </span>|<span class="hljs-string">R</span>|<span class="hljs-string">C</span>|<span class="hljs-string">S</span>|<span class="hljs-string">S</span>|<span class="hljs-string">Y</span>|<span class="hljs-string">I</span>|<span class="hljs-string">            Window             </span>|<br>   |<span class="hljs-string">       </span>|<span class="hljs-string">           </span>|<span class="hljs-string">G</span>|<span class="hljs-string">K</span>|<span class="hljs-string">H</span>|<span class="hljs-string">T</span>|<span class="hljs-string">N</span>|<span class="hljs-string">N</span>|<span class="hljs-string">                               </span>|<br>   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+<br>   |<span class="hljs-string">           Checksum            </span>|<span class="hljs-string">         Urgent Pointer        </span>|<br>   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+<br>   |<span class="hljs-string">                    Options                    </span>|<span class="hljs-string">    Padding    </span>|<br>   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+<br>   |<span class="hljs-string">                             data                              </span>|<br>   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+<br><br>                            TCP Header Format<br></code></pre></td></tr></table></figure><p>具体的阐述参见：<a href="https://tools.ietf.org/html/rfc793#section-1.1">RFC TCP</a>。</p><p>与UDP相同的是，TCP的校验也采用伪首部，具体细节同样参见RFC 793。</p><blockquote><p>options可以用于确定MSS大小，最终取双方中较小值。</p></blockquote><h3 id="TCP连接的建立"><a href="#TCP连接的建立" class="headerlink" title="TCP连接的建立"></a>TCP连接的建立</h3><p>TCP连接需要来回发送一共三条报文，也就是大名鼎鼎的“三次握手”。</p><figure class="highlight bnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs bnf">TCP A                                                TCP B<br><br>  1.  CLOSED                                               LISTEN<br><br>  2.  SYN-SENT    --&gt; <span class="hljs-attribute">&lt;SEQ=100&gt;</span><span class="hljs-attribute">&lt;CTL=SYN&gt;</span>               --&gt; SYN-RECEIVED<br><br>  3.  ESTABLISHED <span class="hljs-attribute">&lt;-- &lt;SEQ=300&gt;</span><span class="hljs-attribute">&lt;ACK=101&gt;</span><span class="hljs-attribute">&lt;CTL=SYN,ACK&gt;</span>  <span class="hljs-attribute">&lt;-- SYN-RECEIVED</span><br><span class="hljs-attribute"></span><br><span class="hljs-attribute">  4.  ESTABLISHED --&gt;</span> <span class="hljs-attribute">&lt;SEQ=101&gt;</span><span class="hljs-attribute">&lt;ACK=301&gt;</span><span class="hljs-attribute">&lt;CTL=ACK&gt;</span>       --&gt; ESTABLISHED<br><br>  5.  ESTABLISHED --&gt; <span class="hljs-attribute">&lt;SEQ=101&gt;</span><span class="hljs-attribute">&lt;ACK=301&gt;</span><span class="hljs-attribute">&lt;CTL=ACK&gt;</span><span class="hljs-attribute">&lt;DATA&gt;</span> --&gt; ESTABLISHED<br><br>          Basic 3-Way Handshake for Connection Synchronization<br></code></pre></td></tr></table></figure><p>首先，TCP A发送一条报文（进入SYN-SENT状态），其中SYN位置1，表示这是一条请求TCP连接建立的报文；</p><p>其次，当TCP B接受到SYN位置1的报文时（进入SYN-RECEIVED状态），它发送一条SYN,ACK位均置1的报文，其中报文的ack号是接收到的报文seq加一（需要注意的是，上图2中的报文是没有携带任何数据的，但是依然需要消耗一个序列号！）；</p><p>最后，接收到TCP B发送报文的TCP A进入ESTABLISHED状态，并发送一条只有ACK置1的报文（这一条报文可以携带数据），表示连接建立成功。</p><blockquote><h6 id="为什么需要三次握手？"><a href="#为什么需要三次握手？" class="headerlink" title="为什么需要三次握手？"></a>为什么需要三次握手？</h6><p><a href="https://stackoverflow.com/questions/23771976/two-way-handshake-and-three-way-handshake">stackoverflow上的讨论</a><br><a href="https://www.nowcoder.com/tutorial/93/e1b14ab2b40a4ef98d9e55830eb48d66">牛客网上的面经</a></p><p>概括一下，三次握手可以防止old deplicated syn，避免服务器的资源空耗，统一双方的seq以及ack。</p></blockquote><h3 id="TCP连接的释放"><a href="#TCP连接的释放" class="headerlink" title="TCP连接的释放"></a>TCP连接的释放</h3><figure class="highlight bnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs bnf">TCP A                                                TCP B<br><br>  1.  ESTABLISHED                                          ESTABLISHED<br><br>  2.  (Close)<br>      FIN-WAIT-1  --&gt; <span class="hljs-attribute">&lt;SEQ=100&gt;</span><span class="hljs-attribute">&lt;ACK=300&gt;</span><span class="hljs-attribute">&lt;CTL=FIN,ACK&gt;</span>  --&gt; CLOSE-WAIT<br><br>  3.  FIN-WAIT-2  <span class="hljs-attribute">&lt;-- &lt;SEQ=300&gt;</span><span class="hljs-attribute">&lt;ACK=101&gt;</span><span class="hljs-attribute">&lt;CTL=ACK&gt;</span>      <span class="hljs-attribute">&lt;-- CLOSE-WAIT</span><br><span class="hljs-attribute"></span><br><span class="hljs-attribute">  4.                                                       (Close)</span><br><span class="hljs-attribute">      TIME-WAIT   &lt;-- &lt;SEQ=300&gt;</span><span class="hljs-attribute">&lt;ACK=101&gt;</span><span class="hljs-attribute">&lt;CTL=FIN,ACK&gt;</span>  <span class="hljs-attribute">&lt;-- LAST-ACK</span><br><span class="hljs-attribute"></span><br><span class="hljs-attribute">  5.  TIME-WAIT   --&gt;</span> <span class="hljs-attribute">&lt;SEQ=101&gt;</span><span class="hljs-attribute">&lt;ACK=301&gt;</span><span class="hljs-attribute">&lt;CTL=ACK&gt;</span>      --&gt; CLOSED<br><br>  6.  (2 MSL)<br>      CLOSED<br><br>                         Normal Close Sequence<br></code></pre></td></tr></table></figure><p>1.数据传输结束后，客户端的应用进程发出连接释放报文段，并停止发送数据，客户端进入FIN_WAIT_1状态，此时客户端依然可以接收服务器发送来的数据。</p><p>2.服务器接收到FIN后，发送一个ACK给客户端，确认序号为收到的序号+1，服务器进入CLOSE_WAIT状态。客户端收到后进入FIN_WAIT_2状态。</p><p>3.当服务器没有数据要发送时，服务器发送一个FIN报文，此时服务器进入LAST_ACK状态，等待客户端的确认</p><p>4.客户端收到服务器的FIN报文后，给服务器发送一个ACK报文，确认序列号为收到的序号+1。此时客户端进入TIME_WAIT状态，等待2MSL（MSL：报文段最大生存时间），然后关闭连接。</p><blockquote><h6 id="四次挥手的原因"><a href="#四次挥手的原因" class="headerlink" title="四次挥手的原因"></a>四次挥手的原因</h6><p>四次挥手的原因：由于连接的关闭控制权在应用层，所以被动关闭的一方在接收到FIN包时，TCP协议栈会直接发送一个ACK确认包，优先关闭一端的通信。然后通知应用层，由应用层决定什么时候发送FIN包。应用层可以使用系统调用函数read==0来判断对端是否关闭连接。</p></blockquote><h3 id="可靠传输机制"><a href="#可靠传输机制" class="headerlink" title="可靠传输机制"></a>可靠传输机制</h3><ol><li><p>序号</p><p>TCP为字节流维护序号，确保了数据在传递时的有序性</p></li><li><p>确认</p><p>TCP报文中指出希望对方发送的下一个报文的序号，并使用<strong>累计确认</strong>机制。该机制可以用于及时发现哪些报文丢失，及时重传</p></li><li><p>重传</p><p>在两种情况下重传：1. 报文段的计时器超时；2. 收到了冗余ACK</p></li></ol><h3 id="流量控制"><a href="#流量控制" class="headerlink" title="流量控制"></a>流量控制</h3><p>着眼于点到点，确保连接双方的速率匹配，接收方通过TCP 报文中的rwnd字段来告诉发送方它还有多大的接受缓冲空间。</p><h3 id="拥塞控制"><a href="#拥塞控制" class="headerlink" title="拥塞控制"></a>拥塞控制</h3><p>着眼于网络全局，通过拥塞控制算法，TCP估计当前网络负载能力，计算出cwnd，最终发送方发送的报文大小取cwnd以及rwnd中的较小值。</p><p>拥塞控制算法v1：</p><ol><li><p>设置ssthresh；</p></li><li><p>设置cwnd=1；</p></li><li>进入指数增长阶段，每一个RTT，将cwnd翻倍（另一种表述：每接受到一个ack，cwnd++）;如果发现2*cwnd &gt; ssthresh,令cwnd=ssthresh，进入3；如果出现网络拥堵（报文超时），那么将ssthresh = cwnd/2（至少为2）,然后进入1；</li><li>进入加性增阶段，每一个RTT,cwnd++；如果出现网络拥堵（报文超时），那么将ssthresh = cwnd/2（至少为2）,然后进入1；</li></ol><p>算法v1存在一些问题：很多时候我们很难及时察觉出网络的阻塞。为此，我们引入<strong>快重传</strong>以及<strong>快恢复</strong>方法：</p><ol><li>快重传：如果收到某一个报文的连续3次ack，那么重传对应序号报文；</li><li>快恢复：如果收到某一个报文的连续3次ack，那么设置ssthresh = cwnd/2,cwnd=ssthresh</li></ol><h3 id="一些细节问题"><a href="#一些细节问题" class="headerlink" title="一些细节问题"></a>一些细节问题</h3><ol><li><p>TCP 中的滑动窗口机制</p><p><img src="https://cdn.jsdelivr.net/gh/Mellorsssss/PictureBed/img/20210323110057.png" alt="image-20210323110050055"></p><p>可以看出，在使用滑动窗口机制下，即使一些ack没有成功收到，也有可能不会导致重发，因为之后的ack一旦收到，之前的所有报文也都一定被收到。</p></li><li><p>流量控制中的探测</p><p>如前文所述，流量控制中的窗口大小是通过接收方的报文通知发送方的，因此，如果发送方在<strong>以为接收方没有任何缓冲区空间</strong>之后，接收方<strong>通知有新的缓冲区空间</strong>报文丢失，就会导致发送方“饥饿”。为此，发送方会在一个RTO之后尝试发送一个报文，通过接收方的ACK探测当前是否有新的缓冲区空间。</p></li><li><p>拥塞控制中的ssthresh</p><p>《图解TCP/IP》中指出，TCP通信的开始<strong>不会直接指出ssthresh</strong>的值，而是在第一次网络拥塞之后计算出。</p></li><li><p>快恢复的cwnd</p><p>《图解TCP/IP》中的说法是ssthresh+3，加3 的原因是因为收到3个重复的ACK。</p></li></ol>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>基础知识</tag>
+      
+      <tag>计算机网络</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>tj210323</title>
+    <link href="/2021/03/23/tj210323/"/>
+    <url>/2021/03/23/tj210323/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>契约式设计</title>
     <link href="/2021/03/18/oop-03/"/>
     <url>/2021/03/18/oop-03/</url>
@@ -226,9 +281,9 @@
       
       <tag>题解</tag>
       
-      <tag>思维</tag>
-      
       <tag>线性DP</tag>
+      
+      <tag>思维</tag>
       
     </tags>
     
@@ -249,9 +304,9 @@
       
       <tag>题解</tag>
       
-      <tag>差分</tag>
-      
       <tag>思维</tag>
+      
+      <tag>差分</tag>
       
     </tags>
     
