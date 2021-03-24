@@ -17,7 +17,7 @@
   <meta name="description" content="握着生活的断桨，奋力前行">
   <meta name="author" content="Melos">
   <meta name="keywords" content="">
-  <title>【计算机网络复习】UDP - 断桨</title>
+  <title>【单调栈】132模式 - 断桨</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
@@ -162,7 +162,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="【计算机网络复习】UDP">
+            <span class="h2" id="subtitle" title="【单调栈】132模式">
               
             </span>
 
@@ -177,8 +177,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-03-23 16:45" pubdate>
-        2021年3月23日 下午
+      <time datetime="2021-03-24 20:10" pubdate>
+        2021年3月24日 晚上
       </time>
     </span>
   
@@ -189,7 +189,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      153 字
+      926 字
     </span>
   
 
@@ -199,7 +199,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1
+      10
        分钟
     </span>
   
@@ -229,25 +229,32 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">【计算机网络复习】UDP</h1>
+            <h1 style="display: none">【单调栈】132模式</h1>
             
             <div class="markdown-body">
-              <h3 id="UDP的优点"><a href="#UDP的优点" class="headerlink" title="UDP的优点"></a>UDP的优点</h3><ol>
-<li>不需要建立连接；</li>
-<li>无状态；</li>
-<li>分组首部开销较小（只有8B）；</li>
-<li>应用层可以更好控制发包时间。</li>
+              <h3 id="原题链接"><a href="#原题链接" class="headerlink" title="原题链接"></a>原题链接</h3><p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/132-pattern/">leetcode 456</a></p>
+<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>乍一看题目，以为是<strong>楼兰图腾</strong>，树状数组的裸题，但是仔细一看（一看就看了一个小时），发现其实没有那么简单。</p>
+<p>不过所有看起来不简单的题目都是从简单的分析开始的。</p>
+<p>最朴素的想法是枚举，枚举的对象应该是<script type="math/tex">j</script>或者<script type="math/tex">k</script>。</p>
+<h4 id="对j枚举"><a href="#对j枚举" class="headerlink" title="对j枚举"></a>对<script type="math/tex">j</script>枚举</h4><p>如果对<script type="math/tex">j</script>枚举，那么显然我们需要求出两个集合：</p>
+<ol>
+<li>在<script type="math/tex">j</script>左侧的最小元素集合；</li>
+<li>在<script type="math/tex">j</script>右侧的最大元素（并且不超过它）集合。</li>
 </ol>
-<h3 id="UDP的一些误区"><a href="#UDP的一些误区" class="headerlink" title="UDP的一些误区"></a>UDP的一些误区</h3><ol>
-<li>UDP虽然是best-effort，但也是可以在应用层实现可靠传输的；</li>
-<li>UDP的报文是不可分割的</li>
+<p>前者只需要一次简单的遍历即可完成，而后者需要使用一些trick。最简单的方式是直接遍历一遍<script type="math/tex">j</script>右侧，找出不大于其的最大元素；仔细思考，我们可以维护右侧的最大值<strong>集合</strong>（第一种情况实际上维护了一个只有一个元素的集合，因为没有范围限制），对于每一个<script type="math/tex">j</script>，我们只需要在这个集合中找出解即可。</p>
+<p>问题来了，什么数据结构？平衡树显然可以胜任，但是维护这个结构需要对数时间复杂度；一个更好的方案是使用一个单调栈。这并不是一个显然的结论，你很容易想到，如果维护一个单调递减的单调栈，那么对于某些元素，其可能因为之前一些元素的入栈，而丢失掉一些可能的解。但是，如果你仔细思考，你会发现，<strong>如果这样的元素是满足要求的，那么其之前的元素一定也是满足要求的，因为他们的最小元素集合更大</strong>。</p>
+<p>故而，第一种思路就是：求出两个集合，比较右侧最大元素是否大于左侧最小元素（注意，此处暗含了<strong>当前元素大于左侧最小元素的比较</strong>）。</p>
+<h4 id="对k枚举"><a href="#对k枚举" class="headerlink" title="对k枚举"></a>对<script type="math/tex">k</script>枚举</h4><blockquote>
+<p> 如果你觉得第一种方案有一点点绕人，那么我建议你也不要看第二种方案了，因为它更简单，更绕人。</p>
+</blockquote>
+<p>对于<script type="math/tex">k</script>而言，我们应该从右往左遍历，因为需要解空间就是其左侧的元素。我们应该维护的是<script type="math/tex">j</script>位置元素的集合，并且<strong>保证当前的最大<script type="math/tex">k</script>应该是小于其中每一个元素的。</strong>这样的好处是什么呢？任何时刻，我们只要发现当前遍历的元素小于最大的<script type="math/tex">k</script>的值，就说明存在一个合法的<script type="math/tex">k</script>以及<script type="math/tex">j</script>！（所以在一开始应该将最大的<script type="math/tex">k</script>初始化为最小值）。</p>
+<p>如何维护？我们维护一个当前最大<script type="math/tex">k</script>值以及一个单调栈（单调递减）。单调栈中一开始只有最后一个元素，当前最大<script type="math/tex">k</script>值一开始为最小值（下面称最小值）。</p>
+<ol>
+<li>如果当前元素小于最小值，那么已经找到了一个解（当前元素是<script type="math/tex">i</script>位置）；</li>
+<li>如果当前的栈顶元素小于当前元素，那么按照单调栈方式维护，并更新最小值（当前元素是<script type="math/tex">j</script>位置），而被弹出的元素是<script type="math/tex">k</script>位置。</li>
 </ol>
-<h3 id="UDP细节"><a href="#UDP细节" class="headerlink" title="UDP细节"></a>UDP细节</h3><h6 id="首部格式："><a href="#首部格式：" class="headerlink" title="首部格式："></a>首部格式：</h6><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc"><span class="hljs-code"> 0      7 8     15 16    23 24    31</span><br><span class="hljs-code">+--------+</span>--------<span class="hljs-code">+--------+</span>--------+<br>|     Source      |   Destination   |<br>|      Port       |      Port       |<br><span class="hljs-code">+--------+</span>--------<span class="hljs-code">+--------+</span>--------+<br>|                 |                 |<br>|     Length      |    Checksum     |<br><span class="hljs-code">+--------+</span>--------<span class="hljs-code">+--------+</span>--------+<br>|<br>|          data octets ...<br>+---------------- ...<br></code></pre></td></tr></table></figure>
-<h6 id="checksum计算："><a href="#checksum计算：" class="headerlink" title="checksum计算："></a>checksum计算：</h6><ol>
-<li>根据IPV4或IPV6添加伪首部（对IP数据报的源地址以及目的地址也进行校验）；</li>
-<li>补全报文为B偶数倍；</li>
-<li>以2B为单位计算反码和并取反</li>
-</ol>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><p>此处给出第二种方法的实现。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">find132pattern</span><span class="hljs-params">(<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums)</span> </span>&#123;<br>        <span class="hljs-keyword">if</span>(nums.size()&lt;<span class="hljs-number">3</span>)<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>        <span class="hljs-built_in">stack</span>&lt;<span class="hljs-keyword">int</span>&gt; st;<br>        <span class="hljs-keyword">int</span> maxVal = INT_MIN;<br>    <br>        st.push(nums[nums.size()<span class="hljs-number">-1</span>]);<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i= nums.size()<span class="hljs-number">-2</span>;i&gt;=<span class="hljs-number">0</span>;i--)&#123;<br>            <span class="hljs-keyword">if</span>(nums[i]&lt;maxVal)<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br><br>            <span class="hljs-keyword">while</span>(st.size() &amp;&amp; st.top()&lt;nums[i])&#123;<br>                maxVal = max(maxVal, st.top());<br>                st.pop();<br>            &#125;<br><br>            <span class="hljs-keyword">if</span>(nums[i]&gt; maxVal)&#123;<br>                st.push(nums[i]);<br>            &#125;<br>        &#125;<br><br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    &#125;<br>&#125;;<br><br><span class="hljs-comment">// [1,4,0,-1,-2,-3,-1,-2]</span><br><br></code></pre></td></tr></table></figure>
 
             </div>
             <hr>
@@ -258,9 +265,11 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">基础知识</a>
+                      <a class="hover-with-bg" href="/tags/%E9%A2%98%E8%A7%A3/">题解</a>
                     
-                      <a class="hover-with-bg" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
+                      <a class="hover-with-bg" href="/tags/%E5%8D%95%E8%B0%83%E6%A0%88/">单调栈</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%80%9D%E7%BB%B4%E9%A2%98/">思维题</a>
                     
                   </div>
                 
@@ -273,18 +282,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/03/24/tj210324/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">【单调栈】132模式</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/03/23/network-tcp/">
-                        <span class="hidden-mobile">【计算机网络复习】TCP简单入门</span>
+                      <a href="/2021/03/23/network-udp/">
+                        <span class="hidden-mobile">【计算机网络复习】UDP</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
