@@ -17,7 +17,7 @@
   <meta name="description" content="握着生活的断桨，奋力前行">
   <meta name="author" content="Melos">
   <meta name="keywords" content="">
-  <title>tj210323 - 断桨</title>
+  <title>Java中的传参问题 - 断桨</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
@@ -162,7 +162,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="tj210323">
+            <span class="h2" id="subtitle" title="Java中的传参问题">
               
             </span>
 
@@ -177,8 +177,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-03-23 13:09" pubdate>
-        2021年3月23日 下午
+      <time datetime="2021-03-28 20:44" pubdate>
+        2021年3月28日 晚上
       </time>
     </span>
   
@@ -189,7 +189,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      0 字
+      431 字
     </span>
   
 
@@ -199,7 +199,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1
+      5
        分钟
     </span>
   
@@ -229,15 +229,36 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">tj210323</h1>
+            <h1 style="display: none">Java中的传参问题</h1>
             
             <div class="markdown-body">
-              
+              <h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>最近在学习Java，我一直有一个<strong>疑惑</strong>——Java中的传参究竟是什么方式？pass by value？pass by reference？还是会变化？在PL课上，老师讲到了如下的问题：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Mellorsssss/PictureBed/img/20210328204656.png" srcset="/img/loading.gif" alt="image-20210328204649012"></p>
+<p>在这个问题中，答案又应该是什么呢？</p>
+<h3 id="思考与解答"><a href="#思考与解答" class="headerlink" title="思考与解答"></a>思考与解答</h3><p>首先说结论，我认为Java中的传参都可以看做是pass by value；如果参数是一个对象，那么实际上传递的就是一个指向对象的指针的拷贝。</p>
+<p>我们看这样一个例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> JavaPlayGround;<br><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Main</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[]args)</span></span>&#123;<br>        Dog myDog = <span class="hljs-keyword">new</span> Dog();<br>        myDog.setAge(<span class="hljs-number">2</span>);<br>        System.out.println(myDog.getAge()); <span class="hljs-comment">// 2</span><br>        fooByModify(myDog);<br>        System.out.println(myDog.getAge());<span class="hljs-comment">// 11</span><br><br>        myDog.setAge(<span class="hljs-number">2</span>);<br>        fooByAssign(myDog);<br>        System.out.println(myDog.getAge());<span class="hljs-comment">// 2</span><br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">fooByModify</span><span class="hljs-params">(Dog d)</span></span>&#123;<br>        d.setAge(<span class="hljs-number">11</span>);<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">fooByAssign</span><span class="hljs-params">(Dog d)</span></span>&#123;<br>        d = <span class="hljs-keyword">new</span> Dog();<br>        d.setAge(<span class="hljs-number">11</span>);<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+<p>在上面的例子里，<code>fooByModify</code>与<code>fooByAssign</code>分别对传入的对象进行修改/赋值，而只有前者真正改了原先的对象，后者则对原先的对象没有任何影响。</p>
+<p>我的理解如下：</p>
+<p>不妨假设myDog指向地址3，那么调用<code>fooByModify</code>时，<code>d</code>也指向地址3（相当于复制了myDog的地址），故而之后的改变都会影响到地址3的myDog。</p>
+<p>在调用<code>fooByAssign</code>时，事情有所不同。<code>d</code>一开始指向地址3，但是随后被赋值（记住，此处的<code>d</code>和myDog没有关系，它只是保存了一个地址罢了），故而<code>d</code>指向了一个新的地址，之后的修改也就自然没有任何变化了。</p>
+<p>至于PL课上提出的问题，语焉不详（不清楚调用constructor之后的内部行为），无法给出详尽的解释。</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/40480/is-java-pass-by-reference-or-pass-by-value">stackoverflow上的讨论</a></p>
+
             </div>
             <hr>
             <div>
               <div class="post-metas mb-3">
                 
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%8A%80%E6%9C%AF/">技术</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%97%AE/">每日一问</a>
+                    
+                  </div>
                 
               </div>
               
@@ -248,18 +269,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/03/23/network-tcp/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">【计算机网络复习】TCP简单入门</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/03/18/oop-03/">
-                        <span class="hidden-mobile">契约式设计</span>
+                      <a href="/2021/03/24/tj210324/">
+                        <span class="hidden-mobile">【单调栈】132模式</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
