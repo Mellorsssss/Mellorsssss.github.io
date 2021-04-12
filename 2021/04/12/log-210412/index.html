@@ -17,7 +17,7 @@
   <meta name="description" content="握着生活的断桨，奋力前行">
   <meta name="author" content="Melos">
   <meta name="keywords" content="">
-  <title>【单调队列】滑动窗口最大值 - 断桨</title>
+  <title>sort函数自定义比较 - 断桨</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
@@ -162,7 +162,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="【单调队列】滑动窗口最大值">
+            <span class="h2" id="subtitle" title="sort函数自定义比较">
               
             </span>
 
@@ -177,8 +177,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-03-01 21:30" pubdate>
-        2021年3月1日 晚上
+      <time datetime="2021-04-12 12:45" pubdate>
+        2021年4月12日 下午
       </time>
     </span>
   
@@ -189,7 +189,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      464 字
+      228 字
     </span>
   
 
@@ -199,7 +199,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      6
+      2
        分钟
     </span>
   
@@ -229,22 +229,20 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">【单调队列】滑动窗口最大值</h1>
+            <h1 style="display: none">sort函数自定义比较</h1>
             
             <div class="markdown-body">
-              <blockquote>
-<p>这是开学以来的第一篇题解，为了保持一定的手感，除了周末，每天保证更新一篇题解。</p>
-</blockquote>
-<h3 id="原题链接"><a href="#原题链接" class="headerlink" title="原题链接"></a>原题链接</h3><p><a target="_blank" rel="noopener" href="https://www.acwing.com/problem/content/75/">ACwing</a></p>
-<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>题意十分简单，为数组的每一个固定长度的区间维护一个最大值。最为朴素的做法就是直接求解最大值，不过这样没有用上“滑动”的性质，是否可以边扫描数组，边维护数组的每一个最大值？</p>
-<p>仔细思考，对于每一个区间中的数字，如果其右边的数字比其来的大，那么当前数字实际上一定不会在之后的大小比较中出现（当前数字一定先离开窗口），这启发我们维护一个值、ind的二元组队列，并且按照值单调减排列，这也就是传说中的<strong>单调队列</strong>。</p>
-<p>维护单调队列的方法十分简单：</p>
-<ol>
-<li>在每一个区间中，丢弃所有不在当前窗口的元素；</li>
-<li>对于每一个区间中新加入的元素，如果当前队列非空，比较其与队尾元素的大小，如果其比队尾元素大，那么丢弃队尾元素，执行2；否则执行3；</li>
-<li>将当前的元素加入队列中。</li>
-</ol>
-<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-built_in">deque</span>&lt;<span class="hljs-built_in">pair</span>&lt;<span class="hljs-keyword">int</span>,<span class="hljs-keyword">int</span>&gt; &gt; mono_q;<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x, <span class="hljs-keyword">int</span> ind)</span></span>&#123;<br>        <span class="hljs-keyword">while</span>(mono_q.size()&amp;&amp;x&gt;mono_q.back().first)&#123;<br>            mono_q.pop_back();<br>        &#125;<br>        mono_q.push_back(<span class="hljs-built_in">pair</span>(x,ind));<br>    &#125;<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">pop</span><span class="hljs-params">(<span class="hljs-keyword">int</span> lhs)</span></span>&#123;<br>        <span class="hljs-keyword">while</span>(mono_q.size()&amp;&amp;mono_q.front().second&lt;lhs)mono_q.pop_front();<br>    &#125;<br>    <br>    <span class="hljs-function"><span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">maxInWindows</span><span class="hljs-params">(<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums, <span class="hljs-keyword">int</span> k)</span> </span>&#123;<br>        <span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; ans;<br>        <span class="hljs-comment">// init the queue </span><br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;k<span class="hljs-number">-1</span>;i++)&#123;<br>            add(nums[i],i);<br>        &#125;<br>        <br>        <span class="hljs-comment">// traverse all intervals</span><br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> lhs = <span class="hljs-number">0</span>;lhs+k<span class="hljs-number">-1</span>&lt;nums.size();lhs++)&#123;<br>            pop(lhs);<span class="hljs-comment">// pop all the elements which are out of window</span><br>            add(nums[lhs+k<span class="hljs-number">-1</span>], lhs+k<span class="hljs-number">-1</span>);<br>            ans.push_back(mono_q.front().first);<br>        &#125;<br>        <br>        <span class="hljs-keyword">return</span> ans;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+              <h3 id="发生了啥？"><a href="#发生了啥？" class="headerlink" title="发生了啥？"></a>发生了啥？</h3><p>在做leetcode 每日一题<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/largest-number/">最大数</a>的过程中，自定义了一个如下的比较函数用于<code>sort</code>排序：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">cmp</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> a, <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> b)</span></span>&#123;<br>        <span class="hljs-built_in">string</span> sa = to_string(a);<br>        <span class="hljs-built_in">string</span> sb = to_string(b);<br>        <span class="hljs-keyword">return</span> sa+sb&gt;=sb+sa;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>然后愉快地报错了（可以尝试输入多个0，不过该问题在只有比较少0的时候不会出现）。</p>
+<p>解决办法是将上面比较函数中的大于等于改为大于。</p>
+<h3 id="为什么？"><a href="#为什么？" class="headerlink" title="为什么？"></a>为什么？</h3><p>遇事不决，先问<code>StackOverflow</code>，果不其然，遇到了一个有相似问题的大哥，得到了如下的解答：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Mellorsssss/PictureBed/img/20210412124947.png" srcset="/img/loading.gif" alt="image-20210412124940043"></p>
+<p>啊，原来这么简单！</p>
+<p>点进<a target="_blank" rel="noopener" href="https://en.cppreference.com/w/cpp/named_req/Compare">compare requirement</a>，可以看到cpp对于custome cmp的要求：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Mellorsssss/PictureBed/img/20210412125113.png" srcset="/img/loading.gif" alt="image-20210412125113182"></p>
+<p>简单说来，就是满足自反性、反对称性以及传递性。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>一个小小的细节，可能平时不太会犯这样的错误，不过还是十分值得注意的！</p>
 
             </div>
             <hr>
@@ -255,11 +253,9 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/%E9%A2%98%E8%A7%A3/">题解</a>
+                      <a class="hover-with-bg" href="/tags/%E6%8A%80%E6%9C%AF/">技术</a>
                     
-                      <a class="hover-with-bg" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
-                    
-                      <a class="hover-with-bg" href="/tags/%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97/">单调队列</a>
+                      <a class="hover-with-bg" href="/tags/%E6%97%A5%E5%B8%B8/">日常</a>
                     
                   </div>
                 
@@ -272,18 +268,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/03/08/tj210308/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">【树状数组】楼兰图腾</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/02/20/tj210220/">
-                        <span class="hidden-mobile">【BFS】通信网络</span>
+                      <a href="/2021/03/28/daily-210328/">
+                        <span class="hidden-mobile">Java中的传参问题</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

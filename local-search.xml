@@ -4,6 +4,27 @@
   
   
   <entry>
+    <title>sort函数自定义比较</title>
+    <link href="/2021/04/12/log-210412/"/>
+    <url>/2021/04/12/log-210412/</url>
+    
+    <content type="html"><![CDATA[<h3 id="发生了啥？"><a href="#发生了啥？" class="headerlink" title="发生了啥？"></a>发生了啥？</h3><p>在做leetcode 每日一题<a href="https://leetcode-cn.com/problems/largest-number/">最大数</a>的过程中，自定义了一个如下的比较函数用于<code>sort</code>排序：</p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">cmp</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> a, <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> b)</span></span>&#123;<br>        <span class="hljs-built_in">string</span> sa = to_string(a);<br>        <span class="hljs-built_in">string</span> sb = to_string(b);<br>        <span class="hljs-keyword">return</span> sa+sb&gt;=sb+sa;<br>&#125;<br></code></pre></td></tr></table></figure><p>然后愉快地报错了（可以尝试输入多个0，不过该问题在只有比较少0的时候不会出现）。</p><p>解决办法是将上面比较函数中的大于等于改为大于。</p><h3 id="为什么？"><a href="#为什么？" class="headerlink" title="为什么？"></a>为什么？</h3><p>遇事不决，先问<code>StackOverflow</code>，果不其然，遇到了一个有相似问题的大哥，得到了如下的解答：</p><p><img src="https://cdn.jsdelivr.net/gh/Mellorsssss/PictureBed/img/20210412124947.png" alt="image-20210412124940043"></p><p>啊，原来这么简单！</p><p>点进<a href="https://en.cppreference.com/w/cpp/named_req/Compare">compare requirement</a>，可以看到cpp对于custome cmp的要求：</p><p><img src="https://cdn.jsdelivr.net/gh/Mellorsssss/PictureBed/img/20210412125113.png" alt="image-20210412125113182"></p><p>简单说来，就是满足自反性、反对称性以及传递性。</p><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>一个小小的细节，可能平时不太会犯这样的错误，不过还是十分值得注意的！</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>技术</tag>
+      
+      <tag>日常</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Java中的传参问题</title>
     <link href="/2021/03/28/daily-210328/"/>
     <url>/2021/03/28/daily-210328/</url>
@@ -142,9 +163,9 @@
     
     <tags>
       
-      <tag>数据结构</tag>
-      
       <tag>题解</tag>
+      
+      <tag>数据结构</tag>
       
     </tags>
     
@@ -163,9 +184,9 @@
     
     <tags>
       
-      <tag>数据结构</tag>
-      
       <tag>题解</tag>
+      
+      <tag>数据结构</tag>
       
       <tag>单调队列</tag>
       
@@ -633,9 +654,9 @@
     
     <tags>
       
-      <tag>算法</tag>
-      
       <tag>题解</tag>
+      
+      <tag>算法</tag>
       
       <tag>区间DP</tag>
       
