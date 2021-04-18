@@ -181,6 +181,56 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2021/03/01/tj210301/">【单调队列】滑动窗口最大值</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/03/01/tj210301/">
+          
+          
+            
+          
+          
+这是开学以来的第一篇题解，为了保持一定的手感，除了周末，每天保证更新一篇题解。
+
+原题链接ACwing
+思路题意十分简单，为数组的每一个固定长度的区间维护一个最大值。最为朴素的做法就是直接求解最大值，不过这样没有用上“滑动”的性质，是否可以边扫描数组，边维护数组的每一个最大值？
+仔细思考，对于每一个区间中的数字，如果其右边的数字比其来的大，那么当前数字实际上一定不会在之后的大小比较中出现（当前数
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-03-01 21:30" pubdate>
+              2021-03-01
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E9%A2%98%E8%A7%A3/">题解</a>
+            
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+            
+              <a href="/tags/%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97/">单调队列</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2021/02/20/tj210220/">【BFS】通信网络</a>
       </h1>
 
@@ -501,9 +551,9 @@
             
               <a href="/tags/%E9%A2%98%E8%A7%A3/">题解</a>
             
-              <a href="/tags/%E6%80%9D%E7%BB%B4/">思维</a>
-            
               <a href="/tags/%E7%BA%BF%E6%80%A7DP/">线性DP</a>
+            
+              <a href="/tags/%E6%80%9D%E7%BB%B4/">思维</a>
             
           </div>
         
@@ -548,9 +598,9 @@
             
               <a href="/tags/%E9%A2%98%E8%A7%A3/">题解</a>
             
-              <a href="/tags/%E5%B7%AE%E5%88%86/">差分</a>
-            
               <a href="/tags/%E6%80%9D%E7%BB%B4/">思维</a>
+            
+              <a href="/tags/%E5%B7%AE%E5%88%86/">差分</a>
             
           </div>
         
@@ -597,52 +647,6 @@
               <a href="/tags/%E9%A2%98%E8%A7%A3/">题解</a>
             
               <a href="/tags/%E5%8C%BA%E9%97%B4DP/">区间DP</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/02/10/ttt/">Predictive Parse</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/02/10/ttt/">
-          
-          
-            
-          
-          什么是Predictive Parse通过提前看token的类型，合理推断产生式。
-在CS 143课程中，我们讨论LL(1)文法。即从左到右、最左推导，每次提前看一个token的文法。
-符号T[A,a]表示当前non terminal 为A,token为a，此时应该使用的推导。
-实现预处理——left factor理想情况下，我们可以通过当前的non terminal以及token判断出应该采用什
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-02-10 14:26" pubdate>
-              2021-02-10
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/compilers/">compilers</a>
-            
-              <a href="/tags/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/">课程笔记</a>
             
           </div>
         
