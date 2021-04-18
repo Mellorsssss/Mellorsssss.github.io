@@ -181,6 +181,56 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2021/04/18/tj210418/">【每周一题】扰乱字符串</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/04/18/tj210418/">
+          
+          
+            
+          
+          原题链接力扣87
+大意是给定两个字符串，是否可以通过对其中一个字符串不断分裂、交换获得第二个字符串。
+思路第一次尝试暴力，脑补了一下觉得不太能写的出来（其实这个时候感觉可以动归，但是只能想到简单的记录状态），看了题解之后恍然大悟，发现还是一道值得一提的题目。
+我认为比较好的做法就是官方题解中给出的做法，也就是动态规划。看看要素：
+
+子问题重叠性。显然，两个子串是否可以最终等价是状态，这样的状态会被
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-04-18 13:01" pubdate>
+              2021-04-18
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E9%A2%98%E8%A7%A3/">题解</a>
+            
+              <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
+            
+              <a href="/tags/%E8%AE%B0%E5%BF%86%E5%8C%96%E6%90%9C%E7%B4%A2/">记忆化搜索</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2021/04/12/log-210412/">sort函数自定义比较</a>
       </h1>
 
@@ -609,53 +659,6 @@ invariant：该类的实例调用任何方法时都必须为真的条件
               <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
             
               <a href="/tags/%E5%8D%95%E8%B0%83%E9%98%9F%E5%88%97/">单调队列</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/02/20/tj210220/">【BFS】通信网络</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/02/20/tj210220/">
-          
-          
-            
-          
-          原题链接这里是原题嗷
-思路求有向图中，可达以及可被达点集合是全集的点个数。判断可达性的方法有很多，例如bfs, dfs，也可以通过拓扑排序（无环图中），乃至缩点等方式。此处实现使用bfs。
-实现1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-02-20 15:30" pubdate>
-              2021-02-20
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E9%A2%98%E8%A7%A3/">题解</a>
-            
-              <a href="/tags/BFS/">BFS</a>
-            
-              <a href="/tags/%E5%8F%8D%E5%9B%BE/">反图</a>
             
           </div>
         
