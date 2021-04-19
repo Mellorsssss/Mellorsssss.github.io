@@ -1,0 +1,509 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/titleicon.jpg">
+  <link rel="icon" type="image/png" href="/img/titleicon.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="握着生活的断桨，奋力前行">
+  <meta name="author" content="Melos">
+  <meta name="keywords" content="">
+  <title>【A*算法】八数码 - 断桨</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":">","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>断桨</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/background.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="【A*算法】八数码">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-author" aria-hidden="true"></i>
+      Melos
+    </span>
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-04-19 19:16" pubdate>
+        2021年4月19日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.4k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      20
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">【A*算法】八数码</h1>
+            
+            <div class="markdown-body">
+              <h3 id="原题链接"><a href="#原题链接" class="headerlink" title="原题链接"></a>原题链接</h3><p><a target="_blank" rel="noopener" href="https://www.acwing.com/problem/content/description/181/">八数码</a></p>
+<p>题意非常简单，给你一个八数码，如果其有解，输出一个最优解并且给出路径；如果没有则输出<code>unsolvable</code>。</p>
+<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>本题是一道好题目，涉及到了以下几个知识点：</p>
+<ol>
+<li>如何优化盲目搜索（A*算法）</li>
+<li>如何有效存取数码（康托散列）</li>
+<li>如何输出路径</li>
+</ol>
+<p>其中后两点不是这篇博文的主要话题，感兴趣的读者可以自行阅读代码理解或者查阅其他文章，本文主要就题谈谈简单的A*算法。</p>
+<h5 id="什么是A-算法？"><a href="#什么是A-算法？" class="headerlink" title="什么是A*算法？"></a>什么是A*算法？</h5><p>一言以蔽之，就是基于优先队列的BFS算法，其中排序的依据是自定义的一个启发函数。问题来了，<strong>怎么定义启发函数？</strong>好的启发函数显然能够让状态空间大大缩小，但代价函数也不应该过于复杂。但无论如何，</p>
+<blockquote>
+<p> <strong>启发函数估算出的代价一定不能大于真实的代价</strong>。</p>
+</blockquote>
+<p>如果没有这样的约束，那么我们可能错误估计一个真实最优状态的代价，从而导致在错误分支上搜索。</p>
+<p>就八数码问题而言，<strong>曼哈顿距离</strong>是一个不错的代价函数。一来，每个位置上的元素与其应该在的距离确实衡量了其与目标状态的距离，并且这样的估值是显然小于真实估值的。</p>
+<blockquote>
+<p><strong>为什么？</strong></p>
+<p>思考如下的一种情况</p>
+<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs gherkin">|<span class="hljs-string">---</span>|<br>|<span class="hljs-string">3 2</span>|<br>|<span class="hljs-string">1 0</span>|<br>|<span class="hljs-string">---</span>|<br></code></pre></td></tr></table></figure>
+<p>通过曼哈顿距离，计算出的估值是2（1,3不在原位），也就是对应两个节点直接交换——而这是不允许的。最好情况下，曼哈顿距离恰好与真实值相等，但往往是小于真实值的。</p>
+</blockquote>
+<h5 id="仅仅如此，够了吗？"><a href="#仅仅如此，够了吗？" class="headerlink" title="仅仅如此，够了吗？"></a>仅仅如此，够了吗？</h5><p>有了状态，我们还需要去考虑如何保留状态。最简单的想法，我们直接使用一个字符串记录当前的状态，每次使用的时候还原即可。换而言之，基于<code>map</code>。实际上，有一种叫做<em>康托散列</em>的方法，可以快速计算（平方时间，不过此处可以当做常数）一个排列的散列，确切地说，是将其映射到1-N!之间。</p>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><p>搜索题算法实现往往比较复杂，我在写本题的时候因为如下原因wa多次：</p>
+<ol>
+<li>typo</li>
+<li>实现错误</li>
+<li>效率不够</li>
+</ol>
+<p>最终AC算法如下（Acwing 10个点，共耗时136ms）。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;<br><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">rec</span>&#123;</span><br>    <span class="hljs-comment">// l: 当前地图中0的位置</span><br>    <span class="hljs-comment">// dist: 实际已经走的距离 + 预测还要走的距离</span><br>    <span class="hljs-comment">// m: 地图表示的字符串</span><br>    <span class="hljs-keyword">int</span> l;<br>    <span class="hljs-keyword">int</span> dist;<br>    <span class="hljs-built_in">string</span> m;<br>    rec(<span class="hljs-keyword">int</span> l_,<span class="hljs-built_in">string</span> m_, <span class="hljs-keyword">int</span> dist_):l(l_),m(m_), dist(dist_)&#123;<br>    &#125;<br>&#125;;<br><br><span class="hljs-keyword">bool</span> <span class="hljs-keyword">operator</span>&lt;(<span class="hljs-keyword">const</span> rec&amp; a,<span class="hljs-keyword">const</span> rec&amp; b)&#123;<br>        <span class="hljs-keyword">return</span> a.dist &gt; b.dist;<br>&#125;<br><br><span class="hljs-keyword">typedef</span> <span class="hljs-built_in">pair</span>&lt;<span class="hljs-keyword">int</span>,<span class="hljs-keyword">int</span>&gt; pii;<br><span class="hljs-comment">// d: &lt;序列化值对应, 到当前状态的最小距离&gt;</span><br><span class="hljs-comment">// f: &lt;序列化值, 上一步&gt;</span><br><span class="hljs-comment">// go: &lt;序列化值, 对应的cmd&gt;</span><br><span class="hljs-comment">// q: A*状态的优先队列</span><br><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> N = <span class="hljs-number">362886</span>;<br><span class="hljs-keyword">int</span> d[N];<br><span class="hljs-keyword">int</span> f[N];<br><span class="hljs-keyword">int</span> go[N];<br><span class="hljs-built_in">priority_queue</span>&lt;rec&gt; q;<br><br><br><span class="hljs-comment">// 模拟`x`运动</span><br><span class="hljs-keyword">int</span> dx[] = &#123;<span class="hljs-number">-1</span>, <span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>&#125;;<br><span class="hljs-keyword">int</span> dy[] = &#123;<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">-1</span>,<span class="hljs-number">1</span>&#125;;<br><span class="hljs-keyword">char</span> cmd[] = &#123;<span class="hljs-string">&#x27;u&#x27;</span>,<span class="hljs-string">&#x27;d&#x27;</span>,<span class="hljs-string">&#x27;l&#x27;</span>,<span class="hljs-string">&#x27;r&#x27;</span>&#125;;<br><br><span class="hljs-comment">// cantor hash</span><br><span class="hljs-keyword">int</span> fac[<span class="hljs-number">11</span>];<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">initFac</span><span class="hljs-params">()</span></span>&#123;<br>    fac[<span class="hljs-number">0</span>] = fac[<span class="hljs-number">1</span>] = <span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">2</span> ;i&lt;=<span class="hljs-number">10</span>;i++)&#123;<br>        fac[i] = i*fac[i<span class="hljs-number">-1</span>];<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">// 使用cantor散列法求出排列的散列值</span><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">cantor</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-built_in">string</span>&amp; s)</span></span>&#123;<br>    <span class="hljs-keyword">int</span> len = s.size();<br>    <span class="hljs-keyword">int</span> res = <span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;len;i++)&#123;<br>        <span class="hljs-keyword">int</span> temp = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = i+<span class="hljs-number">1</span>;j&lt;len;j++)&#123;<br>            <span class="hljs-keyword">if</span>(s[j]&lt;s[i])temp++;<br>        &#125;<br>        res += (temp) * fac[len-i<span class="hljs-number">-1</span>];    <br>    &#125;<br><br>    <span class="hljs-keyword">return</span> res;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-keyword">int</span> <span class="hljs-title">evaluate</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-built_in">string</span>&amp; s)</span></span>&#123;<br>    <span class="hljs-keyword">int</span> ret = <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">int</span> len = s.size();<br>    <br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>;i&lt;len;i++)&#123;<br>        <span class="hljs-keyword">int</span> x = i/<span class="hljs-number">3</span>, y = i%<span class="hljs-number">3</span>;<br>        <span class="hljs-keyword">int</span> cur = s[i]-<span class="hljs-string">&#x27;0&#x27;</span>;<br>        <span class="hljs-keyword">if</span>(cur==<span class="hljs-number">0</span>) ret+= <span class="hljs-built_in">abs</span>(x<span class="hljs-number">-2</span>)+<span class="hljs-built_in">abs</span>(y<span class="hljs-number">-2</span>);<br>        <span class="hljs-keyword">else</span>&#123;<br>            <span class="hljs-keyword">int</span> fx = (cur<span class="hljs-number">-1</span>)/<span class="hljs-number">3</span>, fy = (cur<span class="hljs-number">-1</span>)%<span class="hljs-number">3</span>;<br>            ret += <span class="hljs-built_in">abs</span>(x-fx)+<span class="hljs-built_in">abs</span>(y-fy);<br>        &#125;<br>    &#125;<br>    <br>    <span class="hljs-keyword">return</span> ret;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">bfs</span><span class="hljs-params">(<span class="hljs-keyword">int</span> l,<span class="hljs-keyword">const</span> <span class="hljs-built_in">string</span>&amp; start, <span class="hljs-keyword">int</span> dist, <span class="hljs-keyword">const</span> <span class="hljs-built_in">string</span>&amp; e)</span></span>&#123;<br>    <span class="hljs-built_in">memset</span>(f,<span class="hljs-number">-1</span>,<span class="hljs-keyword">sizeof</span> f);<br>    <span class="hljs-built_in">memset</span>(go,<span class="hljs-number">-1</span>,<span class="hljs-keyword">sizeof</span> go);<br>    <span class="hljs-built_in">memset</span>(d,<span class="hljs-number">-1</span>,<span class="hljs-keyword">sizeof</span> d);<br>    q.push(rec(l, start, dist));<br>    d[cantor(start)] = <span class="hljs-number">0</span>;<br>    <br>    <span class="hljs-keyword">while</span>(q.size())&#123;<br>        <br>        rec cur = q.top();q.pop();<br>        <span class="hljs-keyword">if</span>(cur.m==e)&#123;<br>            <span class="hljs-keyword">return</span> d[cantor(cur.m)];<br>        &#125;<br>        <span class="hljs-function">pii <span class="hljs-title">pos</span><span class="hljs-params">(cur.l/<span class="hljs-number">3</span>,cur.l%<span class="hljs-number">3</span>)</span></span>;<br>        <span class="hljs-keyword">int</span> val = cantor(cur.m);<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i&lt;<span class="hljs-number">4</span>; i++)&#123;<br>            <span class="hljs-keyword">int</span> x = pos.first + dx[i], y = pos.second + dy[i];<br>            <span class="hljs-built_in">string</span> m = cur.m;<br>            <span class="hljs-keyword">if</span>(x&gt;=<span class="hljs-number">0</span> &amp;&amp; x&lt;<span class="hljs-number">3</span> &amp;&amp; y&gt;=<span class="hljs-number">0</span> &amp;&amp; y&lt;<span class="hljs-number">3</span>)&#123;<br>                <span class="hljs-keyword">int</span> pos_to_swap = x*<span class="hljs-number">3</span> + y;<br>                swap(m[cur.l],m[pos_to_swap]);<br>                <span class="hljs-keyword">int</span> dumpVal = cantor(m);<br>                <span class="hljs-keyword">if</span>(d[dumpVal]==<span class="hljs-number">-1</span> || d[dumpVal]&gt;d[val]+<span class="hljs-number">1</span>)&#123;<br>                    d[dumpVal] = d[val]+<span class="hljs-number">1</span>;<br>                    f[dumpVal] = val;<br>                    go[dumpVal] = i;<br>                    q.push(rec(pos_to_swap,m,d[dumpVal]+evaluate(m)));<br>                &#125;<br>            &#125;<br>        &#125;<br>    &#125;<br>    <br>    <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">print</span><span class="hljs-params">(<span class="hljs-keyword">int</span> val)</span></span>&#123;<br>    <span class="hljs-keyword">if</span>(f[val]==<span class="hljs-number">-1</span>)&#123;<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br>    print(f[val]);<br>    <span class="hljs-built_in">putchar</span>(cmd[go[val]]);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>    initFac();<br>    <span class="hljs-built_in">string</span> e = <span class="hljs-string">&quot;123456780&quot;</span>;<br>    <br>    <span class="hljs-built_in">string</span> start;<br>    <span class="hljs-keyword">int</span> l ;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">9</span>;i++)&#123;<br>        <span class="hljs-keyword">char</span> tem;<span class="hljs-built_in">cin</span>&gt;&gt;tem;<br>        <span class="hljs-keyword">if</span>(tem==<span class="hljs-string">&#x27;x&#x27;</span>)tem=<span class="hljs-string">&#x27;0&#x27;</span>, l = i;<br>        start.append(<span class="hljs-number">1</span>,tem);<br>    &#125;<br>    <br>    <br>    <span class="hljs-comment">// 判断是否理论上不可行</span><br>    <span class="hljs-keyword">int</span> cnt = <span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">unsigned</span> i = <span class="hljs-number">0</span>; i &lt; start.size(); i++)<br>		<span class="hljs-keyword">if</span> (start[i] != <span class="hljs-string">&#x27;0&#x27;</span>)<br>			<span class="hljs-keyword">for</span> (<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j &lt; i; j++)<br>				<span class="hljs-keyword">if</span> (start[j] != <span class="hljs-string">&#x27;0&#x27;</span> &amp;&amp; start[j] &gt; start[i]) ++cnt;<br>	<span class="hljs-keyword">if</span> (cnt &amp; <span class="hljs-number">1</span>) &#123;<br>		<span class="hljs-built_in">cout</span> &lt;&lt; <span class="hljs-string">&quot;unsolvable&quot;</span> &lt;&lt; <span class="hljs-built_in">endl</span>;<br>		<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>	&#125;<br>	<br>    <span class="hljs-keyword">auto</span> ret = bfs(l,start,evaluate(start),e);<br>    <br>    <span class="hljs-keyword">if</span>(ret)&#123;<br>        print(cantor(e));<br>    &#125;<span class="hljs-keyword">else</span>&#123;<br>        <span class="hljs-built_in">cout</span>&lt;&lt;<span class="hljs-string">&quot;unsolvable\n&quot;</span>;<br>    &#125;<br>    <br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><br><br><span class="hljs-comment">// 5 3 x 7 8 2 4 6 1</span><br><span class="hljs-comment">// 6 4 7 8 5 x 3 2 1</span><br><span class="hljs-comment">// 4 7 x 1 3 6 8 5 2</span><br></code></pre></td></tr></table></figure>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E9%A2%98%E8%A7%A3/">题解</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%90%9C%E7%B4%A2/">搜索</a>
+                    
+                      <a class="hover-with-bg" href="/tags/A/">A*</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/04/18/daily-210418/">
+                        <span class="hidden-mobile">【每日学习】SpringBoot-JPA基本CURD以及Postman使用</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.1.2/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>
