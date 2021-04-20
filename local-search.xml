@@ -4,6 +4,29 @@
   
   
   <entry>
+    <title>【思维】下一个排列</title>
+    <link href="/2021/04/20/tj-210420/"/>
+    <url>/2021/04/20/tj-210420/</url>
+    
+    <content type="html"><![CDATA[<h3 id="原题链接"><a href="#原题链接" class="headerlink" title="原题链接"></a>原题链接</h3><p><a href="https://leetcode-cn.com/problems/next-permutation/">力扣，下一个排列</a></p><p>给定一个数字排列，求出字典序下的下一个排列。</p><h3 id="思路与解答"><a href="#思路与解答" class="headerlink" title="思路与解答"></a>思路与解答</h3><p><del>没有想出来</del></p><p>本题实际上就是让我们调整数字的顺序，恰好获得字典序下的下一个排列，听起来很简单，但是其中有挺多细节：</p><ol><li>怎么<strong>正好</strong>生成下一个排列？</li><li>遇到升序、降序的corner case如何处理？</li></ol><blockquote><p> 自己当时陷进了DFS的思维定式，没有想到直接从字典序本身考虑，说明我自身的算法思维还是存在一定的缺陷。</p></blockquote><p>首先写几组数字观察一下：</p><figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs tap">1<span class="hljs-number"> 2 </span>3<br>1<span class="hljs-number"> 3 </span>2<br>2<span class="hljs-number"> 1 </span>3<br>2<span class="hljs-number"> 3 </span>1<br>3<span class="hljs-number"> 1 </span>2<br>3<span class="hljs-number"> 2 </span>1<br>1<span class="hljs-number"> 2 </span>3<br>. . .<br></code></pre></td></tr></table></figure><p>可以发现，字典序变大的过程实际上就是数组中逆序对变多的过程（<del>不过感觉这个观察没有什么用啊岂可修</del>），更具体地，一个任意区间的字典序最大为所有数字非增排列，如果想要继续增加，那么必然需要<strong>进位</strong>，也就是将该段数组中的一个元素与该区间外的一个小数字进行交换，然后将该区间之内的数字全部升序。</p><p>例如，<code>1 3 2</code>中，3 2是尾部的非增区间，此时无论尾部怎么调换，必然无法增加字典序，就需要将其中最小的一个数字与该区间左侧第一个元素进行交换，也就是2与1交换，得到<code>2 3 1</code>，不过这样一来并不是<code>1 3 2</code>的下一个排列，我们需要将原先的区间倒置，其此时必然变成一个升序排列，并且一定是原先排列的下一个排列。</p><p>我们再用一个特殊的例子看一下：<code>3 2 1</code>，由于尾部非增区间实际上就已经是整个数组，故而一定无法继续递增字典序，跳过了交换数字的过程，直接将整个区间逆转。</p><p>总结该算法：</p><ol><li>找到尾部最长的<strong>非增序列</strong>，不是递减是因为可能存在相同的数字；</li><li>如果非增区间已经是整个数组，那么直接进入下一步；否则，在非增区间中找到最小的大于非增区间左侧第一个元素的值，交换他们（形象地说，就是进位）；</li><li>将非增区间逆转。</li></ol><blockquote><p>实际上，C++ STL中的next_permutation就是使用的这个算法。</p></blockquote><h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><p>注意到非增区间具有有序性，故而查找可以使用二分查找。</p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">nextPermutation</span><span class="hljs-params">(<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums)</span> </span>&#123;<br>        <span class="hljs-keyword">int</span> j = nums.size()<span class="hljs-number">-1</span>;<br>        <span class="hljs-keyword">while</span>(j &amp;&amp; nums[j<span class="hljs-number">-1</span>]&gt;=nums[j])&#123;<span class="hljs-comment">// 找到分界点</span><br>            j--;<br>        &#125;<br><br><br>        reverse(nums.begin()+j, nums.end());<span class="hljs-comment">// 保持有序，否则无法进行二分查找</span><br><br>        <span class="hljs-keyword">if</span>(j)&#123;<br>            <span class="hljs-keyword">int</span> i = j<span class="hljs-number">-1</span>;<br>            <span class="hljs-keyword">int</span> ind = upper_bound(nums.begin()+j,nums.end(), nums[i])-nums.begin();<br>            <span class="hljs-keyword">if</span>(ind!=nums.size())<br>                swap(nums[i], nums[ind]);<br>        &#125;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>题解</tag>
+      
+      <tag>算法</tag>
+      
+      <tag>思维</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>【A*算法】八数码</title>
     <link href="/2021/04/19/tj-210419/"/>
     <url>/2021/04/19/tj-210419/</url>
@@ -429,9 +452,9 @@
       
       <tag>题解</tag>
       
-      <tag>差分</tag>
-      
       <tag>思维</tag>
+      
+      <tag>差分</tag>
       
     </tags>
     
@@ -578,9 +601,9 @@
     
     <tags>
       
-      <tag>工具使用</tag>
-      
       <tag>compilers</tag>
+      
+      <tag>工具使用</tag>
       
     </tags>
     
