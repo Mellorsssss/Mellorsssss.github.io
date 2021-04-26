@@ -181,6 +181,102 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2021/04/26/tj-0421/">【每日一题】X数之和</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/04/26/tj-0421/">
+          
+          
+            
+          
+          背景两数之和是力扣上的第一个题，我至今记得当时做到的时候怀疑自己智商（毕竟大一没有学过什么是哈希表）。我们今天讨论一个简单的问题：
+
+给定一系列数，以及一个目标值，请输出所有和为目标值的组合（不可重复）。
+
+思路看起来有一点吓人，我们从最简单的情况开始思考。
+
+两数之和最简单的做法是遍历+哈希，每次遇到一个数字，判断目标值-当前数字是否已经存在，如果存在，则两者可以组成一个组合。稍微修改一下可以去
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-04-26 19:10" pubdate>
+              2021-04-26
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E9%A2%98%E8%A7%A3/">题解</a>
+            
+              <a href="/tags/%E5%8F%8C%E6%8C%87%E9%92%88/">双指针</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2021/04/24/dp-factory/">【设计模式】创造型模式</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/04/24/dp-factory/">
+          
+          
+            
+          
+          工厂方法定义
+结构该模式中，定义一个抽象的产品以及抽象的工厂，具体产品与工厂的实现交给用户。
+
+在具体实现中，可以利用Java的反射机制来避免修改代码。
+适用场合课程ppt上的说法是，“客户端不需要知道具体类，只需要知道其对应的工厂”。ppt上的表达我认为有一点含糊，真实的原因应该是“客户端不需要知道具体类以及其如何被构造，只需要知道其对应的工厂”。原因在于，我们可能需要生成一个html文件，但是
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-04-24 20:15" pubdate>
+              2021-04-24
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%AC%94%E8%AE%B0/">笔记</a>
+            
+              <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2021/04/20/tj-210420/">【思维】下一个排列</a>
       </h1>
 
@@ -591,111 +687,11 @@ UDP细节首部格式：1234567891011 0      7 8     15 16    23 24    31+------
     </article>
   </div>
 
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/03/23/network-tcp/">【计算机网络复习】TCP简单入门</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/03/23/network-tcp/">
-          
-          
-            
-          
-          TCP 的优点与UDP相比，TCP可靠、面向连接。她有如下的一些特点：
-
-面向连接；
-是点到点的；
-提供可靠的交付服务，并且传送的数据无差错、不丢失、不重复并且有序；
-全双工（双方都需要维护发送以及接受缓存）；
-面向字节流的（seq,ack都是针对字节流的）
-
-TCP报文123456789101112131415161718192021222324TCP Header Format    0   
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-03-23 16:44" pubdate>
-              2021-03-23
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">基础知识</a>
-            
-              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/03/18/oop-03/">契约式设计</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/03/18/oop-03/">
-          
-          
-            
-          
-          什么是契约式设计在编写一个方法时，我们常常会在方法的入口处增加许多判断，从某种意义上来说，这就是一种最朴素的契约式设计。契约式设计（DbC）核心就是“规范与检查”。其主要由以下三个方面构成：
-
-前置条件：调用方法之前需要满足的条件
-后置条件：方法顺利执行完成之后需要满足的条件
-invariant：该类的实例调用任何方法时都必须为真的条件
-
-简单的逻辑关系是：用户在调用方法之前，确保其参数满足一定的
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-03-18 17:43" pubdate>
-              2021-03-18
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E7%AC%94%E8%AE%B0/">笔记</a>
-            
-              <a href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%B3%95/">面向对象设计方法</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
 
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="iconfont icon-arrowright"></i></a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
   

@@ -17,7 +17,7 @@
   <meta name="description" content="握着生活的断桨，奋力前行">
   <meta name="author" content="Melos">
   <meta name="keywords" content="">
-  <title>【思维】下一个排列 - 断桨</title>
+  <title>【设计模式】创造型模式 - 断桨</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
@@ -162,7 +162,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="【思维】下一个排列">
+            <span class="h2" id="subtitle" title="【设计模式】创造型模式">
               
             </span>
 
@@ -177,8 +177,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-04-20 16:58" pubdate>
-        2021年4月20日 下午
+      <time datetime="2021-04-24 20:15" pubdate>
+        2021年4月24日 晚上
       </time>
     </span>
   
@@ -189,7 +189,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      744 字
+      463 字
     </span>
   
 
@@ -199,7 +199,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      8
+      4
        分钟
     </span>
   
@@ -229,36 +229,35 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">【思维】下一个排列</h1>
+            <h1 style="display: none">【设计模式】创造型模式</h1>
             
             <div class="markdown-body">
-              <h3 id="原题链接"><a href="#原题链接" class="headerlink" title="原题链接"></a>原题链接</h3><p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/next-permutation/">力扣，下一个排列</a></p>
-<p>给定一个数字排列，求出字典序下的下一个排列。</p>
-<h3 id="思路与解答"><a href="#思路与解答" class="headerlink" title="思路与解答"></a>思路与解答</h3><p><del>没有想出来</del></p>
-<p>本题实际上就是让我们调整数字的顺序，恰好获得字典序下的下一个排列，听起来很简单，但是其中有挺多细节：</p>
-<ol>
-<li>怎么<strong>正好</strong>生成下一个排列？</li>
-<li>遇到升序、降序的corner case如何处理？</li>
+              <h3 id="工厂方法"><a href="#工厂方法" class="headerlink" title="工厂方法"></a>工厂方法</h3><h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p><img src="https://cdn.jsdelivr.net/gh/Mellorsssss/PictureBed/img/20210424201615.png" srcset="/img/loading.gif" alt="image-20210424201608371"></p>
+<h4 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h4><p>该模式中，定义一个抽象的产品以及抽象的工厂，具体产品与工厂的实现交给用户。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Mellorsssss/PictureBed/img/20210424201708.png" srcset="/img/loading.gif" alt="image-20210424201708814"></p>
+<p>在具体实现中，可以利用Java的<a target="_blank" rel="noopener" href="https://www.liaoxuefeng.com/wiki/1252599548343744/1264799402020448">反射机制</a>来避免修改代码。</p>
+<h4 id="适用场合"><a href="#适用场合" class="headerlink" title="适用场合"></a>适用场合</h4><p>课程ppt上的说法是，“客户端不需要知道具体类，只需要知道其对应的工厂”。ppt上的表达我认为有一点含糊，真实的原因应该是“客户端不需要知道具体类以及其如何被构造，只需要知道其对应的工厂”。原因在于，我们可能需要生成一个<code>html</code>文件，但是具体使用哪一个类去生成，这样的细节交给具体的工厂方法去考虑吧！</p>
+<h3 id="抽象工厂模式"><a href="#抽象工厂模式" class="headerlink" title="抽象工厂模式"></a>抽象工厂模式</h3><h4 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h4><p><img src="https://cdn.jsdelivr.net/gh/Mellorsssss/PictureBed/img/20210424202631.png" srcset="/img/loading.gif" alt="image-20210424202630979"></p>
+<p>与工厂方法的最大区别在于，一个工厂方法往往只负责一种产品的创建，而抽象工厂则是负责多个产品的创建。</p>
+<h4 id="结构-1"><a href="#结构-1" class="headerlink" title="结构"></a>结构</h4><p>与工厂方法相同，不过对应的抽象产品是多个，并且我们认为<strong>同一个抽象工厂中的产品是同一个产品族的</strong>（美的的空调不可以和格力的一块使用！）。</p>
+<h4 id="适用场合-1"><a href="#适用场合-1" class="headerlink" title="适用场合"></a>适用场合</h4><p>当我们需要创建一系列的产品时。</p>
+<h3 id="建造者模式"><a href="#建造者模式" class="headerlink" title="建造者模式"></a>建造者模式</h3><h4 id="定义-2"><a href="#定义-2" class="headerlink" title="定义"></a>定义</h4><p><img src="https://cdn.jsdelivr.net/gh/Mellorsssss/PictureBed/img/20210424204228.png" srcset="/img/loading.gif" alt="image-20210424204228809"></p>
+<h4 id="结构-2"><a href="#结构-2" class="headerlink" title="结构"></a>结构</h4><p><img src="https://cdn.jsdelivr.net/gh/Mellorsssss/PictureBed/img/20210424204415.png" srcset="/img/loading.gif" alt="image-20210424204415061"></p>
+<p>有意思是<code>Director</code>，可以理解为是<strong>创建的一个脚本</strong>。</p>
+<p><code>Director</code>是可以省略的。</p>
+<h4 id="适用场合-2"><a href="#适用场合-2" class="headerlink" title="适用场合"></a>适用场合</h4><ol>
+<li>需要建立的产品构造比较复杂；</li>
+<li>产品的属性相互依赖（DAG），需要指明生成顺序；</li>
+<li>对象的创建过程独立于创建该对象的类；</li>
+<li>隔离复杂对象的创建以及使用。</li>
 </ol>
 <blockquote>
-<p> 自己当时陷进了DFS的思维定式，没有想到直接从字典序本身考虑，说明我自身的算法思维还是存在一定的缺陷。</p>
+<p><code>hadoop</code>中的<code>Configuration</code>就是建造者模式。</p>
 </blockquote>
-<p>首先写几组数字观察一下：</p>
-<figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs tap">1<span class="hljs-number"> 2 </span>3<br>1<span class="hljs-number"> 3 </span>2<br>2<span class="hljs-number"> 1 </span>3<br>2<span class="hljs-number"> 3 </span>1<br>3<span class="hljs-number"> 1 </span>2<br>3<span class="hljs-number"> 2 </span>1<br>1<span class="hljs-number"> 2 </span>3<br>. . .<br></code></pre></td></tr></table></figure>
-<p>可以发现，字典序变大的过程实际上就是数组中逆序对变多的过程（<del>不过感觉这个观察没有什么用啊岂可修</del>），更具体地，一个任意区间的字典序最大为所有数字非增排列，如果想要继续增加，那么必然需要<strong>进位</strong>，也就是将该段数组中的一个元素与该区间外的一个小数字进行交换，然后将该区间之内的数字全部升序。</p>
-<p>例如，<code>1 3 2</code>中，3 2是尾部的非增区间，此时无论尾部怎么调换，必然无法增加字典序，就需要将其中最小的一个数字与该区间左侧第一个元素进行交换，也就是2与1交换，得到<code>2 3 1</code>，不过这样一来并不是<code>1 3 2</code>的下一个排列，我们需要将原先的区间倒置，其此时必然变成一个升序排列，并且一定是原先排列的下一个排列。</p>
-<p>我们再用一个特殊的例子看一下：<code>3 2 1</code>，由于尾部非增区间实际上就已经是整个数组，故而一定无法继续递增字典序，跳过了交换数字的过程，直接将整个区间逆转。</p>
-<p>总结该算法：</p>
-<ol>
-<li>找到尾部最长的<strong>非增序列</strong>，不是递减是因为可能存在相同的数字；</li>
-<li>如果非增区间已经是整个数组，那么直接进入下一步；否则，在非增区间中找到最小的大于非增区间左侧第一个元素的值，交换他们（形象地说，就是进位）；</li>
-<li>将非增区间逆转。</li>
-</ol>
-<blockquote>
-<p>实际上，C++ STL中的next_permutation就是使用的这个算法。</p>
-</blockquote>
-<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><p>注意到非增区间具有有序性，故而查找可以使用二分查找。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">nextPermutation</span><span class="hljs-params">(<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums)</span> </span>&#123;<br>        <span class="hljs-keyword">int</span> j = nums.size()<span class="hljs-number">-1</span>;<br>        <span class="hljs-keyword">while</span>(j &amp;&amp; nums[j<span class="hljs-number">-1</span>]&gt;=nums[j])&#123;<span class="hljs-comment">// 找到分界点</span><br>            j--;<br>        &#125;<br><br><br>        reverse(nums.begin()+j, nums.end());<span class="hljs-comment">// 保持有序，否则无法进行二分查找</span><br><br>        <span class="hljs-keyword">if</span>(j)&#123;<br>            <span class="hljs-keyword">int</span> i = j<span class="hljs-number">-1</span>;<br>            <span class="hljs-keyword">int</span> ind = upper_bound(nums.begin()+j,nums.end(), nums[i])-nums.begin();<br>            <span class="hljs-keyword">if</span>(ind!=nums.size())<br>                swap(nums[i], nums[ind]);<br>        &#125;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+<h3 id="原型模式"><a href="#原型模式" class="headerlink" title="原型模式"></a>原型模式</h3><h4 id="定义-3"><a href="#定义-3" class="headerlink" title="定义"></a>定义</h4><p><img src="https://cdn.jsdelivr.net/gh/Mellorsssss/PictureBed/img/20210424205446.png" srcset="/img/loading.gif" alt="image-20210424205446183"></p>
+<h4 id="结构-3"><a href="#结构-3" class="headerlink" title="结构"></a>结构</h4><p><img src="https://cdn.jsdelivr.net/gh/Mellorsssss/PictureBed/img/20210424205636.png" srcset="/img/loading.gif" alt="image-20210424205636721"></p>
+<h3 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h3><h4 id="定义-4"><a href="#定义-4" class="headerlink" title="定义"></a>定义</h4><p><img src="https://cdn.jsdelivr.net/gh/Mellorsssss/PictureBed/img/20210424210312.png" srcset="/img/loading.gif" alt="image-20210424210312667"></p>
+<h4 id="结构-4"><a href="#结构-4" class="headerlink" title="结构"></a>结构</h4><p>只有一个实例。</p>
 
             </div>
             <hr>
@@ -269,11 +268,9 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/%E9%A2%98%E8%A7%A3/">题解</a>
+                      <a class="hover-with-bg" href="/tags/%E7%AC%94%E8%AE%B0/">笔记</a>
                     
-                      <a class="hover-with-bg" href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
-                    
-                      <a class="hover-with-bg" href="/tags/%E6%80%9D%E7%BB%B4/">思维</a>
+                      <a class="hover-with-bg" href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
                     
                   </div>
                 
@@ -286,9 +283,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/04/24/dp-factory/">
+                      <a href="/2021/04/26/tj-0421/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">【设计模式】创造型模式</span>
+                        <span class="hidden-mobile">【每日一题】X数之和</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -296,8 +293,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/04/19/tj-210419/">
-                        <span class="hidden-mobile">【A*算法】八数码</span>
+                      <a href="/2021/04/20/tj-210420/">
+                        <span class="hidden-mobile">【思维】下一个排列</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

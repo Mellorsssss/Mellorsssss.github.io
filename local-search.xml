@@ -4,6 +4,48 @@
   
   
   <entry>
+    <title>【每日一题】X数之和</title>
+    <link href="/2021/04/26/tj-0421/"/>
+    <url>/2021/04/26/tj-0421/</url>
+    
+    <content type="html"><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>两数之和是力扣上的第一个题，我至今记得当时做到的时候怀疑自己智商（毕竟大一没有学过什么是哈希表）。我们今天讨论一个简单的问题：</p><blockquote><p>给定一系列数，以及一个目标值，请输出所有和为目标值的组合（不可重复）。</p></blockquote><h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>看起来有一点吓人，我们从最简单的情况开始思考。</p><hr><h5 id="两数之和"><a href="#两数之和" class="headerlink" title="两数之和"></a>两数之和</h5><p>最简单的做法是遍历+哈希，每次遇到一个数字，判断<strong>目标值-当前数字</strong>是否已经存在，如果存在，则两者可以组成一个组合。稍微修改一下可以去重。</p><p>如果数组有更强的性质——有序性（下文假设数组是单调递增的），那么这个问题可以通过一趟单纯的遍历完成：</p><p>使用两个指针分别指向数组的开始与结尾，任何时刻，如果两个指针指向的数字之和等于目标值，那么就是一个方案；如果小于，那么移动左侧指针，反之移动右侧指针。</p><p>怎么去重？当我们的左指针向右移动时，判断其是否与上一个位置相同即可。</p><hr><p>怎么样，是不是很简单？我们来试试三数之和。三数之和，多了一个维度，我们可以枚举第一维，转化成一个两数之和问题。</p><p>怎么判重？与两数之和一样。</p><p>四数之和呢？同理，我们只需要枚举前两个维度。X数之和呢？我想你一定可以快速反应过来枚举前X-2个维度了，是不是很简单呢？</p><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>大道至简，X数之和实际上可以退化成X-1数之和，依次递减……不过现实中很多问题没有这样的性质，有时候不要太固执于将一个问题转化成熟悉的问题，具体问题具体分析。</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>题解</tag>
+      
+      <tag>双指针</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>【设计模式】创造型模式</title>
+    <link href="/2021/04/24/dp-factory/"/>
+    <url>/2021/04/24/dp-factory/</url>
+    
+    <content type="html"><![CDATA[<h3 id="工厂方法"><a href="#工厂方法" class="headerlink" title="工厂方法"></a>工厂方法</h3><h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p><img src="https://cdn.jsdelivr.net/gh/Mellorsssss/PictureBed/img/20210424201615.png" alt="image-20210424201608371"></p><h4 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h4><p>该模式中，定义一个抽象的产品以及抽象的工厂，具体产品与工厂的实现交给用户。</p><p><img src="https://cdn.jsdelivr.net/gh/Mellorsssss/PictureBed/img/20210424201708.png" alt="image-20210424201708814"></p><p>在具体实现中，可以利用Java的<a href="https://www.liaoxuefeng.com/wiki/1252599548343744/1264799402020448">反射机制</a>来避免修改代码。</p><h4 id="适用场合"><a href="#适用场合" class="headerlink" title="适用场合"></a>适用场合</h4><p>课程ppt上的说法是，“客户端不需要知道具体类，只需要知道其对应的工厂”。ppt上的表达我认为有一点含糊，真实的原因应该是“客户端不需要知道具体类以及其如何被构造，只需要知道其对应的工厂”。原因在于，我们可能需要生成一个<code>html</code>文件，但是具体使用哪一个类去生成，这样的细节交给具体的工厂方法去考虑吧！</p><h3 id="抽象工厂模式"><a href="#抽象工厂模式" class="headerlink" title="抽象工厂模式"></a>抽象工厂模式</h3><h4 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h4><p><img src="https://cdn.jsdelivr.net/gh/Mellorsssss/PictureBed/img/20210424202631.png" alt="image-20210424202630979"></p><p>与工厂方法的最大区别在于，一个工厂方法往往只负责一种产品的创建，而抽象工厂则是负责多个产品的创建。</p><h4 id="结构-1"><a href="#结构-1" class="headerlink" title="结构"></a>结构</h4><p>与工厂方法相同，不过对应的抽象产品是多个，并且我们认为<strong>同一个抽象工厂中的产品是同一个产品族的</strong>（美的的空调不可以和格力的一块使用！）。</p><h4 id="适用场合-1"><a href="#适用场合-1" class="headerlink" title="适用场合"></a>适用场合</h4><p>当我们需要创建一系列的产品时。</p><h3 id="建造者模式"><a href="#建造者模式" class="headerlink" title="建造者模式"></a>建造者模式</h3><h4 id="定义-2"><a href="#定义-2" class="headerlink" title="定义"></a>定义</h4><p><img src="https://cdn.jsdelivr.net/gh/Mellorsssss/PictureBed/img/20210424204228.png" alt="image-20210424204228809"></p><h4 id="结构-2"><a href="#结构-2" class="headerlink" title="结构"></a>结构</h4><p><img src="https://cdn.jsdelivr.net/gh/Mellorsssss/PictureBed/img/20210424204415.png" alt="image-20210424204415061"></p><p>有意思是<code>Director</code>，可以理解为是<strong>创建的一个脚本</strong>。</p><p><code>Director</code>是可以省略的。</p><h4 id="适用场合-2"><a href="#适用场合-2" class="headerlink" title="适用场合"></a>适用场合</h4><ol><li>需要建立的产品构造比较复杂；</li><li>产品的属性相互依赖（DAG），需要指明生成顺序；</li><li>对象的创建过程独立于创建该对象的类；</li><li>隔离复杂对象的创建以及使用。</li></ol><blockquote><p><code>hadoop</code>中的<code>Configuration</code>就是建造者模式。</p></blockquote><h3 id="原型模式"><a href="#原型模式" class="headerlink" title="原型模式"></a>原型模式</h3><h4 id="定义-3"><a href="#定义-3" class="headerlink" title="定义"></a>定义</h4><p><img src="https://cdn.jsdelivr.net/gh/Mellorsssss/PictureBed/img/20210424205446.png" alt="image-20210424205446183"></p><h4 id="结构-3"><a href="#结构-3" class="headerlink" title="结构"></a>结构</h4><p><img src="https://cdn.jsdelivr.net/gh/Mellorsssss/PictureBed/img/20210424205636.png" alt="image-20210424205636721"></p><h3 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h3><h4 id="定义-4"><a href="#定义-4" class="headerlink" title="定义"></a>定义</h4><p><img src="https://cdn.jsdelivr.net/gh/Mellorsssss/PictureBed/img/20210424210312.png" alt="image-20210424210312667"></p><h4 id="结构-4"><a href="#结构-4" class="headerlink" title="结构"></a>结构</h4><p>只有一个实例。</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>笔记</tag>
+      
+      <tag>设计模式</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>【思维】下一个排列</title>
     <link href="/2021/04/20/tj-210420/"/>
     <url>/2021/04/20/tj-210420/</url>
