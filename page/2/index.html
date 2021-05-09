@@ -181,6 +181,59 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2021/03/23/network-udp/">【计算机网络复习】UDP</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/03/23/network-udp/">
+          
+          
+            
+          
+          UDP的优点
+不需要建立连接；
+无状态；
+分组首部开销较小（只有8B）；
+应用层可以更好控制发包时间。
+
+UDP的一些误区
+UDP虽然是best-effort，但也是可以在应用层实现可靠传输的；
+UDP的报文是不可分割的
+
+UDP细节首部格式：1234567891011 0      7 8     15 16    23 24    31+--------+--------+--------+-
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-03-23 16:45" pubdate>
+              2021-03-23
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">基础知识</a>
+            
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2021/03/23/network-tcp/">【计算机网络复习】TCP简单入门</a>
       </h1>
 
@@ -453,9 +506,9 @@ invariant：该类的实例调用任何方法时都必须为真的条件
             
               <a href="/tags/%E9%A2%98%E8%A7%A3/">题解</a>
             
-              <a href="/tags/BFS/">BFS</a>
-            
               <a href="/tags/%E5%8F%8D%E5%9B%BE/">反图</a>
+            
+              <a href="/tags/BFS/">BFS</a>
             
           </div>
         
@@ -601,58 +654,6 @@ invariant：该类的实例调用任何方法时都必须为真的条件
               <a href="/tags/%E6%8A%80%E6%9C%AF/">技术</a>
             
               <a href="/tags/%E5%B9%B6%E8%A1%8C/">并行</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/02/17/tj210217/">【BFS】最优配餐</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/02/17/tj210217/">
-          
-          
-            
-          
-          原题链接ACwing
-思路本题是多源BFS的模板题。通过BFS来寻找最短路是非常基本的操作，实际上，存在多个起点时，也可以求出从某一个起点出发，到地图上某一个点的最短距离——把所有的起点入队即可。
-
-实现BFS的一些坑:
-
-去重；
-生成状态；
-
-
-实现12345678910111213141516171819202122232425262728293031323334353637383940414
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-02-17 20:21" pubdate>
-              2021-02-17
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E9%A2%98%E8%A7%A3/">题解</a>
-            
-              <a href="/tags/BFS/">BFS</a>
             
           </div>
         

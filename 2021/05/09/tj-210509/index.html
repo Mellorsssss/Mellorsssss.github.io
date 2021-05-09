@@ -17,7 +17,7 @@
   <meta name="description" content="握着生活的断桨，奋力前行">
   <meta name="author" content="Melos">
   <meta name="keywords" content="">
-  <title>【BFS】通信网络 - 断桨</title>
+  <title>【前序后序那点事】怎么根据前序后序确定树的数量？ - 断桨</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
@@ -162,7 +162,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="【BFS】通信网络">
+            <span class="h2" id="subtitle" title="【前序后序那点事】怎么根据前序后序确定树的数量？">
               
             </span>
 
@@ -177,8 +177,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-02-20 15:30" pubdate>
-        2021年2月20日 下午
+      <time datetime="2021-05-09 20:31" pubdate>
+        2021年5月9日 晚上
       </time>
     </span>
   
@@ -189,7 +189,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      358 字
+      408 字
     </span>
   
 
@@ -229,12 +229,21 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">【BFS】通信网络</h1>
+            <h1 style="display: none">【前序后序那点事】怎么根据前序后序确定树的数量？</h1>
             
             <div class="markdown-body">
-              <h3 id="原题链接"><a href="#原题链接" class="headerlink" title="原题链接"></a>原题链接</h3><p><a target="_blank" rel="noopener" href="https://www.acwing.com/problem/content/3253/">这里是原题嗷</a></p>
-<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>求有向图中，可达以及可被达点集合是全集的点个数。判断可达性的方法有很多，例如bfs, dfs，也可以通过拓扑排序（无环图中），乃至缩点等方式。此处实现使用bfs。</p>
-<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;<br><br><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> N= <span class="hljs-number">1000</span> +<span class="hljs-number">10</span>;<br><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> M = <span class="hljs-number">10000</span> +<span class="hljs-number">10</span>;<br><span class="hljs-keyword">int</span> tot;<br><span class="hljs-keyword">int</span> head[N], ver[M], Next[M];<br><span class="hljs-built_in">bitset</span>&lt;N&gt; vis[N];<br><span class="hljs-keyword">bool</span> bvis[N];<br><br><span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">pair</span>&lt;<span class="hljs-keyword">int</span>,<span class="hljs-keyword">int</span>&gt;&gt; edges;<br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Init</span><span class="hljs-params">()</span></span>&#123;<br>    tot = <span class="hljs-number">0</span>;<br>    <span class="hljs-built_in">memset</span>(head, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span> head);<br>    <span class="hljs-built_in">memset</span>(ver, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span> ver);<br>    <span class="hljs-built_in">memset</span>(Next, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span> Next);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Add</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x, <span class="hljs-keyword">int</span> y)</span></span>&#123;<br>    ver[++tot] = y, Next[tot] = head[x];<br>    head[x] = tot;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">bfs</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span></span>&#123;<br>    <span class="hljs-built_in">memset</span>(bvis, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span> bvis);<br>    <span class="hljs-built_in">queue</span>&lt;<span class="hljs-keyword">int</span>&gt; q;<br>    q.push(x);<br>    vis[x][x] = <span class="hljs-number">1</span>;<br>    bvis[x] = <span class="hljs-literal">true</span>;<br>    <span class="hljs-keyword">while</span>(q.size())&#123;<br>        <span class="hljs-keyword">int</span> cur = q.front();q.pop();<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = head[cur];i;i = Next[i])&#123;<br>            <span class="hljs-keyword">if</span>(bvis[ver[i]])<span class="hljs-keyword">continue</span>;<br>            vis[x][ver[i]] = <span class="hljs-number">1</span>;<br>            bvis[ver[i]] = <span class="hljs-literal">true</span>;<br>            q.push(ver[i]);<br>        &#125;<br>    &#125;<br>&#125;<br><br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-keyword">int</span> n,m;<br>    <span class="hljs-built_in">cin</span>&gt;&gt;n&gt;&gt;m;<br>    <br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;m;i++)&#123;<br>        <span class="hljs-keyword">int</span> x,y;<br>        <span class="hljs-built_in">cin</span>&gt;&gt;x&gt;&gt;y;<br>        edges.push_back(<span class="hljs-built_in">pair</span>(x, y));<br>    &#125;<br>    <br>    Init();<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;N;i++)vis[i].reset();<br>    <br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;m;i++)&#123;<br>        Add(edges[i].first, edges[i].second);<br>    &#125;<br>    <br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)&#123;<br>        bfs(i);<br>    &#125;<br>    <br>    Init();<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;m;i++)&#123;<br>        Add(edges[i].second, edges[i].first);<br>    &#125;<br>    <br>    <span class="hljs-keyword">int</span> ans=<span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)&#123;<br>        bfs(i);<br>        <span class="hljs-keyword">if</span>(vis[i].count()==n)ans++;<br>    &#125;<br>    <br>    <span class="hljs-built_in">cout</span>&lt;&lt;ans&lt;&lt;<span class="hljs-built_in">endl</span>;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+              <h3 id="背景（NJU-19年保研机试题）"><a href="#背景（NJU-19年保研机试题）" class="headerlink" title="背景（NJU 19年保研机试题）"></a>背景（NJU 19年保研机试题）</h3><p>每一个上过数据结构课的人都知道，我们不一定可以通过前序遍历和后序遍历唯一地确定一棵树——不过，我们能够算出来有多少种可能的方案吗？</p>
+<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>前序遍历对原树是如下的划分：</p>
+<p><code>[root] [left] [right]</code></p>
+<p>后序遍历是类似的：</p>
+<p><code>[left] [right] [root]</code></p>
+<p>但是，可能存在如下情况：</p>
+<blockquote>
+<p>前序：<code>1 2 3</code></p>
+<p>后序：<code>3 2 1</code></p>
+</blockquote>
+<p>我们只能确定<code>2 3</code>在同一棵子树中，但是我们无法确定他们在那一棵子树中，这就是前、后序遍历无法确定子树的情况。当出现该情况时， 当前子树的可能构型为子树的可能构型*2；对于有两棵子树的，当前子树的构型为其左右子树构型数量的积。</p>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;<br><br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&amp; pre, <span class="hljs-keyword">int</span> l1, <span class="hljs-keyword">int</span> r1, <span class="hljs-keyword">const</span> <span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&amp; post, <span class="hljs-keyword">int</span> l2, <span class="hljs-keyword">int</span> r2)</span></span>&#123;<br>    <span class="hljs-keyword">if</span>(l1&gt;r1 || l2&gt;r2)&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">int</span> root_ind = find(pre.begin(), pre.end(), post[r2])-pre.begin();<br>    <br>    <span class="hljs-keyword">if</span>(l1==r1)&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>    &#125;<span class="hljs-keyword">else</span>&#123;<br>        <span class="hljs-keyword">int</span> left_ind = find(post.begin(), post.end(), pre[l1+<span class="hljs-number">1</span>])-post.begin();<br>        <span class="hljs-keyword">if</span>(left_ind == r2<span class="hljs-number">-1</span>)&#123;<br>            <span class="hljs-keyword">return</span> dfs(pre, l1+<span class="hljs-number">1</span>, r1, post, l2, r2<span class="hljs-number">-1</span>)*<span class="hljs-number">2</span>;<br>        &#125;<span class="hljs-keyword">else</span>&#123;<br>            <span class="hljs-keyword">return</span> dfs(pre, l1+<span class="hljs-number">1</span>, l1+<span class="hljs-number">1</span>+left_ind-l2, post, l2, left_ind) * dfs(pre, l1+<span class="hljs-number">2</span>+left_ind-l2, r1, post, left_ind+<span class="hljs-number">1</span>, r2<span class="hljs-number">-1</span>);<br>        &#125;<br>    &#125;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-keyword">int</span> n;<br>    <span class="hljs-built_in">cin</span>&gt;&gt;n;<br><br>    vector&lt;int&gt; pre(n), post(n);<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i =<span class="hljs-number">0</span>;i&lt;n;i++)&#123;<br>        <span class="hljs-built_in">cin</span>&gt;&gt;pre[i];<br>    &#125;<br><br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>;i&lt;n;i++)&#123;<br>        <span class="hljs-built_in">cin</span>&gt;&gt;post[i];<br>    &#125;<br><br>    <span class="hljs-built_in">cout</span>&lt;&lt;dfs(pre, <span class="hljs-number">0</span>, n<span class="hljs-number">-1</span>, post, <span class="hljs-number">0</span>, n<span class="hljs-number">-1</span>);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 
             </div>
             <hr>
@@ -247,9 +256,9 @@
                     
                       <a class="hover-with-bg" href="/tags/%E9%A2%98%E8%A7%A3/">题解</a>
                     
-                      <a class="hover-with-bg" href="/tags/%E5%8F%8D%E5%9B%BE/">反图</a>
+                      <a class="hover-with-bg" href="/tags/%E4%BF%9D%E7%A0%94/">保研</a>
                     
-                      <a class="hover-with-bg" href="/tags/BFS/">BFS</a>
+                      <a class="hover-with-bg" href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/">二叉树</a>
                     
                   </div>
                 
@@ -262,18 +271,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/03/01/tj210301/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">【单调队列】滑动窗口最大值</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/02/19/tj210219/">
-                        <span class="hidden-mobile">【树的直径】网络延时</span>
+                      <a href="/2021/04/26/tj-0421/">
+                        <span class="hidden-mobile">【每日一题】X数之和</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
