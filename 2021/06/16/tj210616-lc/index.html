@@ -17,7 +17,7 @@
   <meta name="description" content="握着生活的断桨，奋力前行">
   <meta name="author" content="Melos">
   <meta name="keywords" content="">
-  <title>【BFS】通信网络 - 断桨</title>
+  <title>【每日一题x】预测赢家 - 断桨</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
@@ -162,7 +162,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="【BFS】通信网络">
+            <span class="h2" id="subtitle" title="【每日一题x】预测赢家">
               
             </span>
 
@@ -177,8 +177,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-02-20 15:30" pubdate>
-        2021年2月20日 下午
+      <time datetime="2021-06-16 16:10" pubdate>
+        2021年6月16日 下午
       </time>
     </span>
   
@@ -189,7 +189,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      358 字
+      406 字
     </span>
   
 
@@ -199,7 +199,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      6
+      5
        分钟
     </span>
   
@@ -229,12 +229,19 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">【BFS】通信网络</h1>
+            <h1 style="display: none">【每日一题x】预测赢家</h1>
             
             <div class="markdown-body">
-              <h3 id="原题链接"><a href="#原题链接" class="headerlink" title="原题链接"></a>原题链接</h3><p><a target="_blank" rel="noopener" href="https://www.acwing.com/problem/content/3253/">这里是原题嗷</a></p>
-<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>求有向图中，可达以及可被达点集合是全集的点个数。判断可达性的方法有很多，例如bfs, dfs，也可以通过拓扑排序（无环图中），乃至缩点等方式。此处实现使用bfs。</p>
-<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;<br><br><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> N= <span class="hljs-number">1000</span> +<span class="hljs-number">10</span>;<br><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> M = <span class="hljs-number">10000</span> +<span class="hljs-number">10</span>;<br><span class="hljs-keyword">int</span> tot;<br><span class="hljs-keyword">int</span> head[N], ver[M], Next[M];<br><span class="hljs-built_in">bitset</span>&lt;N&gt; vis[N];<br><span class="hljs-keyword">bool</span> bvis[N];<br><br><span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">pair</span>&lt;<span class="hljs-keyword">int</span>,<span class="hljs-keyword">int</span>&gt;&gt; edges;<br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Init</span><span class="hljs-params">()</span></span>&#123;<br>    tot = <span class="hljs-number">0</span>;<br>    <span class="hljs-built_in">memset</span>(head, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span> head);<br>    <span class="hljs-built_in">memset</span>(ver, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span> ver);<br>    <span class="hljs-built_in">memset</span>(Next, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span> Next);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Add</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x, <span class="hljs-keyword">int</span> y)</span></span>&#123;<br>    ver[++tot] = y, Next[tot] = head[x];<br>    head[x] = tot;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">bfs</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span></span>&#123;<br>    <span class="hljs-built_in">memset</span>(bvis, <span class="hljs-number">0</span>, <span class="hljs-keyword">sizeof</span> bvis);<br>    <span class="hljs-built_in">queue</span>&lt;<span class="hljs-keyword">int</span>&gt; q;<br>    q.push(x);<br>    vis[x][x] = <span class="hljs-number">1</span>;<br>    bvis[x] = <span class="hljs-literal">true</span>;<br>    <span class="hljs-keyword">while</span>(q.size())&#123;<br>        <span class="hljs-keyword">int</span> cur = q.front();q.pop();<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = head[cur];i;i = Next[i])&#123;<br>            <span class="hljs-keyword">if</span>(bvis[ver[i]])<span class="hljs-keyword">continue</span>;<br>            vis[x][ver[i]] = <span class="hljs-number">1</span>;<br>            bvis[ver[i]] = <span class="hljs-literal">true</span>;<br>            q.push(ver[i]);<br>        &#125;<br>    &#125;<br>&#125;<br><br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-keyword">int</span> n,m;<br>    <span class="hljs-built_in">cin</span>&gt;&gt;n&gt;&gt;m;<br>    <br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;m;i++)&#123;<br>        <span class="hljs-keyword">int</span> x,y;<br>        <span class="hljs-built_in">cin</span>&gt;&gt;x&gt;&gt;y;<br>        edges.push_back(<span class="hljs-built_in">pair</span>(x, y));<br>    &#125;<br>    <br>    Init();<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;N;i++)vis[i].reset();<br>    <br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;m;i++)&#123;<br>        Add(edges[i].first, edges[i].second);<br>    &#125;<br>    <br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)&#123;<br>        bfs(i);<br>    &#125;<br>    <br>    Init();<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;m;i++)&#123;<br>        Add(edges[i].second, edges[i].first);<br>    &#125;<br>    <br>    <span class="hljs-keyword">int</span> ans=<span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">1</span>;i&lt;=n;i++)&#123;<br>        bfs(i);<br>        <span class="hljs-keyword">if</span>(vis[i].count()==n)ans++;<br>    &#125;<br>    <br>    <span class="hljs-built_in">cout</span>&lt;&lt;ans&lt;&lt;<span class="hljs-built_in">endl</span>;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+              <h3 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h3><blockquote>
+<p>原题是力扣486.</p>
+</blockquote>
+<p>类似于拿石子问题，两个人依次从石子堆中取走石子，最后获得石子数量最多的人获胜。</p>
+<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p>本题一开始并没有想出来怎么做，不过可以发现，贪心显然是错误的策略，故而理论上是需要对所有的状态空间进行搜索的。不过题目的数据规模下，搜索并不是一个可行的解决方案，注意到我们实际上只关心当游戏进行到某一个状态时，当前某一方最优的局面（假设玩游戏的两方都是绝对聪明的），故而可以使用<code>dp[i][j]</code>表示当前取到下标<code>i</code>到<code>j</code>（包括两者）的石子时，最大的石子数量<strong>差值</strong>。</p>
+<blockquote>
+<p>我觉得这个是比较难以想到的部分，不是记录某一方可以获得的最大值，而是记录一个相对值。好处就是状态转移十分自然。</p>
+</blockquote>
+<p>那么在扩张到<code>i, j</code>这样的区间上时，应该是从<code>i+1,j</code>或<code>i, j-1</code>两个状态上进行转移，<code>dp[i][j] = max(nums[i]-dp[i+1][j], nums[j]-piles[i][j-1])</code>。</p>
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">PredictTheWinner</span><span class="hljs-params">(<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums)</span> </span>&#123;<br>        <span class="hljs-built_in">vector</span>&lt;<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;&gt; dp(nums.size(), <span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;(nums.size(), <span class="hljs-number">0</span>));<br>    <br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> len = <span class="hljs-number">1</span>;len&lt;=nums.size();len++)&#123;<br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>;i+len<span class="hljs-number">-1</span>&lt;nums.size();i++)&#123;<br>                <span class="hljs-keyword">int</span> j = i+len<span class="hljs-number">-1</span>;<br>                <span class="hljs-keyword">if</span>(i==j)&#123;<br>                    dp[i][j] = nums[i];<br>                &#125;<span class="hljs-keyword">else</span>&#123;<br>                    dp[i][j] = max(nums[i]-dp[i+<span class="hljs-number">1</span>][j], nums[j]-dp[i][j<span class="hljs-number">-1</span>]);<br>                &#125;<br>            &#125;<br>        &#125;<br><br>        <span class="hljs-keyword">return</span> dp[<span class="hljs-number">0</span>][nums.size()<span class="hljs-number">-1</span>]&gt;=<span class="hljs-number">0</span>;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
 
             </div>
             <hr>
@@ -247,9 +254,7 @@
                     
                       <a class="hover-with-bg" href="/tags/%E9%A2%98%E8%A7%A3/">题解</a>
                     
-                      <a class="hover-with-bg" href="/tags/BFS/">BFS</a>
-                    
-                      <a class="hover-with-bg" href="/tags/%E5%8F%8D%E5%9B%BE/">反图</a>
+                      <a class="hover-with-bg" href="/tags/%E5%8C%BA%E9%97%B4DP/">区间DP</a>
                     
                   </div>
                 
@@ -262,18 +267,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/03/01/tj210301/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">【单调队列】滑动窗口最大值</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/02/19/tj210219/">
-                        <span class="hidden-mobile">【树的直径】网络延时</span>
+                      <a href="/2021/05/09/tj-210509/">
+                        <span class="hidden-mobile">【前序后序那点事】怎么根据前序后序确定树的数量？</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
