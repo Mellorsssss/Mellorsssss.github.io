@@ -181,6 +181,54 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2021/06/17/tj210617/">【每日一题x】思维-移动序列</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/06/17/tj210617/">
+          
+          
+            
+          
+          原题链接移动序列
+给01串（其中必然有1），只能按照以下的规则移动：
+求如何通过最小的次数让所有的1聚在一起。
+思路没有想明白，写了一个bfs搜索，毫不意外地tle了。
+看了题解之后恍然大悟。注意到，从起始串到最后的目标串，区别在于中间的0全部被消除了，换而言之，最优的方案实际上就是逐个填充0，只要计算出两个1之间间隔的0个数。
+实现不需要考虑只有一个1的corner case，我们每次遍历的时候
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-06-17 14:00" pubdate>
+              2021-06-17
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E9%A2%98%E8%A7%A3/">题解</a>
+            
+              <a href="/tags/%E6%80%9D%E7%BB%B4/">思维</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2021/06/16/tj210616-lc/">【每日一题x】预测赢家</a>
       </h1>
 
@@ -627,54 +675,6 @@ SpringBoot程序的基本架构目前我只涉及到了Application,Con
               <a href="/tags/%E6%8A%80%E6%9C%AF/">技术</a>
             
               <a href="/tags/%E6%97%A5%E5%B8%B8/">日常</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/03/28/daily-210328/">Java中的传参问题</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/03/28/daily-210328/">
-          
-          
-            
-          
-          背景最近在学习Java，我一直有一个疑惑——Java中的传参究竟是什么方式？pass by value？pass by reference？还是会变化？在PL课上，老师讲到了如下的问题：
-
-在这个问题中，答案又应该是什么呢？
-思考与解答首先说结论，我认为Java中的传参都可以看做是pass by value；如果参数是一个对象，那么实际上传递的就是一个指向对象的指针的拷贝。
-我们看这样一个例子：
-
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-03-28 20:44" pubdate>
-              2021-03-28
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E6%8A%80%E6%9C%AF/">技术</a>
-            
-              <a href="/tags/%E6%AF%8F%E6%97%A5%E4%B8%80%E9%97%AE/">每日一问</a>
             
           </div>
         
