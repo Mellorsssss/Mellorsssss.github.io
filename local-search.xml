@@ -4,6 +4,27 @@
   
   
   <entry>
+    <title>如何Debug XV6</title>
+    <link href="/2021/07/23/xv6-debug/"/>
+    <url>/2021/07/23/xv6-debug/</url>
+    
+    <content type="html"><![CDATA[<p>由于6.s081使用的Xv6是基于rsicv架构的，而我使用的虚拟机为x86-64架构，故而需要使用交叉编译的技术。</p><p>幸运的是，6.s081课程平台上已经提供了交叉编译需要的工具，例如gdb,gcc等；调试xv6，gdb是必不可少的。</p><p>具体而言，我们在一个终端中使用单核启动xv6:</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">➜  xv6-labs-2020 git:(traps) ✗ make CPUS=1 qemu-gdb<br>*** Now run &#x27;gdb&#x27; in another window.<br>qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0 -S -gdb tcp::26001<br></code></pre></td></tr></table></figure><p>在另一个终端中，我们运行gdb即可（注意，是运行rsicv对应的gdb！）：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs shell">➜  xv6-labs-2020 git:(traps) ✗ riscv64-unknown-elf-gdb          <br>GNU gdb (GDB) 10.1<br>Copyright (C) 2020 Free Software Foundation, Inc.<br>License GPLv3+: GNU GPL version 3 or later &lt;http://gnu.org/licenses/gpl.html&gt;<br>This is free software: you are free to change and redistribute it.<br>There is NO WARRANTY, to the extent permitted by law.<br>Type &quot;show copying&quot; and &quot;show warranty&quot; for details.<br>This GDB was configured as &quot;--host=x86_64-pc-linux-gnu --target=riscv64-unknown-elf&quot;.<br>Type &quot;show configuration&quot; for configuration details.<br>For bug reporting instructions, please see:<br>&lt;https://www.gnu.org/software/gdb/bugs/&gt;.<br>Find the GDB manual and other documentation resources online at:<br>    &lt;http://www.gnu.org/software/gdb/documentation/&gt;.<br><br>For help, type &quot;help&quot;.<br>Type &quot;apropos word&quot; to search for commands related to &quot;word&quot;.<br>warning: File &quot;/home/cs18/myproj/6.828/xv6-labs-2020/.gdbinit&quot; auto-loading has been declined by your `auto-load safe-path&#x27; set to &quot;$debugdir:$datadir/auto-load&quot;.<br>To enable execution of this file add<br>        add-auto-load-safe-path /home/cs18/myproj/6.828/xv6-labs-2020/.gdbinit<br>line to your configuration file &quot;/home/cs18/.gdbinit&quot;.<br>To completely disable this security protection add<br>        set auto-load safe-path /<br>&lt;q to quit, c to continue without paging--<br>line to your configuration file &quot;/home/cs18/.gdbinit&quot;.<br>For more information about this security protection see the<br>&quot;Auto-loading safe path&quot; section in the GDB manual.  E.g., run from the shell:<br>        info &quot;(gdb)Auto-loading safe path&quot;<br>(gdb) <br></code></pre></td></tr></table></figure><p>在我的机器上给出了一些报错，阅读之后，不难发现是因为我的默认<code>.gdbinit</code>屏蔽了交叉编译工具中的Gdb，在报错提示的地方加入相应的命令即可。</p><p>修改之后，再次运行<code>gdb</code>，这一次就可以开始愉快地debug之旅了！</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs sh">➜  xv6-labs-2020 git:(traps) ✗ riscv64-unknown-elf-gdb <br>GNU gdb (GDB) 10.1<br>Copyright (C) 2020 Free Software Foundation, Inc.<br>License GPLv3+: GNU GPL version 3 or later &lt;http://gnu.org/licenses/gpl.html&gt;<br>This is free software: you are free to change and redistribute it.<br>There is NO WARRANTY, to the extent permitted by law.<br>Type <span class="hljs-string">&quot;show copying&quot;</span> and <span class="hljs-string">&quot;show warranty&quot;</span> <span class="hljs-keyword">for</span> details.<br>This GDB was configured as <span class="hljs-string">&quot;--host=x86_64-pc-linux-gnu --target=riscv64-unknown-elf&quot;</span>.<br>Type <span class="hljs-string">&quot;show configuration&quot;</span> <span class="hljs-keyword">for</span> configuration details.<br>For bug reporting instructions, please see:<br>&lt;https://www.gnu.org/software/gdb/bugs/&gt;.<br>Find the GDB manual and other documentation resources online at:<br>    &lt;http://www.gnu.org/software/gdb/documentation/&gt;.<br><br>For <span class="hljs-built_in">help</span>, <span class="hljs-built_in">type</span> <span class="hljs-string">&quot;help&quot;</span>.<br>Type <span class="hljs-string">&quot;apropos word&quot;</span> to search <span class="hljs-keyword">for</span> commands related to <span class="hljs-string">&quot;word&quot;</span>.<br>The target architecture is <span class="hljs-built_in">set</span> to <span class="hljs-string">&quot;riscv:rv64&quot;</span>.<br>warning: No executable has been specified and target does not support<br>determining executable automatically.  Try using the <span class="hljs-string">&quot;file&quot;</span> <span class="hljs-built_in">command</span>.<br>0x0000000000001000 <span class="hljs-keyword">in</span> ?? ()<br>(gdb) b _entry<br>Breakpoint 1 at 0x8000000a<br>(gdb) c<br>Continuing.<br><br>Breakpoint 1, 0x000000008000000a <span class="hljs-keyword">in</span> _entry ()<br>=&gt; 0x000000008000000a &lt;_entry+10&gt;:      f3 25 40 f1     csrr    a1,mhartid<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>操作系统</tag>
+      
+      <tag>实战</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>【每日一题x】思维-移动序列</title>
     <link href="/2021/06/17/tj210617/"/>
     <url>/2021/06/17/tj210617/</url>
@@ -708,9 +729,9 @@
     
     <tags>
       
-      <tag>工具使用</tag>
-      
       <tag>compilers</tag>
+      
+      <tag>工具使用</tag>
       
     </tags>
     
