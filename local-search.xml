@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>285场周赛总结</title>
+    <link href="/2021/08/15/leetcode-210815/"/>
+    <url>/2021/08/15/leetcode-210815/</url>
+    
+    <content type="html"><![CDATA[<h4 id="第一题"><a href="#第一题" class="headerlink" title="第一题"></a>第一题</h4><p>判断一个字符串数组中有多少个字符串是特定字符串的子串，使用<code>string::find</code>即可，判断返回值是否是<code>string::npos</code>。</p><h4 id="第二题"><a href="#第二题" class="headerlink" title="第二题"></a>第二题</h4><p>构造一个数组，使得数组中不存在任何相邻的三个数字<code>a, b, c</code>，满足<code>a + c = 2b</code>。</p><p>想要该条件不满足，实际上也就是让<code>b - a = c - b</code>对任何三个相邻数字不满足，显然，我们可以进行如下的一个简单构造：</p><p>将前一半数字放置在偶数位置上，后一半数字放置在基数位置上。</p><p>上述构造保证了差值是正负正负……分布的。</p><h4 id="第三题"><a href="#第三题" class="headerlink" title="第三题"></a>第三题</h4><p>本场比赛花了最长时间的题目，事后复盘，主要存在两个问题：</p><ol><li>大概猜到了规律，但是没有大胆验证，而是尝试通过比较一般的方式思考，浪费了比较多的时间；</li><li>对于右移操作的不熟悉，中间多次RE；</li></ol><p>前者是算法思路，后者是对c的运算符运算底层害不够熟悉。</p><p>本题给定一个<code>p</code>对应的幂集（去掉0），并且可以任意调换两个数字中的各个位，问怎样使得最后的乘积最小。</p><p>显然，对于任何两个数字而言，最好的策略就是让其中一个数字尽量小，我猜测的策略是通过逐个配对，将一系列数字变为1。</p><p>坑点在于这个运算不可以使用左移，只能通过快速幂；ull的右移也应该通过除法做。</p><h4 id="第四题"><a href="#第四题" class="headerlink" title="第四题"></a>第四题</h4><p>说是hard，其实思路很简单，有一定编码难度，但是一直RE（原因是它给的Cells数组从中的索引从1开始）。</p><p>显然可以直接二分，判定使用bfs即可。</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>题解</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>【x日x题】PAT 1003 dijkstra模板</title>
     <link href="/2021/07/25/tj210725/"/>
     <url>/2021/07/25/tj210725/</url>
@@ -37,11 +56,11 @@
     
     <tags>
       
-      <tag>操作系统</tag>
-      
       <tag>实验记录</tag>
       
       <tag>6.s0801</tag>
+      
+      <tag>操作系统</tag>
       
     </tags>
     
@@ -211,9 +230,9 @@
     
     <tags>
       
-      <tag>算法</tag>
-      
       <tag>题解</tag>
+      
+      <tag>算法</tag>
       
       <tag>思维</tag>
       
@@ -284,9 +303,9 @@
     
     <tags>
       
-      <tag>动态规划</tag>
-      
       <tag>题解</tag>
+      
+      <tag>动态规划</tag>
       
       <tag>记忆化搜索</tag>
       
@@ -456,9 +475,9 @@
     
     <tags>
       
-      <tag>数据结构</tag>
-      
       <tag>题解</tag>
+      
+      <tag>数据结构</tag>
       
     </tags>
     
@@ -477,9 +496,9 @@
     
     <tags>
       
-      <tag>数据结构</tag>
-      
       <tag>题解</tag>
+      
+      <tag>数据结构</tag>
       
       <tag>单调队列</tag>
       
@@ -798,9 +817,9 @@
     
     <tags>
       
-      <tag>compilers</tag>
-      
       <tag>工具使用</tag>
+      
+      <tag>compilers</tag>
       
     </tags>
     
@@ -947,9 +966,9 @@
     
     <tags>
       
-      <tag>算法</tag>
-      
       <tag>题解</tag>
+      
+      <tag>算法</tag>
       
       <tag>区间DP</tag>
       
