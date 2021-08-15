@@ -4,6 +4,29 @@
   
   
   <entry>
+    <title>【x日x题】PAT 1003 dijkstra模板</title>
+    <link href="/2021/07/25/tj210725/"/>
+    <url>/2021/07/25/tj210725/</url>
+    
+    <content type="html"><![CDATA[<h3 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h3><p>给定一个无向图，每一个点有点权，求最短路条数以及最短路上可能的最大边权。</p><h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p>除了计算最短路之外，需要计算出最短路条数以及最短路中可能的最大点权，这两个问题都可以通过动态规划完成。这两个问题实际上应该在dijkstra的松弛操作中完成，因为发生松弛时，说明产生了新的最短路。</p><p>对于前者，很容易想到为每一个点维护一个状态<code>num[]</code>，即到该点的最短路条数，那么$num[i] = \sum_{v是i的邻居，并且在和i在同一条最短路上}num[i]$。</p><p>对于后者，为每一个点定义一个最大点权<code>p[]</code>，更新方程类似，此处留给读者思考吧。</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>算法</tag>
+      
+      <tag>dijkstra</tag>
+      
+      <tag>图论</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>6.s081 traps &amp; lazy allocation实验记录</title>
     <link href="/2021/07/24/xv6-lab45/"/>
     <url>/2021/07/24/xv6-lab45/</url>
@@ -188,9 +211,9 @@
     
     <tags>
       
-      <tag>题解</tag>
-      
       <tag>算法</tag>
+      
+      <tag>题解</tag>
       
       <tag>思维</tag>
       
@@ -261,9 +284,9 @@
     
     <tags>
       
-      <tag>题解</tag>
-      
       <tag>动态规划</tag>
+      
+      <tag>题解</tag>
       
       <tag>记忆化搜索</tag>
       
@@ -433,9 +456,9 @@
     
     <tags>
       
-      <tag>题解</tag>
-      
       <tag>数据结构</tag>
+      
+      <tag>题解</tag>
       
     </tags>
     
@@ -454,9 +477,9 @@
     
     <tags>
       
-      <tag>题解</tag>
-      
       <tag>数据结构</tag>
+      
+      <tag>题解</tag>
       
       <tag>单调队列</tag>
       
@@ -775,9 +798,9 @@
     
     <tags>
       
-      <tag>工具使用</tag>
-      
       <tag>compilers</tag>
+      
+      <tag>工具使用</tag>
       
     </tags>
     
@@ -924,9 +947,9 @@
     
     <tags>
       
-      <tag>题解</tag>
-      
       <tag>算法</tag>
+      
+      <tag>题解</tag>
       
       <tag>区间DP</tag>
       

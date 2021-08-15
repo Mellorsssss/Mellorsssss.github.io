@@ -181,6 +181,60 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2021/04/19/tj-210419/">【A*算法】八数码</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/04/19/tj-210419/">
+          
+          
+            
+          
+          原题链接八数码
+题意非常简单，给你一个八数码，如果其有解，输出一个最优解并且给出路径；如果没有则输出unsolvable。
+思路本题是一道好题目，涉及到了以下几个知识点：
+
+如何优化盲目搜索（A*算法）
+如何有效存取数码（康托散列）
+如何输出路径
+
+其中后两点不是这篇博文的主要话题，感兴趣的读者可以自行阅读代码理解或者查阅其他文章，本文主要就题谈谈简单的A*算法。
+什么是A*算法？一言以蔽之，就是
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-04-19 19:16" pubdate>
+              2021-04-19
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E9%A2%98%E8%A7%A3/">题解</a>
+            
+              <a href="/tags/%E6%90%9C%E7%B4%A2/">搜索</a>
+            
+              <a href="/tags/A/">A*</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2021/04/18/daily-210418/">【每日学习】SpringBoot-JPA基本CURD以及Postman使用</a>
       </h1>
 
@@ -269,9 +323,9 @@ SpringBoot程序的基本架构目前我只涉及到了Application,Con
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E9%A2%98%E8%A7%A3/">题解</a>
-            
               <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">动态规划</a>
+            
+              <a href="/tags/%E9%A2%98%E8%A7%A3/">题解</a>
             
               <a href="/tags/%E8%AE%B0%E5%BF%86%E5%8C%96%E6%90%9C%E7%B4%A2/">记忆化搜索</a>
             
@@ -619,52 +673,6 @@ invariant：该类的实例调用任何方法时都必须为真的条件
               <a href="/tags/%E6%8A%80%E6%9C%AF/">技术</a>
             
               <a href="/tags/%E6%97%A5%E5%B8%B8/">日常</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/03/08/tj210308/">【树状数组】楼兰图腾</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/03/08/tj210308/">
-          
-          
-            
-          
-          原题链接ACwing
-思路本题实际上可以看做是对数组中的每一个数，求出其左侧与右侧数字中大于或者小于其的元素个数。换而言之，需要维护为每一个元素维护好一个前缀和，但是如果使用朴素的前缀和实现，每一次更新需要线性的时间，故而不可取。
-这时候，我们就要祭出树状数组这一高级的数据结构了。
-简单说来，树状数组的核心点在于，将一个区间通过二进制分解，从而我们需要求解的任意区间可以变成O(logN)次查询。你
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-03-08 10:45" pubdate>
-              2021-03-08
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E9%A2%98%E8%A7%A3/">题解</a>
-            
-              <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
             
           </div>
         

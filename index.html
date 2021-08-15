@@ -181,6 +181,53 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2021/07/25/tj210725/">【x日x题】PAT 1003 dijkstra模板</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/07/25/tj210725/">
+          
+          
+            
+          
+          题意给定一个无向图，每一个点有点权，求最短路条数以及最短路上可能的最大边权。
+分析除了计算最短路之外，需要计算出最短路条数以及最短路中可能的最大点权，这两个问题都可以通过动态规划完成。这两个问题实际上应该在dijkstra的松弛操作中完成，因为发生松弛时，说明产生了新的最短路。
+对于前者，很容易想到为每一个点维护一个状态num[]，即到该点的最短路条数，那么$num[i] = \sum_{v是i的
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-07-25 20:34" pubdate>
+              2021-07-25
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
+            
+              <a href="/tags/dijkstra/">dijkstra</a>
+            
+              <a href="/tags/%E5%9B%BE%E8%AE%BA/">图论</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2021/07/24/xv6-lab45/">6.s081 traps &amp; lazy allocation实验记录</a>
       </h1>
 
@@ -610,65 +657,11 @@ uservec。使用汇编编写，用于从用户
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E9%A2%98%E8%A7%A3/">题解</a>
-            
               <a href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
             
-              <a href="/tags/%E6%80%9D%E7%BB%B4/">思维</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/04/19/tj-210419/">【A*算法】八数码</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/04/19/tj-210419/">
-          
-          
-            
-          
-          原题链接八数码
-题意非常简单，给你一个八数码，如果其有解，输出一个最优解并且给出路径；如果没有则输出unsolvable。
-思路本题是一道好题目，涉及到了以下几个知识点：
-
-如何优化盲目搜索（A*算法）
-如何有效存取数码（康托散列）
-如何输出路径
-
-其中后两点不是这篇博文的主要话题，感兴趣的读者可以自行阅读代码理解或者查阅其他文章，本文主要就题谈谈简单的A*算法。
-什么是A*算法？一言以蔽之，就是
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-04-19 19:16" pubdate>
-              2021-04-19
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
               <a href="/tags/%E9%A2%98%E8%A7%A3/">题解</a>
             
-              <a href="/tags/%E6%90%9C%E7%B4%A2/">搜索</a>
-            
-              <a href="/tags/A/">A*</a>
+              <a href="/tags/%E6%80%9D%E7%BB%B4/">思维</a>
             
           </div>
         

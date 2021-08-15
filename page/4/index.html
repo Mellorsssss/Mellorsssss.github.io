@@ -181,6 +181,52 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2021/02/10/tj210210/">【区间DP】加分二叉树</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/02/10/tj210210/">
+          
+          
+            
+          
+          原题链接ACwing
+思路如果只知道一棵树的中序遍历，无法确定这一棵树的构造；不过，我们可以通过假定各个子树的根，从中序遍历中构造出一颗符合条件的树（有多少种可能实际上也可以通过动态规划求出）。
+如果我们选定了一个根，其子树的最大值与该根无关，换而言之，问题具有最优子结构。自然而然的，我们应该使用一个中序遍历的区间作为状态（唯一确定一个最大值），原问题实际上就变成了一个区间DP 问题。
+由于此处需
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-02-10 16:29" pubdate>
+              2021-02-10
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E9%A2%98%E8%A7%A3/">题解</a>
+            
+              <a href="/tags/%E5%8C%BA%E9%97%B4DP/">区间DP</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2021/02/10/ttt/">Predictive Parse</a>
       </h1>
 
@@ -440,9 +486,9 @@ bison中提供了机制实现semantic value的计算。使用$$$$可以访问起
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/">工具使用</a>
-            
               <a href="/tags/compilers/">compilers</a>
+            
+              <a href="/tags/%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/">工具使用</a>
             
           </div>
         
@@ -588,53 +634,6 @@ bison中提供了机制实现semantic value的计算。使用$$$$可以访问起
               <a href="/tags/%E5%89%8D%E7%BC%80%E5%92%8C/">前缀和</a>
             
               <a href="/tags/%E6%95%B0%E5%AD%A6/">数学</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/02/02/tj-210202-2/">【前缀和/TRIE】牛异或</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/02/02/tj-210202-2/">
-          
-          
-            
-          
-          思路最朴素的思路是，使用异或前缀和（异或前缀也具有普通前缀和的性质）枚举所有可能的区间，找出异或值最大的一个区间。显然，在1e5的数据量下，朴素算法会超时。
-如果能够联想到最大异或对这道题目，不难发现本题实际上可以转化为该题。
-经过前缀和预处理之后，显然本题就是求出一对最大异或对，不过有以下的一些corner case:
-
-应该在线处理。如果读取所有的输出再处理，那么需要额外的数据结构来处理最短区
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-02-02 22:35" pubdate>
-              2021-02-02
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E9%A2%98%E8%A7%A3/">题解</a>
-            
-              <a href="/tags/Trie/">Trie</a>
             
           </div>
         
