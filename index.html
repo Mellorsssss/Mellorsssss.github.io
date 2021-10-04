@@ -181,6 +181,51 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2021/10/04/go-config-vsc/">【小坑】VSC上配置go开发环境</a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2021/10/04/go-config-vsc/">
+          
+          
+            
+          
+          背景之前写的6.824是2020版本的，中间搁置之后发现很难读懂自己之前写的raft部分了，所以干脆重开一下。之前是在虚拟机里面使用goland进行开发，体验不是十分流畅，改为使用VSC remote explore模式。
+问题ctrl+shift+p后go install tools无法正常安装，原因是安装的源被墙了，网上有解决方案，如下：
+12go env -w GO111MODULE=ong
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2021-10-04 20:30" pubdate>
+              2021-10-04
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/go/">go</a>
+            
+              <a href="/tags/vscode/">vscode</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2021/08/15/leetcode-210815/">285场周赛总结</a>
       </h1>
 
@@ -610,58 +655,11 @@ uservec。使用汇编编写，用于从用户
     </article>
   </div>
 
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/04/24/dp-factory/">【设计模式】创造型模式</a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/04/24/dp-factory/">
-          
-          
-            
-          
-          工厂方法定义
-结构该模式中，定义一个抽象的产品以及抽象的工厂，具体产品与工厂的实现交给用户。
-
-在具体实现中，可以利用Java的反射机制来避免修改代码。
-适用场合课程ppt上的说法是，“客户端不需要知道具体类，只需要知道其对应的工厂”。ppt上的表达我认为有一点含糊，真实的原因应该是“客户端不需要知道具体类以及其如何被构造，只需要知道其对应的工厂”。原因在于，我们可能需要生成一个html文件，但是
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-04-24 20:15" pubdate>
-              2021-04-24
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E7%AC%94%E8%AE%B0/">笔记</a>
-            
-              <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
 
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"><i class="iconfont icon-arrowright"></i></a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
   

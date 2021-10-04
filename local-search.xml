@@ -4,6 +4,27 @@
   
   
   <entry>
+    <title>【小坑】VSC上配置go开发环境</title>
+    <link href="/2021/10/04/go-config-vsc/"/>
+    <url>/2021/10/04/go-config-vsc/</url>
+    
+    <content type="html"><![CDATA[<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>之前写的6.824是2020版本的，中间搁置之后发现很难读懂自己之前写的raft部分了，所以干脆重开一下。之前是在虚拟机里面使用goland进行开发，体验不是十分流畅，改为使用VSC remote explore模式。</p><h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p><code>ctrl+shift+p</code>后<code>go install tools</code>无法正常安装，原因是安装的源被墙了，网上有解决方案，如下：</p><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs vim"><span class="hljs-keyword">go</span> env -<span class="hljs-keyword">w</span> GO111MODULE=<span class="hljs-keyword">on</span><br><span class="hljs-keyword">go</span> env -<span class="hljs-keyword">w</span> GOPROXY=http<span class="hljs-variable">s:</span>//goproxy.<span class="hljs-keyword">cn</span>,direct<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>go</tag>
+      
+      <tag>vscode</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>285场周赛总结</title>
     <link href="/2021/08/15/leetcode-210815/"/>
     <url>/2021/08/15/leetcode-210815/</url>
