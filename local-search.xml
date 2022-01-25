@@ -5,6 +5,25 @@
   
   <entry>
     <title>一周小结</title>
+    <link href="/2022/01/25/20220125/"/>
+    <url>/2022/01/25/20220125/</url>
+    
+    <content type="html"><![CDATA[<ul><li>完成了6.824的lab3以及lab4A.</li><li>读了<em>Database Internal</em>中关于磁盘数据结构的章节</li><li>klee编译运行</li></ul>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>周记</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>一周小结</title>
     <link href="/2022/01/18/20220118/"/>
     <url>/2022/01/18/20220118/</url>
     
@@ -876,9 +895,9 @@
     
     <tags>
       
-      <tag>compilers</tag>
-      
       <tag>工具使用</tag>
+      
+      <tag>compilers</tag>
       
     </tags>
     
