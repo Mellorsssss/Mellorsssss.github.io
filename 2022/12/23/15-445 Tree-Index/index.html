@@ -1,0 +1,383 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020"/>
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <meta name="keywords" content="database,notes," />
+  
+
+  
+    <meta name="description" content="非专业程序员" />
+  
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="manifest" href="/images/site.webmanifest">
+  <title>15-445 Tree-Index [ 断桨 ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    <img class="avatar" src="/images/icon.png">
+    <span class="title">断桨</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/archives" class="pure-menu-link">归档</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/tags" class="pure-menu-link">标签</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/categories" class="pure-menu-link">分类</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/about" class="pure-menu-link">关于</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/atom.xml" class="pure-menu-link">订阅</a></li>
+          
+      
+  </ul>
+   
+</nav>
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        15-445 Tree-Index
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2022-12-23T14:10:15.113Z">
+        2022-12-23
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/database/" rel="tag">database</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/notes/" rel="tag">notes</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 8 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <h5 id="0x01-基础"><a href="#0x01-基础" class="headerlink" title="0x01 基础"></a>0x01 基础</h5><p>B+树实际上就是一种特殊的$M$路平衡树，内部节点存储$<ptr, key>$键值对，叶子节点存储$<key, value>$键值对，每个节点不少于$\frac{M}{2}-1$个键值对，不多于$M-1$个键值对 。基于每个节点的大小相对比较固定，B+树可以保证在对数时间内完成查找、删除，同时底层叶子节点顺序连接的特性使其可以顺序扫描叶子节点。</p>
+<p>B+树的维护是老生常谈的问题，插入操作需要考虑分裂，删除操作需要考虑合并（$Merge$）。</p>
+<h5 id="0x02-特殊情况"><a href="#0x02-特殊情况" class="headerlink" title="0x02 特殊情况"></a>0x02 特殊情况</h5><p>B+树中默认叶子节点中的每一个键都是不同的，但是在一些场景下（non-unique index）需要支持重复键。一种支持重复键的方法是在键后加上$RID$（$RID$就是每一个$record$的唯一标识），这样每一个键都是唯一的，查找时通过匹配$<key,\*>$的方式也依然可以找到对应的$key$。另一种方式是使用溢出叶节点（$overflow\ leaf\ node$），如果当前需要插入的键与普通叶节点已有的键存在重叠，将该键放入溢出叶节点中。第一种方式个人感觉比较常见，第二种方式更难以维护一点。</p>
+<h5 id="0x03-设计取舍"><a href="#0x03-设计取舍" class="headerlink" title="0x03 设计取舍"></a>0x03 设计取舍</h5><p>B+树中有一些设计上的取舍。</p>
+<p>首先是每一个节点的大小。如果每一个节点大小非常大，降低了IO次数，但是可能会让较多的查找、删除操作命中同一个节点，造成竞争；如果每一个节点大小很小，会导致在顺序扫描时需要频繁读取页，但是有利于查找操作频繁的场景。</p>
+<p>其次是合并的时机。B+树语境下的合并发生在删除过程中， 这个过程实际上可以延后，通过一种类似$LSM$树中的定期紧实（$Compact$）机制来定期重建当前的B+树。</p>
+<p>再者是对变长键的支持。最简单的策略就是存储一个指针，指针指向实际的键值。比较完备的策略就是支持每一个节点的长度不同，但是需要更细致的页管理（变长？伙伴算法？）。padding个人感觉是比较naive的方法，需要根据$key$的实际大小分布来决定，如果大量$key$的大小都远小于可能的最大键长度，这个方案就显然不妥。最后一种方法就是类似$slot\ page$的方式，在每一个节点内部引入一个中间映射。</p>
+<p>最后是在叶节点内部如何搜索需要的键。常见的方法有线性查找、二分查找，在叶节点页已经读入内存的情况下感觉两者不会有太大差别。如果可以预先获得部分键的分布规律，可以通过插值的方式猜测键的位置，感觉如果结合ML可以在键很多的情况下直接命中键？</p>
+<h5 id="0x04-优化"><a href="#0x04-优化" class="headerlink" title="0x04 优化"></a>0x04 优化</h5><p>Andy列举了七八种优化的方式，我在这里分成三类来谈。</p>
+<h6 id="压缩存储空间"><a href="#压缩存储空间" class="headerlink" title="压缩存储空间"></a>压缩存储空间</h6><p>B+树终究是放在磁盘上的数据结构，如果可以让每个叶节点内部存储更多的节点，这对于整体性能毫无疑问有提升。不过还是要看workload，区分究竟是IO密集还是CPU密集。</p>
+<ul>
+<li>前缀压缩。leveldb中sstable存储就用了前缀压缩，顺序存储的数据显然存在压缩的可能，如两个字典序相邻的字符串可能只有末尾的几个字符不同</li>
+<li>去重。对于non-unique索引，一个键可能对应多个值，此时可以只保留一个键，省下空间</li>
+<li>后缀截断。上面两个压缩优化都是针对叶节点的，叶节点压缩需要保证数据无损，但是中间节点呢？中间节点实际上只是起到一个引导的作用，所以可以通过某种策略把后缀去掉，保证能区分数据的同时使用更小的空间</li>
+</ul>
+<h6 id="提升读写性能"><a href="#提升读写性能" class="headerlink" title="提升读写性能"></a>提升读写性能</h6><p>这个优化就是leanstore提出的pointer swizzling（没想到怎么翻译），在B+树叶节点页已经在内存时，直接让中间节点指向对应的内存而非继续使用$page\ id$，跳过$buffer\ pool\ manager$。leanstore在论文里吐槽了传统的基于$buffer \ pool \ manager$的低效，大部分时间花在查页表和同步上了。如果数据完全可以放在内存，使用pointer swizzling甚至可以媲美内存数据库。</p>
+<h6 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h6><p>如果已经有了排序好的数据，构建B+树最快的方式就是直接自底向上构建。原来是你，旁路导入。</p>
+
+    </div>
+
+    <div>全文完。</div>
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#0x01-%E5%9F%BA%E7%A1%80"><span class="toc-text">0x01 基础</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#0x02-%E7%89%B9%E6%AE%8A%E6%83%85%E5%86%B5"><span class="toc-text">0x02 特殊情况</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#0x03-%E8%AE%BE%E8%AE%A1%E5%8F%96%E8%88%8D"><span class="toc-text">0x03 设计取舍</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#0x04-%E4%BC%98%E5%8C%96"><span class="toc-text">0x04 优化</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%8E%8B%E7%BC%A9%E5%AD%98%E5%82%A8%E7%A9%BA%E9%97%B4"><span class="toc-text">压缩存储空间</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%8F%90%E5%8D%87%E8%AF%BB%E5%86%99%E6%80%A7%E8%83%BD"><span class="toc-text">提升读写性能</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%85%B6%E4%BB%96"><span class="toc-text">其他</span></a></li></ol></li></ol>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2022/06/11/20220611/" rel="next" title="rocksdb stress test学习笔记">
+          rocksdb stress test学习笔记
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+      </div>
+    </div>
+  
+
+  <section class="disqus-comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+
+  <script>
+    var disqus_shortname = 'XXX';
+    
+    var disqus_url = 'https://mellorsssss.com/2022/12/23/15-445%20Tree-Index/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+
+  <script id="dsq-count-scr" src="//XXX.disqus.com/count.js" async></script>
+
+
+
+    </div>
+
+    
+
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <!-- <a class="bottom-item" href="">首页</a> | -->
+        <!-- <a class="bottom-item" href="" target="_blank">主站</a> | -->
+        <a class="bottom-item" href="https://github.com/Mellorsssss" target="_blank">GitHub</a> |
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/KevinOfNeu/hexo-theme-xoxo" target="_blank">Theme xoxo</a>
+    </div>
+</footer>
+  
+
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+          processEscapes: true
+        }
+      });
+    </script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+          tex2jax: {
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+        });
+    </script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+            var all = MathJax.Hub.getAllJax(), i;
+            for(i=0; i < all.length; i += 1) {
+                all[i].SourceElement().parentNode.className += ' has-jax';
+            }
+        });
+    </script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+  
+  <script>
+    var _hmt = _hmt || [];
+    (function () {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?FuckUBaidu";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+  <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'XXX', 'auto');
+      ga('send', 'pageview');
+  </script>
+
+
+</body>
+</html>

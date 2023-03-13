@@ -1,0 +1,367 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020"/>
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <meta name="keywords" content="题解,单调栈,思维题," />
+  
+
+  
+    <meta name="description" content="非专业程序员" />
+  
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="manifest" href="/images/site.webmanifest">
+  <title>【单调栈】132模式 [ 断桨 ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    <img class="avatar" src="/images/icon.png">
+    <span class="title">断桨</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/archives" class="pure-menu-link">归档</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/tags" class="pure-menu-link">标签</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/categories" class="pure-menu-link">分类</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/about" class="pure-menu-link">关于</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/atom.xml" class="pure-menu-link">订阅</a></li>
+          
+      
+  </ul>
+   
+</nav>
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        【单调栈】132模式
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2021-03-24T12:10:23.000Z">
+        2021-03-24
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8D%95%E8%B0%83%E6%A0%88/" rel="tag">单调栈</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%80%9D%E7%BB%B4%E9%A2%98/" rel="tag">思维题</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%A2%98%E8%A7%A3/" rel="tag">题解</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 6 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <h3 id="原题链接"><a href="#原题链接" class="headerlink" title="原题链接"></a>原题链接</h3><p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/132-pattern/">leetcode 456</a></p>
+<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>乍一看题目，以为是<strong>楼兰图腾</strong>，树状数组的裸题，但是仔细一看（一看就看了一个小时），发现其实没有那么简单。</p>
+<p>不过所有看起来不简单的题目都是从简单的分析开始的。</p>
+<p>最朴素的想法是枚举，枚举的对象应该是<script type="math/tex">j</script>或者<script type="math/tex">k</script>。</p>
+<h4 id="对j枚举"><a href="#对j枚举" class="headerlink" title="对j枚举"></a>对<script type="math/tex">j</script>枚举</h4><p>如果对<script type="math/tex">j</script>枚举，那么显然我们需要求出两个集合：</p>
+<ol>
+<li>在<script type="math/tex">j</script>左侧的最小元素集合；</li>
+<li>在<script type="math/tex">j</script>右侧的最大元素（并且不超过它）集合。</li>
+</ol>
+<p>前者只需要一次简单的遍历即可完成，而后者需要使用一些trick。最简单的方式是直接遍历一遍<script type="math/tex">j</script>右侧，找出不大于其的最大元素；仔细思考，我们可以维护右侧的最大值<strong>集合</strong>（第一种情况实际上维护了一个只有一个元素的集合，因为没有范围限制），对于每一个<script type="math/tex">j</script>，我们只需要在这个集合中找出解即可。</p>
+<p>问题来了，什么数据结构？平衡树显然可以胜任，但是维护这个结构需要对数时间复杂度；一个更好的方案是使用一个单调栈。这并不是一个显然的结论，你很容易想到，如果维护一个单调递减的单调栈，那么对于某些元素，其可能因为之前一些元素的入栈，而丢失掉一些可能的解。但是，如果你仔细思考，你会发现，<strong>如果这样的元素是满足要求的，那么其之前的元素一定也是满足要求的，因为他们的最小元素集合更大</strong>。</p>
+<p>故而，第一种思路就是：求出两个集合，比较右侧最大元素是否大于左侧最小元素（注意，此处暗含了<strong>当前元素大于左侧最小元素的比较</strong>）。</p>
+<h4 id="对k枚举"><a href="#对k枚举" class="headerlink" title="对k枚举"></a>对<script type="math/tex">k</script>枚举</h4><blockquote>
+<p> 如果你觉得第一种方案有一点点绕人，那么我建议你也不要看第二种方案了，因为它更简单，更绕人。</p>
+</blockquote>
+<p>对于<script type="math/tex">k</script>而言，我们应该从右往左遍历，因为需要解空间就是其左侧的元素。我们应该维护的是<script type="math/tex">j</script>位置元素的集合，并且<strong>保证当前的最大<script type="math/tex">k</script>应该是小于其中每一个元素的。</strong>这样的好处是什么呢？任何时刻，我们只要发现当前遍历的元素小于最大的<script type="math/tex">k</script>的值，就说明存在一个合法的<script type="math/tex">k</script>以及<script type="math/tex">j</script>！（所以在一开始应该将最大的<script type="math/tex">k</script>初始化为最小值）。</p>
+<p>如何维护？我们维护一个当前最大<script type="math/tex">k</script>值以及一个单调栈（单调递减）。单调栈中一开始只有最后一个元素，当前最大<script type="math/tex">k</script>值一开始为最小值（下面称最小值）。</p>
+<ol>
+<li>如果当前元素小于最小值，那么已经找到了一个解（当前元素是<script type="math/tex">i</script>位置）；</li>
+<li>如果当前的栈顶元素小于当前元素，那么按照单调栈方式维护，并更新最小值（当前元素是<script type="math/tex">j</script>位置），而被弹出的元素是<script type="math/tex">k</script>位置。</li>
+</ol>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><p>此处给出第二种方法的实现。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">find132pattern</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(nums.size()&lt;<span class="number">3</span>)<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="built_in">stack</span>&lt;<span class="keyword">int</span>&gt; st;</span><br><span class="line">        <span class="keyword">int</span> maxVal = INT_MIN;</span><br><span class="line">    </span><br><span class="line">        st.push(nums[nums.size()<span class="number">-1</span>]);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i= nums.size()<span class="number">-2</span>;i&gt;=<span class="number">0</span>;i--)&#123;</span><br><span class="line">            <span class="keyword">if</span>(nums[i]&lt;maxVal)<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">while</span>(st.size() &amp;&amp; st.top()&lt;nums[i])&#123;</span><br><span class="line">                maxVal = max(maxVal, st.top());</span><br><span class="line">                st.pop();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span>(nums[i]&gt; maxVal)&#123;</span><br><span class="line">                st.push(nums[i]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// [1,4,0,-1,-2,-3,-1,-2]</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    <div>全文完。</div>
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E9%A2%98%E9%93%BE%E6%8E%A5"><span class="toc-text">原题链接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF"><span class="toc-text">思路</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%B9j%E6%9E%9A%E4%B8%BE"><span class="toc-text">对j枚举</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%B9k%E6%9E%9A%E4%B8%BE"><span class="toc-text">对k枚举</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0"><span class="toc-text">实现</span></a></li></ol>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2021/03/23/network-udp/" rel="next" title="【计算机网络复习】UDP">
+          【计算机网络复习】UDP
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+          <a href="/2021/03/28/daily-210328/" rel="prev" title="Java中的传参问题">
+            Java中的传参问题
+          </a>
+          <span>〉</span>
+        
+      </div>
+    </div>
+  
+
+  <section class="disqus-comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+
+  <script>
+    var disqus_shortname = 'XXX';
+    
+    var disqus_url = 'https://mellorsssss.com/2021/03/24/tj210324/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+
+  <script id="dsq-count-scr" src="//XXX.disqus.com/count.js" async></script>
+
+
+
+    </div>
+
+    
+
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <!-- <a class="bottom-item" href="">首页</a> | -->
+        <!-- <a class="bottom-item" href="" target="_blank">主站</a> | -->
+        <a class="bottom-item" href="https://github.com/Mellorsssss" target="_blank">GitHub</a> |
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/KevinOfNeu/hexo-theme-xoxo" target="_blank">Theme xoxo</a>
+    </div>
+</footer>
+  
+
+
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+  
+  <script>
+    var _hmt = _hmt || [];
+    (function () {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?FuckUBaidu";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+  <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'XXX', 'auto');
+      ga('send', 'pageview');
+  </script>
+
+
+</body>
+</html>

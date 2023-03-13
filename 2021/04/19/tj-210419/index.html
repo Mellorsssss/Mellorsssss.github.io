@@ -1,0 +1,374 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020"/>
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <meta name="keywords" content="题解,搜索,A*," />
+  
+
+  
+    <meta name="description" content="非专业程序员" />
+  
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="manifest" href="/images/site.webmanifest">
+  <title>【A*算法】八数码 [ 断桨 ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+
+<body>
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    <img class="avatar" src="/images/icon.png">
+    <span class="title">断桨</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            <li class="pure-menu-item"><a href="/" class="pure-menu-link">首页</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/archives" class="pure-menu-link">归档</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/tags" class="pure-menu-link">标签</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/categories" class="pure-menu-link">分类</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/about" class="pure-menu-link">关于</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/atom.xml" class="pure-menu-link">订阅</a></li>
+          
+      
+  </ul>
+   
+</nav>
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      <div class="post-container">
+  <article class="post" id="post">
+    <header class="post-header text-center">
+      <h1 class="title">
+        【A*算法】八数码
+      </h1>
+      <span>
+        
+        <time class="time" datetime="2021-04-19T11:16:29.000Z">
+        2021-04-19
+      </time>
+        
+      </span>
+      <span class="slash">/</span>
+      <span class="post-meta">
+      <span class="post-tags">
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/A/" rel="tag">A*</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%90%9C%E7%B4%A2/" rel="tag">搜索</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%A2%98%E8%A7%A3/" rel="tag">题解</a></li></ul>
+      </span>
+    </span>
+      <span class="slash">/</span>
+      <span class="read">
+      <span id="busuanzi_value_page_pv"></span> 点击
+    </span>
+      <span class="slash">/</span>
+      <span class="read">阅读耗时 9 分钟</span>
+    </header>
+
+    <div class="post-content">
+      <h3 id="原题链接"><a href="#原题链接" class="headerlink" title="原题链接"></a>原题链接</h3><p><a target="_blank" rel="noopener" href="https://www.acwing.com/problem/content/description/181/">八数码</a></p>
+<p>题意非常简单，给你一个八数码，如果其有解，输出一个最优解并且给出路径；如果没有则输出<code>unsolvable</code>。</p>
+<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>本题是一道好题目，涉及到了以下几个知识点：</p>
+<ol>
+<li>如何优化盲目搜索（A*算法）</li>
+<li>如何有效存取数码（康托散列）</li>
+<li>如何输出路径</li>
+</ol>
+<p>其中后两点不是这篇博文的主要话题，感兴趣的读者可以自行阅读代码理解或者查阅其他文章，本文主要就题谈谈简单的A*算法。</p>
+<h5 id="什么是A-算法？"><a href="#什么是A-算法？" class="headerlink" title="什么是A*算法？"></a>什么是A*算法？</h5><p>一言以蔽之，就是基于优先队列的BFS算法，其中排序的依据是自定义的一个启发函数。问题来了，<strong>怎么定义启发函数？</strong>好的启发函数显然能够让状态空间大大缩小，但代价函数也不应该过于复杂。但无论如何，</p>
+<blockquote>
+<p> <strong>启发函数估算出的代价一定不能大于真实的代价</strong>。</p>
+</blockquote>
+<p>如果没有这样的约束，那么我们可能错误估计一个真实最优状态的代价，从而导致在错误分支上搜索。</p>
+<p>就八数码问题而言，<strong>曼哈顿距离</strong>是一个不错的代价函数。一来，每个位置上的元素与其应该在的距离确实衡量了其与目标状态的距离，并且这样的估值是显然小于真实估值的。</p>
+<blockquote>
+<p><strong>为什么？</strong></p>
+<p>思考如下的一种情况</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">|---|</span><br><span class="line">|3 2|</span><br><span class="line">|1 0|</span><br><span class="line">|---|</span><br></pre></td></tr></table></figure>
+<p>通过曼哈顿距离，计算出的估值是2（1,3不在原位），也就是对应两个节点直接交换——而这是不允许的。最好情况下，曼哈顿距离恰好与真实值相等，但往往是小于真实值的。</p>
+</blockquote>
+<h5 id="仅仅如此，够了吗？"><a href="#仅仅如此，够了吗？" class="headerlink" title="仅仅如此，够了吗？"></a>仅仅如此，够了吗？</h5><p>有了状态，我们还需要去考虑如何保留状态。最简单的想法，我们直接使用一个字符串记录当前的状态，每次使用的时候还原即可。换而言之，基于<code>map</code>。实际上，有一种叫做<em>康托散列</em>的方法，可以快速计算（平方时间，不过此处可以当做常数）一个排列的散列，确切地说，是将其映射到1-N!之间。</p>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><p>搜索题算法实现往往比较复杂，我在写本题的时候因为如下原因wa多次：</p>
+<ol>
+<li>typo</li>
+<li>实现错误</li>
+<li>效率不够</li>
+</ol>
+<p>最终AC算法如下（Acwing 10个点，共耗时136ms）。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">rec</span>&#123;</span></span><br><span class="line">    <span class="comment">// l: 当前地图中0的位置</span></span><br><span class="line">    <span class="comment">// dist: 实际已经走的距离 + 预测还要走的距离</span></span><br><span class="line">    <span class="comment">// m: 地图表示的字符串</span></span><br><span class="line">    <span class="keyword">int</span> l;</span><br><span class="line">    <span class="keyword">int</span> dist;</span><br><span class="line">    <span class="built_in">string</span> m;</span><br><span class="line">    rec(<span class="keyword">int</span> l_,<span class="built_in">string</span> m_, <span class="keyword">int</span> dist_):l(l_),m(m_), dist(dist_)&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">bool</span> <span class="keyword">operator</span>&lt;(<span class="keyword">const</span> rec&amp; a,<span class="keyword">const</span> rec&amp; b)&#123;</span><br><span class="line">        <span class="keyword">return</span> a.dist &gt; b.dist;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="built_in">pair</span>&lt;<span class="keyword">int</span>,<span class="keyword">int</span>&gt; pii;</span><br><span class="line"><span class="comment">// d: &lt;序列化值对应, 到当前状态的最小距离&gt;</span></span><br><span class="line"><span class="comment">// f: &lt;序列化值, 上一步&gt;</span></span><br><span class="line"><span class="comment">// go: &lt;序列化值, 对应的cmd&gt;</span></span><br><span class="line"><span class="comment">// q: A*状态的优先队列</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N = <span class="number">362886</span>;</span><br><span class="line"><span class="keyword">int</span> d[N];</span><br><span class="line"><span class="keyword">int</span> f[N];</span><br><span class="line"><span class="keyword">int</span> go[N];</span><br><span class="line"><span class="built_in">priority_queue</span>&lt;rec&gt; q;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 模拟`x`运动</span></span><br><span class="line"><span class="keyword">int</span> dx[] = &#123;<span class="number">-1</span>, <span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>&#125;;</span><br><span class="line"><span class="keyword">int</span> dy[] = &#123;<span class="number">0</span>,<span class="number">0</span>,<span class="number">-1</span>,<span class="number">1</span>&#125;;</span><br><span class="line"><span class="keyword">char</span> cmd[] = &#123;<span class="string">&#x27;u&#x27;</span>,<span class="string">&#x27;d&#x27;</span>,<span class="string">&#x27;l&#x27;</span>,<span class="string">&#x27;r&#x27;</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// cantor hash</span></span><br><span class="line"><span class="keyword">int</span> fac[<span class="number">11</span>];</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">initFac</span><span class="params">()</span></span>&#123;</span><br><span class="line">    fac[<span class="number">0</span>] = fac[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">2</span> ;i&lt;=<span class="number">10</span>;i++)&#123;</span><br><span class="line">        fac[i] = i*fac[i<span class="number">-1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用cantor散列法求出排列的散列值</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">cantor</span><span class="params">(<span class="keyword">const</span> <span class="built_in">string</span>&amp; s)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> len = s.size();</span><br><span class="line">    <span class="keyword">int</span> res = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;len;i++)&#123;</span><br><span class="line">        <span class="keyword">int</span> temp = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = i+<span class="number">1</span>;j&lt;len;j++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(s[j]&lt;s[i])temp++;</span><br><span class="line">        &#125;</span><br><span class="line">        res += (temp) * fac[len-i<span class="number">-1</span>];    </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">int</span> <span class="title">evaluate</span><span class="params">(<span class="keyword">const</span> <span class="built_in">string</span>&amp; s)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ret = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> len = s.size();</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i&lt;len;i++)&#123;</span><br><span class="line">        <span class="keyword">int</span> x = i/<span class="number">3</span>, y = i%<span class="number">3</span>;</span><br><span class="line">        <span class="keyword">int</span> cur = s[i]-<span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">        <span class="keyword">if</span>(cur==<span class="number">0</span>) ret+= <span class="built_in">abs</span>(x<span class="number">-2</span>)+<span class="built_in">abs</span>(y<span class="number">-2</span>);</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">int</span> fx = (cur<span class="number">-1</span>)/<span class="number">3</span>, fy = (cur<span class="number">-1</span>)%<span class="number">3</span>;</span><br><span class="line">            ret += <span class="built_in">abs</span>(x-fx)+<span class="built_in">abs</span>(y-fy);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">bfs</span><span class="params">(<span class="keyword">int</span> l,<span class="keyword">const</span> <span class="built_in">string</span>&amp; start, <span class="keyword">int</span> dist, <span class="keyword">const</span> <span class="built_in">string</span>&amp; e)</span></span>&#123;</span><br><span class="line">    <span class="built_in">memset</span>(f,<span class="number">-1</span>,<span class="keyword">sizeof</span> f);</span><br><span class="line">    <span class="built_in">memset</span>(go,<span class="number">-1</span>,<span class="keyword">sizeof</span> go);</span><br><span class="line">    <span class="built_in">memset</span>(d,<span class="number">-1</span>,<span class="keyword">sizeof</span> d);</span><br><span class="line">    q.push(rec(l, start, dist));</span><br><span class="line">    d[cantor(start)] = <span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(q.size())&#123;</span><br><span class="line">        </span><br><span class="line">        rec cur = q.top();q.pop();</span><br><span class="line">        <span class="keyword">if</span>(cur.m==e)&#123;</span><br><span class="line">            <span class="keyword">return</span> d[cantor(cur.m)];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function">pii <span class="title">pos</span><span class="params">(cur.l/<span class="number">3</span>,cur.l%<span class="number">3</span>)</span></span>;</span><br><span class="line">        <span class="keyword">int</span> val = cantor(cur.m);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i&lt;<span class="number">4</span>; i++)&#123;</span><br><span class="line">            <span class="keyword">int</span> x = pos.first + dx[i], y = pos.second + dy[i];</span><br><span class="line">            <span class="built_in">string</span> m = cur.m;</span><br><span class="line">            <span class="keyword">if</span>(x&gt;=<span class="number">0</span> &amp;&amp; x&lt;<span class="number">3</span> &amp;&amp; y&gt;=<span class="number">0</span> &amp;&amp; y&lt;<span class="number">3</span>)&#123;</span><br><span class="line">                <span class="keyword">int</span> pos_to_swap = x*<span class="number">3</span> + y;</span><br><span class="line">                swap(m[cur.l],m[pos_to_swap]);</span><br><span class="line">                <span class="keyword">int</span> dumpVal = cantor(m);</span><br><span class="line">                <span class="keyword">if</span>(d[dumpVal]==<span class="number">-1</span> || d[dumpVal]&gt;d[val]+<span class="number">1</span>)&#123;</span><br><span class="line">                    d[dumpVal] = d[val]+<span class="number">1</span>;</span><br><span class="line">                    f[dumpVal] = val;</span><br><span class="line">                    go[dumpVal] = i;</span><br><span class="line">                    q.push(rec(pos_to_swap,m,d[dumpVal]+evaluate(m)));</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print</span><span class="params">(<span class="keyword">int</span> val)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(f[val]==<span class="number">-1</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    print(f[val]);</span><br><span class="line">    <span class="built_in">putchar</span>(cmd[go[val]]);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    initFac();</span><br><span class="line">    <span class="built_in">string</span> e = <span class="string">&quot;123456780&quot;</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">string</span> start;</span><br><span class="line">    <span class="keyword">int</span> l ;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">9</span>;i++)&#123;</span><br><span class="line">        <span class="keyword">char</span> tem;<span class="built_in">cin</span>&gt;&gt;tem;</span><br><span class="line">        <span class="keyword">if</span>(tem==<span class="string">&#x27;x&#x27;</span>)tem=<span class="string">&#x27;0&#x27;</span>, l = i;</span><br><span class="line">        start.append(<span class="number">1</span>,tem);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 判断是否理论上不可行</span></span><br><span class="line">    <span class="keyword">int</span> cnt = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">unsigned</span> i = <span class="number">0</span>; i &lt; start.size(); i++)</span><br><span class="line">		<span class="keyword">if</span> (start[i] != <span class="string">&#x27;0&#x27;</span>)</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">unsigned</span> <span class="keyword">int</span> j = <span class="number">0</span>; j &lt; i; j++)</span><br><span class="line">				<span class="keyword">if</span> (start[j] != <span class="string">&#x27;0&#x27;</span> &amp;&amp; start[j] &gt; start[i]) ++cnt;</span><br><span class="line">	<span class="keyword">if</span> (cnt &amp; <span class="number">1</span>) &#123;</span><br><span class="line">		<span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;unsolvable&quot;</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">    <span class="keyword">auto</span> ret = bfs(l,start,evaluate(start),e);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(ret)&#123;</span><br><span class="line">        print(cantor(e));</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">&quot;unsolvable\n&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 5 3 x 7 8 2 4 6 1</span></span><br><span class="line"><span class="comment">// 6 4 7 8 5 x 3 2 1</span></span><br><span class="line"><span class="comment">// 4 7 x 1 3 6 8 5 2</span></span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    <div>全文完。</div>
+  </article>
+  <div class="toc-container">
+    
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E9%A2%98%E9%93%BE%E6%8E%A5"><span class="toc-text">原题链接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF"><span class="toc-text">思路</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFA-%E7%AE%97%E6%B3%95%EF%BC%9F"><span class="toc-text">什么是A*算法？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BB%85%E4%BB%85%E5%A6%82%E6%AD%A4%EF%BC%8C%E5%A4%9F%E4%BA%86%E5%90%97%EF%BC%9F"><span class="toc-text">仅仅如此，够了吗？</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0"><span class="toc-text">实现</span></a></li></ol>
+  </div>
+
+
+  </div>
+</div>
+<div class="copyright">
+    <span>本作品采用</span>
+    <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by/4.0/">知识共享署名 4.0 国际许可协议</a>
+    <span>进行许可。 转载时请注明原文链接。</span>
+</div>
+
+  
+    <div class="post-nav">
+      <div class="post-nav-item post-nav-next">
+        
+          <span>〈 </span>
+          <a href="/2021/04/18/daily-210418/" rel="next" title="【每日学习】SpringBoot-JPA基本CURD以及Postman使用">
+          【每日学习】SpringBoot-JPA基本CURD以及Postman使用
+          </a>
+        
+      </div>
+  
+      <div class="post-nav-item post-nav-prev">
+          
+          <a href="/2021/04/20/tj-210420/" rel="prev" title="【思维】下一个排列">
+            【思维】下一个排列
+          </a>
+          <span>〉</span>
+        
+      </div>
+    </div>
+  
+
+  <section class="disqus-comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+
+  <script>
+    var disqus_shortname = 'XXX';
+    
+    var disqus_url = 'https://mellorsssss.com/2021/04/19/tj-210419/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+
+  <script id="dsq-count-scr" src="//XXX.disqus.com/count.js" async></script>
+
+
+
+    </div>
+
+    
+
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <!-- <a class="bottom-item" href="">首页</a> | -->
+        <!-- <a class="bottom-item" href="" target="_blank">主站</a> | -->
+        <a class="bottom-item" href="https://github.com/Mellorsssss" target="_blank">GitHub</a> |
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/KevinOfNeu/hexo-theme-xoxo" target="_blank">Theme xoxo</a>
+    </div>
+</footer>
+  
+
+
+
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
+</script>
+
+  
+  <script>
+    var _hmt = _hmt || [];
+    (function () {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?FuckUBaidu";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+  <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'XXX', 'auto');
+      ga('send', 'pageview');
+  </script>
+
+
+</body>
+</html>
